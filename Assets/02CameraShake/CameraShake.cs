@@ -5,41 +5,38 @@ public class CameraShake : MonoBehaviour
 {
 	public static CameraShake Instance;
 
-	private float _amplitude;
-	private float _time;
+	private Vector3 initialPosition;
+	private bool isShaking = false;
 
-	private Vector3 originalPosition;
+	public float _amplitude = 0.1f;
 
 	// Use this for initialization
 	void Start ()
 	{
 		Instance = this;
-		originalPosition = transform.localPosition;
+		initialPosition = transform.localPosition;
 	}
 
-	public void Shake(float amplitude, float time)
+	public void Shake(float amplitude, float duration)
 	{
 		_amplitude = amplitude;
-		_time = time;
-		StartCoroutine("ReallyShake");
+		CancelInvoke();
+		Invoke("StopShaking",duration);
+		isShaking = true;
 	}
 
-	IEnumerator ReallyShake()
+	void StopShaking()
 	{
-		float t = 0.0f;
-
-		while(t < _time)
-		{
-			t += Time.deltaTime;
-			transform.localPosition = originalPosition + Random.insideUnitSphere * _amplitude;
-			yield return null;
-		}
+		isShaking = false;
+		transform.localPosition = initialPosition;
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
+		if(isShaking)
+		{
+			transform.localPosition = initialPosition + Random.insideUnitSphere * _amplitude;
+		}
 	}
-
-
 }
