@@ -27,8 +27,11 @@ public class ProjectLaser : MonoBehaviour
 		//Added after the original episode aired.  This makes it so the laser doesn't get "stuck"
 		else
 		{
-			//We disable the laser object here
-			laserInstance.SetActive(false);
+			//If it exists, we disable the laser object here
+			if(laserInstance != null)
+			{
+				laserInstance.SetActive(false);
+			}
 		}
 	}
 }
