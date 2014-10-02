@@ -28,7 +28,7 @@ public class ProjectLaser : MonoBehaviour
 		else
 		{
 			//We disable the laser object here
-			laserInstance.SetActive(true);
+			laserInstance.SetActive(false);
 		}
 	}
 }
