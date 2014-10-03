@@ -2,7 +2,6 @@ private var motor : CharacterMotor;
 public var horizontalAxisName : String = "Horizontal";
 public var verticalAxisName : String = "Vertical";
 
-
 // Use this for initialization
 function Awake () {
 	motor = GetComponent(CharacterMotor);
