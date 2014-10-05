@@ -31,7 +31,7 @@ public class CreateCubesFromTexture : MonoBehaviour
 				//This creates a new material if one does not exist for this color
 				if(!palette.ContainsKey(color))
 				{
-					instance.material.color = color;
+					instance.material.color = color; //Calling instance.material immediately creates a new material
 					palette.Add(color,instance.sharedMaterial);
 				}
 				//If we already have a material for this color, we use the one from the dictionary
