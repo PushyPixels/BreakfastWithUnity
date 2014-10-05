@@ -8,7 +8,7 @@ public class CreateCubesFromTexture : MonoBehaviour
 	public Texture2D texture;
 	public float alphaThreshold = 50;
 
-	public Dictionary<Color32,Material> pallette = new Dictionary<Color32,Material>();
+	public Dictionary<Color32,Material> palette = new Dictionary<Color32,Material>();
 
 	// Use this for initialization
 	void Start ()
@@ -27,7 +27,18 @@ public class CreateCubesFromTexture : MonoBehaviour
 			if(color.a > alphaThreshold)
 			{
 				Renderer instance = Instantiate(cube,transform.position+transform.right*x+transform.up*y,Quaternion.identity) as Renderer;
-				instance.material.color = color;
+
+				//This creates a new material if one does not exist for this color
+				if(!palette.ContainsKey(color))
+				{
+					instance.material.color = color;
+					palette.Add(color,instance.sharedMaterial);
+				}
+				//If we already have a material for this color, we use the one from the dictionary
+				else
+				{
+					instance.sharedMaterial = palette[color];
+				}
 			}
 
 			x++;
