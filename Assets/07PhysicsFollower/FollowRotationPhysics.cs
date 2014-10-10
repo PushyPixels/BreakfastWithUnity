@@ -47,6 +47,9 @@ public class FollowRotationPhysics : MonoBehaviour
 		Vector3 error = T - rigidbody.angularVelocity;
 		Vector3 force = Vector3.ClampMagnitude(gain * error, maxForce);
 
-		rigidbody.AddTorque(force);
+		if(force != Vector3.zero)
+		{
+			rigidbody.AddTorque(force);
+		}
 	}
 }
