@@ -319,7 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8723e27a684849189d6ba4d214a7eb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToSpawn: {fileID: 100000, guid: 12a2bf713d6854535828434211ad2d7e, type: 2}
+  objectToSpawn: {fileID: 100000, guid: 24e9afd2de2f44ddb8cceae4e35b920f, type: 2}
   buttonName: Fire1
 --- !u!114 &1639407562
 MonoBehaviour:
