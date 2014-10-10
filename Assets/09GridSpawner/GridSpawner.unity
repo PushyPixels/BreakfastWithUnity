@@ -307,7 +307,7 @@ MonoBehaviour:
   numObjectsX: 10
   numObjectsY: 10
   numObjectsZ: 10
-  objectSpacing: {x: 1, y: 1, z: 1}
+  objectSpacing: {x: 1.00999999, y: 1.00999999, z: 1.00999999}
 --- !u!4 &316536530
 Transform:
   m_ObjectHideFlags: 0
