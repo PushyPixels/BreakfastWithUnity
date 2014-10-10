@@ -176,7 +176,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 316536528}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6, y: -6, z: -6}
+  m_LocalPosition: {x: -6.5, y: -6.5, z: -6.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -319,7 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8723e27a684849189d6ba4d214a7eb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToSpawn: {fileID: 100000, guid: 24e9afd2de2f44ddb8cceae4e35b920f, type: 2}
+  objectToSpawn: {fileID: 100000, guid: 900f7c257040f45f187004cf07c23e57, type: 2}
   buttonName: Fire1
 --- !u!114 &1639407562
 MonoBehaviour:
