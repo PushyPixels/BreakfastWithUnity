@@ -3,14 +3,12 @@ using System.Collections;
 
 public class GridSpawner : MonoBehaviour
 {
-	public GameObject objectToSpawn;
-	public GameObject objectToSpawn2;
+	public GameObject insideGameObject;
+	public GameObject shellGameObject;
 
 	public int numObjectsX = 1;
 	public int numObjectsY = 1;
 	public int numObjectsZ = 1;
-
-	public bool shellOnly = false;
 
 	public Vector3 objectSpacing = Vector3.one;
 
@@ -23,18 +21,15 @@ public class GridSpawner : MonoBehaviour
 			{
 				for(int z = 0; z < numObjectsZ; z++)
 				{
-					//if(shellOnly)
-					//{
-						if(x == 0 || x == numObjectsX - 1 ||
-						   y == 0 || y == numObjectsY - 1 ||
-						   z == 0 || z == numObjectsZ - 1)
-						{
-							Instantiate(objectToSpawn2,transform.position+transform.right*x*objectSpacing.x+transform.up*y*objectSpacing.y+transform.forward*z*objectSpacing.z,Quaternion.identity);
-						}
-					//}
+					if(x == 0 || x == numObjectsX - 1 ||
+					   y == 0 || y == numObjectsY - 1 ||
+					   z == 0 || z == numObjectsZ - 1)
+					{
+						Instantiate(shellGameObject,transform.position+transform.right*x*objectSpacing.x+transform.up*y*objectSpacing.y+transform.forward*z*objectSpacing.z,Quaternion.identity);
+					}
 					else
 					{
-						Instantiate(objectToSpawn,transform.position+transform.right*x*objectSpacing.x+transform.up*y*objectSpacing.y+transform.forward*z*objectSpacing.z,Quaternion.identity);
+						Instantiate(insideGameObject,transform.position+transform.right*x*objectSpacing.x+transform.up*y*objectSpacing.y+transform.forward*z*objectSpacing.z,Quaternion.identity);
 					}
 				}
 			}
