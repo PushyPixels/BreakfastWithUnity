@@ -239,6 +239,7 @@ MonoBehaviour:
   numObjectsX: 10
   numObjectsY: 10
   numObjectsZ: 10
+  shellOnly: 0
   objectSpacing: {x: 1.5, y: 1.5, z: 1.5}
 --- !u!4 &316536530
 Transform:

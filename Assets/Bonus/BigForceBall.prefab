@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   force: 200
-  radius: 15
+  radius: 5
   upwardsModifier: 5
   forceMode: 0
 --- !u!114 &11400002

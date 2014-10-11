@@ -70,8 +70,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   force: 200
-  radius: 15
-  upwardsModifier: 5
+  radius: 25
+  upwardsModifier: 0
   forceMode: 0
 --- !u!114 &11400002
 MonoBehaviour:
@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2b1e4bf6f99f45c3a314a5ea7be2bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 50
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
