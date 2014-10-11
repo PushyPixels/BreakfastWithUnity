@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: New Material 1
-  m_Shader: {fileID: 10, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 7, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
   m_SavedProperties:
@@ -37,6 +37,10 @@ Material:
     m_Floats:
       data:
         first:
+          name: _Shininess
+        second: .699999988
+      data:
+        first:
           name: _EmissionGain
         second: .5
       data:
@@ -52,6 +56,10 @@ Material:
         first:
           name: _Color
         second: {r: 1, g: 0, b: 0, a: 1}
+      data:
+        first:
+          name: _SpecColor
+        second: {r: 1, g: 1, b: 1, a: 0}
       data:
         first:
           name: _GlowColor
@@ -72,3 +80,7 @@ Material:
         first:
           name: _TintColor
         second: {r: 1, g: 0, b: 0, a: .501960814}
+      data:
+        first:
+          name: _Emission
+        second: {r: 0, g: 0, b: 0, a: 0}

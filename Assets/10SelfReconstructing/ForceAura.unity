@@ -12,12 +12,12 @@ SceneSettings:
     backfaceThreshold: 100
 --- !u!104 &2
 RenderSettings:
-  m_Fog: 0
-  m_FogColor: {r: .5, g: .5, b: .5, a: 1}
-  m_FogMode: 3
+  m_Fog: 1
+  m_FogColor: {r: 1, g: 0, b: 0, a: 1}
+  m_FogMode: 1
   m_FogDensity: .00999999978
-  m_LinearFogStart: 0
-  m_LinearFogEnd: 300
+  m_LinearFogStart: 25
+  m_LinearFogEnd: 0
   m_AmbientLight: {r: .200000003, g: .200000003, b: .200000003, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 5de0c0dead8bb475b98c36495abf78d5, type: 2}
   m_HaloStrength: .5
@@ -461,7 +461,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &928655500
 Transform:
   m_ObjectHideFlags: 0
@@ -1600,7 +1600,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   force: 200
-  radius: 2
+  radius: 25
   upwardsModifier: 5
   forceMode: 0
 --- !u!1001 &1065602038
@@ -1648,7 +1648,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: cf7d357560c0947208d1035116417fac, type: 2}
       propertyPath: radius
-      value: 2
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: cf7d357560c0947208d1035116417fac, type: 2}
       propertyPath: m_Enabled
@@ -1689,7 +1689,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 92a8d9caac0764e7580361858ed930a1, type: 2}
+  - {fileID: 2100000, guid: e7cb37af3f92341ab9b990632ab7c911, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0

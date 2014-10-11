@@ -6,6 +6,4 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/09GridSpawner/GridSpawner.unity
-  - enabled: 1
     path: Assets/10SelfReconstructing/ForceAura.unity
