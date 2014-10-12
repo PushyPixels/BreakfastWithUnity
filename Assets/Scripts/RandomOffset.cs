@@ -25,4 +25,12 @@ public class RandomOffset : MonoBehaviour
 			matInfo.material.SetTextureOffset(matInfo.textureName,new Vector2(Random.value,Random.value));
 		}
 	}
+
+	void OnDestroy()
+	{
+		foreach(MaterialInfo matInfo in materialInfoList)
+		{
+			matInfo.material.SetTextureOffset(matInfo.textureName,Vector2.zero);
+		}
+	}
 }
