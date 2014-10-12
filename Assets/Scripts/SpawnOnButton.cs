@@ -19,4 +19,9 @@ public class SpawnOnButton : MonoBehaviour
 			Instantiate(objectToSpawn,transform.position,transform.rotation);
 		}
 	}
+
+	public void Shoot()
+	{
+		Instantiate(objectToSpawn,transform.position,transform.rotation);
+	}
 }

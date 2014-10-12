@@ -1,6 +1,8 @@
 private var motor : CharacterMotor;
 public var horizontalAxisName : String = "Horizontal";
 public var verticalAxisName : String = "Vertical";
+public var mobileHack : boolean = false;
+public var directionVector : Vector3;
 
 // Use this for initialization
 function Awake () {
@@ -10,7 +12,11 @@ function Awake () {
 // Update is called once per frame
 function Update () {
 	// Get the input vector from keyboard or analog stick
-	var directionVector = new Vector3(Input.GetAxis(horizontalAxisName), 0, Input.GetAxis(verticalAxisName));
+	
+	if(!mobileHack)
+	{
+		directionVector = new Vector3(Input.GetAxis(horizontalAxisName), 0, Input.GetAxis(verticalAxisName));
+	}
 	
 	if (directionVector != Vector3.zero) {
 		// Get the length of the directon vector and then normalize it
@@ -33,6 +39,22 @@ function Update () {
 	motor.inputMoveDirection = transform.rotation * directionVector;
 	motor.inputJump = Input.GetButton("Jump");
 }
+
+public function MoveForward()
+{
+	directionVector = Vector3.forward;
+}
+
+public function MoveBackward()
+{
+	directionVector = Vector3.back;
+}
+
+public function Stop()
+{
+	directionVector = Vector3.zero;
+}
+
 
 // Require a character controller to be attached to the same game object
 @script RequireComponent (CharacterMotor)

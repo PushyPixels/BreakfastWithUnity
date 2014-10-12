@@ -286,7 +286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc34099ec6b0d45f28e4994f153b4ebf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 200
+  force: 1000
   radius: 25
   upwardsModifier: 0
   forceMode: 0
