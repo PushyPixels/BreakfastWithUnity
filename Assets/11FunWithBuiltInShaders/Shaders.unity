@@ -303,11 +303,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202802ab043674922aef884d3f2303e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToSpawn: {fileID: 100000, guid: c2cf47b487e9d4ee7b12b3061a4a8b27, type: 2}
+  objectToSpawn: {fileID: 100000, guid: be5a3e8a645d94d3c9cc3f83aae863d3, type: 2}
   numObjectsX: 10
   numObjectsY: 10
   numObjectsZ: 10
-  objectSpacing: {x: 1.00999999, y: 1.00999999, z: 1.00999999}
+  objectSpacing: {x: 4.9000001, y: 4.9000001, z: 4.9000001}
 --- !u!4 &316536530
 Transform:
   m_ObjectHideFlags: 0
@@ -315,7 +315,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 316536528}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: .5, z: 0}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -579,7 +579,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: f76b9e5da821340df8aae8be61114b9a, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
