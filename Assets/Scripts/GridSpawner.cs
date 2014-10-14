@@ -25,11 +25,29 @@ public class GridSpawner : MonoBehaviour
 					   y == 0 || y == numObjectsY - 1 ||
 					   z == 0 || z == numObjectsZ - 1)
 					{
-						Instantiate(shellGameObject,transform.position+transform.right*x*objectSpacing.x+transform.up*y*objectSpacing.y+transform.forward*z*objectSpacing.z,Quaternion.identity);
+						GameObject instance = Instantiate(shellGameObject,
+						                                  transform.position-							//Our original position
+						                                  transform.right*((numObjectsX*objectSpacing.x)/2.0f-2.5f)-		//Minus for center offset (x)
+						                                  transform.up*((numObjectsY*objectSpacing.x)/2.0f-2.5f)-			//Minus for center offset (y)
+						                                  transform.forward*((numObjectsZ*objectSpacing.x)/2.0f-2.5f)+		//Minus for center offset (z)
+						                                  transform.right*x*objectSpacing.x+			//Plus current offset (x)
+						                                  transform.up*y*objectSpacing.y+				//Plus current offset (y)
+						                                  transform.forward*z*objectSpacing.z,			//Plus current offset (z)
+						                                  Quaternion.identity) as GameObject;
+						instance.transform.parent = transform;
 					}
 					else
 					{
-						Instantiate(insideGameObject,transform.position+transform.right*x*objectSpacing.x+transform.up*y*objectSpacing.y+transform.forward*z*objectSpacing.z,Quaternion.identity);
+						GameObject instance = Instantiate(insideGameObject,
+						                                  transform.position-							//Our original position
+						                                  transform.right*((numObjectsX*objectSpacing.x)/2.0f-2.5f)-		//Minus for center offset (x)
+						                                  transform.up*((numObjectsY*objectSpacing.x)/2.0f-2.5f)-			//Minus for center offset (y)
+						                                  transform.forward*((numObjectsZ*objectSpacing.x)/2.0f-2.5f)+		//Minus for center offset (z)
+						                                  transform.right*x*objectSpacing.x+			//Plus current offset (x)
+						                                  transform.up*y*objectSpacing.y+				//Plus current offset (y)
+						                                  transform.forward*z*objectSpacing.z,			//Plus current offset (z)
+						                                  Quaternion.identity) as GameObject;
+						instance.transform.parent = transform;
 					}
 				}
 			}
