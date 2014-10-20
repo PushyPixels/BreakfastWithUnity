@@ -515,9 +515,9 @@ MonoBehaviour:
   canControl: 1
   useFixedUpdate: 0
   movement:
-    maxForwardSpeed: 15
-    maxSidewaysSpeed: 10
-    maxBackwardsSpeed: 10
+    maxForwardSpeed: 30
+    maxSidewaysSpeed: 30
+    maxBackwardsSpeed: 30
     slopeSpeedMultiplier:
       serializedVersion: 2
       m_Curve:
@@ -552,7 +552,7 @@ MonoBehaviour:
     enabled: 1
     movementTransfer: 2
   sliding:
-    enabled: 1
+    enabled: 0
     slidingSpeed: 10
     sidewaysControl: 1
     speedControl: .400000006
