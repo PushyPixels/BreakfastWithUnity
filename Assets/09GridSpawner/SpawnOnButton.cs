@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[AddComponentMenu("Spawn/Spawn On Button")]
 public class SpawnOnButton : MonoBehaviour
 {
 	public GameObject objectToSpawn;

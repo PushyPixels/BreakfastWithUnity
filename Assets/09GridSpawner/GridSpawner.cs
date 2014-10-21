@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[AddComponentMenu("Spawn/Grid Spawner")]
 public class GridSpawner : MonoBehaviour
 {
 	public GameObject objectToSpawn;

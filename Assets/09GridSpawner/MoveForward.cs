@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[AddComponentMenu("Movement/Move Forward")]
 public class MoveForward : MonoBehaviour
 {
 	public float speed = 1.0f;

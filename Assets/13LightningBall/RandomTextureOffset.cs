@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[AddComponentMenu("TextureEffects/Random Texture Offset")]
 public class RandomTextureOffset : MonoBehaviour 
 {
 	[System.Serializable]
@@ -10,7 +11,7 @@ public class RandomTextureOffset : MonoBehaviour
 		public Material material;
 		public string textureName = "_MainTex";
 	}
-
+	
 	public List<MaterialInfo> materialInfoList = new List<MaterialInfo>();
 
 	// Update is called once per frame
