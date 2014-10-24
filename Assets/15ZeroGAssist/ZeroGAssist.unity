@@ -1371,8 +1371,7 @@ MonoBehaviour:
   componentsToActivate:
   - {fileID: 214822831}
   - {fileID: 214822832}
-  buttonName: 4669726531
-  componentsActive: 0
+  buttonName: Fire1
 --- !u!1 &530104162
 GameObject:
   m_ObjectHideFlags: 0
