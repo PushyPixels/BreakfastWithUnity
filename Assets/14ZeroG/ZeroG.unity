@@ -1202,9 +1202,6 @@ GameObject:
   - 54: {fileID: 214822828}
   - 114: {fileID: 214822829}
   - 114: {fileID: 214822830}
-  - 114: {fileID: 214822832}
-  - 114: {fileID: 214822831}
-  - 114: {fileID: 214822833}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1324,55 +1321,6 @@ MonoBehaviour:
   horizontalAxisName: Mouse X
   force: 10
   forceMode: 0
---- !u!114 &214822831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 214822822}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 714bf5ba5cd704f348f7ea81e6d45093, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  toVel: 2.5
-  maxVel: 15
-  maxForce: 40
-  gain: 5
-  target: {fileID: 530104163}
-  forceSphericalTensor: 0
---- !u!114 &214822832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 214822822}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14d3dbf7de8ac477183852ea418854a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  toVel: 2.5
-  maxVel: 15
-  maxForce: 40
-  gain: 5
-  target: {fileID: 530104163}
---- !u!114 &214822833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 214822822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45c786cd865214e02a1d50e3755723f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  componentsToActivate:
-  - {fileID: 214822831}
-  - {fileID: 214822832}
-  buttonName: 4669726531
-  componentsActive: 0
 --- !u!1 &530104162
 GameObject:
   m_ObjectHideFlags: 0
