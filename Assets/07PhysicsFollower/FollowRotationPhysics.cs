@@ -17,9 +17,9 @@ public class FollowRotationPhysics : MonoBehaviour
 	{
 		if(forceSphericalTensor)
 		{
-		   rigidbody.inertiaTensorRotation = Quaternion.identity;
-		   rigidbody.inertiaTensor = Vector3.one;
-		   rigidbody.centerOfMass = Vector3.zero;
+		   this.Rigidbody().inertiaTensorRotation = Quaternion.identity;
+		   this.Rigidbody().inertiaTensor = Vector3.one;
+		   this.Rigidbody().centerOfMass = Vector3.zero;
 		}
 	}
 
@@ -41,15 +41,15 @@ public class FollowRotationPhysics : MonoBehaviour
 		Vector3 wY = y.normalized * thetaY;
 		Vector3 wZwY = Vector3.ClampMagnitude(toVel * (wZ + wY), maxVel);
 		
-		Quaternion q = transform.rotation * rigidbody.inertiaTensorRotation;
-		Vector3 T = q * Vector3.Scale(rigidbody.inertiaTensor, Quaternion.Inverse(q) * wZwY);
+		Quaternion q = transform.rotation * this.Rigidbody().inertiaTensorRotation;
+		Vector3 T = q * Vector3.Scale(this.Rigidbody().inertiaTensor, Quaternion.Inverse(q) * wZwY);
 
-		Vector3 error = T - rigidbody.angularVelocity;
+		Vector3 error = T - this.Rigidbody().angularVelocity;
 		Vector3 force = Vector3.ClampMagnitude(gain * error, maxForce);
 
 		if(force != Vector3.zero)
 		{
-			rigidbody.AddTorque(force);
+			this.Rigidbody().AddTorque(force);
 		}
 	}
 }
