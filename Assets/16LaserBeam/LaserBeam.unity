@@ -136,11 +136,11 @@ ParticleSystem:
   looping: 1
   prewarm: 0
   playOnAwake: 1
-  moveWithTransform: 1
+  moveWithTransform: 0
   InitialModule:
     enabled: 1
     startLifetime:
-      scalar: .75
+      scalar: .200000003
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -173,7 +173,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     startSpeed:
-      scalar: -.100000001
+      scalar: -.200000003
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -385,7 +385,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 100
+      scalar: 1000
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1153,7 +1153,7 @@ Transform:
   m_GameObject: {fileID: 21573397}
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106709}
   m_LocalPosition: {x: .283950001, y: 7.15260001e-07, z: 6.03000021}
-  m_LocalScale: {x: .100000001, y: 6, z: .125}
+  m_LocalScale: {x: .0500000007, y: 6, z: .0500000007}
   m_Children: []
   m_Father: {fileID: 1257777825}
   m_RootOrder: 0
