@@ -18,16 +18,21 @@ public class FadeParticlesBasedOnDistanceToCollider : MonoBehaviour
 
 		for(int i = 0; i < particleSystem.particleCount; i++)
 		{
-			//Vector3 colliderPoint = collider.ClosestPointOnBounds(currentParticles[i].position);
+			//Get vector from particle position to transform position
+			Vector3 particleVector = currentParticles[i].position - transform.position;
 
-			//Vector3 particleVector = currentParticles[i].position - transform.position;
+			//Change vector into local space
+			particleVector = Quaternion.Inverse(transform.rotation)*particleVector;
 
-			//Vector3 modifiedVector = transform.rotation*particleVector;
+			//Remove z from local space
+			//This is so falloff will only take X and Y distance into account
+			particleVector.z = 0.0f;
 
-			//modifiedVector.z = 0.0f;
+			//Chanve vector back into world space
+			particleVector = transform.rotation*particleVector;
 
-			//Debug.Log((currentParticles[i].position - colliderPoint).magnitude);
-			float alpha = Mathf.Lerp(1.0f,0.0f,(currentParticles[i].position - transform.position).sqrMagnitude*distanceFalloffMultiplier);
+			//Alpha falloff based on X/Y distance
+			float alpha = Mathf.Lerp(1.0f,0.0f,particleVector.sqrMagnitude*distanceFalloffMultiplier);
 
 			Color newColor = currentParticles[i].color;
 			newColor.a = alpha;
