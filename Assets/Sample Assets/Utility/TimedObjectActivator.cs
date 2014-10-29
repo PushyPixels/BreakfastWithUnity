@@ -1,0 +1,197 @@
+﻿using UnityEngine;
+using System.Collections;
+
+#if UNITY_EDITOR
+	using UnityEditor;
+#endif
+
+public class TimedObjectActivator : MonoBehaviour
+{
+
+	public enum Action
+	{
+		Activate, 
+		Deactivate,
+		Destroy,
+		ReloadLevel,
+		Call,
+	}
+
+
+	public Entries entries = new Entries();
+
+	[System.Serializable]
+	public class Entry
+	{
+		public GameObject target;
+		public Action action;
+		public float delay;
+	}
+
+	[System.Serializable]
+	public class Entries
+	{
+		public Entry[] entries;	
+	}
+
+
+	void Awake ()
+	{
+		foreach (Entry entry in entries.entries)
+		{
+			switch (entry.action)
+			{
+			case Action.Activate: 
+				StartCoroutine (Activate(entry)); 
+				break;
+			case Action.Deactivate: 
+				StartCoroutine(Deactivate(entry)); 
+				break;
+			case Action.Destroy: 
+				Destroy(entry.target, entry.delay); 
+                    break;
+            
+			case Action.ReloadLevel: 
+				StartCoroutine(ReloadLevel(entry)); 
+            break;
+			}
+        }
+    }
+
+	IEnumerator Activate(Entry entry)
+		{
+			yield return new WaitForSeconds(entry.delay);
+			entry.target.SetActive (true);
+		}
+
+	IEnumerator Deactivate(Entry entry)
+	{
+		yield return new WaitForSeconds(entry.delay);
+		entry.target.SetActive (false);
+	}
+    IEnumerator ReloadLevel(Entry entry)
+    {
+        yield return new WaitForSeconds(entry.delay);
+        Application.LoadLevel(Application.loadedLevel);
+        
+    }
+}
+
+#if UNITY_EDITOR
+[CustomPropertyDrawer (typeof(TimedObjectActivator.Entries))]
+public class EntriesDrawer : PropertyDrawer
+{
+	float lineHeight = 18;
+	float spacing = 4;
+
+	public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
+	{
+
+		EditorGUI.BeginProperty (position, label, property);
+
+		float x = position.x;
+		float y = position.y;
+		float width = position.width;
+
+		// Draw label
+		EditorGUI.PrefixLabel (position, GUIUtility.GetControlID (FocusType.Passive), label);
+
+		// Don't make child fields be indented
+		var indent = EditorGUI.indentLevel;
+		EditorGUI.indentLevel = 0;
+
+		var entries = property.FindPropertyRelative ("entries");
+
+		if (entries.arraySize > 0)
+		{
+			float actionWidth = .25f * width;
+			float targetWidth = .6f * width;
+			float delayWidth  = .1f * width;
+			float buttonWidth = .05f * width;
+
+			for (int i=0; i<entries.arraySize; ++i) {
+				y += lineHeight + spacing;
+
+				var entry = entries.GetArrayElementAtIndex (i);
+			
+				float rowX = x;
+
+				// Calculate rects
+				Rect actionRect = new Rect (rowX, y, actionWidth, lineHeight);
+				rowX += actionWidth;
+
+				Rect targetRect = new Rect (rowX, y, targetWidth, lineHeight);
+				rowX += targetWidth;
+
+				Rect delayRect = new Rect (rowX, y, delayWidth, lineHeight);
+				rowX += delayWidth;
+
+				Rect buttonRect = new Rect (rowX, y, buttonWidth, lineHeight);
+				rowX += buttonWidth;
+
+				// Draw fields - passs GUIContent.none to each so they are drawn without labels
+
+				if (entry.FindPropertyRelative ("action").enumValueIndex != (int)TimedObjectActivator.Action.ReloadLevel ) 
+				{
+					EditorGUI.PropertyField (actionRect, entry.FindPropertyRelative ("action"), GUIContent.none);
+					EditorGUI.PropertyField (targetRect, entry.FindPropertyRelative ("target"), GUIContent.none);
+				} else {
+					actionRect.width = actionRect.width+targetRect.width;
+					EditorGUI.PropertyField (actionRect, entry.FindPropertyRelative ("action"), GUIContent.none);
+				}
+
+				EditorGUI.PropertyField (delayRect, entry.FindPropertyRelative ("delay"), GUIContent.none);
+				if (GUI.Button( buttonRect, "-" ))
+			    {
+					entries.DeleteArrayElementAtIndex(i);
+					break;
+				}
+			}
+		}
+
+
+		// add & sort buttons
+		y += lineHeight + spacing;
+
+		var addButtonRect = new Rect (position.x + position.width - 120, y, 60, lineHeight);
+		if (GUI.Button (addButtonRect, "Add")) {
+			entries.InsertArrayElementAtIndex(entries.arraySize);
+		}
+
+		var sortButtonRect = new Rect (position.x + position.width - 60, y, 60, lineHeight);
+		if (GUI.Button (sortButtonRect, "Sort")) {
+			bool changed = true;
+			while (entries.arraySize > 1 && changed) {
+				changed = false;
+				for (int i=0; i<entries.arraySize-1; ++i) {
+					var e1 = entries.GetArrayElementAtIndex (i);
+					var e2 = entries.GetArrayElementAtIndex (i + 1);
+				
+					if (e1.FindPropertyRelative ("delay").floatValue > e2.FindPropertyRelative ("delay").floatValue) {
+						entries.MoveArrayElement (i + 1, i);
+						changed = true;
+						break;
+					}
+				}
+			}
+		}
+
+
+	
+		// Set indent back to what it was
+		EditorGUI.indentLevel = indent;
+		//
+
+
+		EditorGUI.EndProperty ();
+	}
+
+	public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
+	{
+		SerializedProperty entries = property.FindPropertyRelative ("entries");
+		float lineAndSpace = lineHeight + spacing;
+		return 40 + (entries.arraySize * lineAndSpace) + lineAndSpace;
+	}
+
+}
+#endif
