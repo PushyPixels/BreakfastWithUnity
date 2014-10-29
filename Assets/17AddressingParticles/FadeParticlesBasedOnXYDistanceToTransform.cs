@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FadeParticlesBasedOnDistanceToCollider : MonoBehaviour
+public class FadeParticlesBasedOnXYDistanceToTransform : MonoBehaviour
 {
 	public float distanceFalloffMultiplier = 1.0f;
 
