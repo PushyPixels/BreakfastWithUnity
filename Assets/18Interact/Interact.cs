@@ -22,7 +22,7 @@ public class Interact : MonoBehaviour {
 			displayInteract = true;
 			if(Input.GetButtonDown(buttonName))
 			{
-				hit.collider.SendMessage("Interact");
+				hit.collider.SendMessageUpwards("Interact");
 			}
 		}
 		else
