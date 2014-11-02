@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eb9eb86b9b794c28a9c296f4a73d2ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToSpawn: {fileID: 100000, guid: 4f52927f15d6746eeab64acbd4dcd015, type: 2}
+  objectToSpawn: {fileID: 100000, guid: 84568837860424b97bc1fe7dcc44fcdf, type: 2}
   distance: 3
   delay: .00999999978
 --- !u!4 &1598968541
@@ -286,6 +286,7 @@ GameObject:
   - 124: {fileID: 1613695876}
   - 81: {fileID: 1613695875}
   - 114: {fileID: 1613695880}
+  - 114: {fileID: 1613695881}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -371,3 +372,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToSpawn: {fileID: 100004, guid: 53b42e508d490416b82ee163335c0f53, type: 2}
   buttonName: Fire1
+--- !u!114 &1613695881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1613695874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e32bbbc036a74dd7abf580f068a7f12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialInfoList:
+  - material: {fileID: 2100000, guid: 4e22fe2d866e24638818c01ce7d462f4, type: 2}
+    textureName: _BumpMap

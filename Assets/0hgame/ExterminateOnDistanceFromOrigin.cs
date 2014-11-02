@@ -19,12 +19,23 @@ public class ExterminateOnDistanceFromOrigin : MonoBehaviour
 	{
 		if(!exterminated && transform.position.sqrMagnitude > sqrDistance)
 		{
-			particleSystem.loop = false;
+			if(particleSystem != null)
+			{
+				particleSystem.loop = false;
+			}
 			exterminated = true;
 		}
-		if(!particleSystem.IsAlive())
+
+		if(particleSystem != null)
 		{
-			Destroy (gameObject);
+			if(!particleSystem.IsAlive())
+			{
+				Destroy (gameObject);
+			}
+		}
+		else if(exterminated)
+		{
+			Destroy(gameObject);
 		}
 	}
 }

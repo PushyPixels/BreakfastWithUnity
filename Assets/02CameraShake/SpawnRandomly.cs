@@ -16,7 +16,10 @@ public class SpawnRandomly : MonoBehaviour
 	void Spawn ()
 	{
 		GameObject instance = Instantiate(objectToSpawn, transform.position+Random.insideUnitSphere*distance, Quaternion.identity) as GameObject;
-		instance.particleSystem.startColor = new Color(Random.value,Random.value,Random.value);
+		if(instance.particleSystem != null)
+		{
+			instance.particleSystem.startColor = new Color(Random.value,Random.value,Random.value);
+		}
 		Invoke("Spawn",delay);
 	}
 }
