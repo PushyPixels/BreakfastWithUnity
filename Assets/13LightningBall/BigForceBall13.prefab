@@ -185,8 +185,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   force: 200
   radius: 30
-  upwardsModifier: 5
+  upwardsModifier: 0
   forceMode: 0
+  affectSelf: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

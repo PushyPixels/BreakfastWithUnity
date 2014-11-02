@@ -7,6 +7,7 @@ public class ContinuousExplosionForce : MonoBehaviour
 	public float radius = 5.0f;
 	public float upwardsModifier = 0.0f;
 	public ForceMode forceMode;
+	public bool affectSelf = false;
 
 	// Use this for initialization
 	void Start () {
@@ -20,7 +21,13 @@ public class ContinuousExplosionForce : MonoBehaviour
 		{
 			if(col.rigidbody != null)
 			{
-				col.rigidbody.AddExplosionForce(force,transform.position,radius,upwardsModifier,forceMode);
+				if(!affectSelf && col == collider)
+				{
+				}
+				else
+				{
+					col.rigidbody.AddExplosionForce(force,transform.position,radius,upwardsModifier,forceMode);
+				}
 			}
 		}
 	}
