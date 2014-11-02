@@ -260,7 +260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToSpawn: {fileID: 100000, guid: 84568837860424b97bc1fe7dcc44fcdf, type: 2}
   distance: 3
-  delay: .00999999978
+  delay: .0199999996
 --- !u!4 &1598968541
 Transform:
   m_ObjectHideFlags: 0
