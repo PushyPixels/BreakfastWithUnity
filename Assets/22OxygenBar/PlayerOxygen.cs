@@ -9,6 +9,9 @@ public class PlayerOxygen : MonoBehaviour
 	private float currentOxygen;
 	private bool isUnderwater = false;
 
+	public delegate void OxygenEvent();
+	public static event OxygenEvent OnNoOxygen; 
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -21,6 +24,16 @@ public class PlayerOxygen : MonoBehaviour
 		isUnderwater = false;
 		currentOxygen -= Time.deltaTime;
 		oxygenBar.value = currentOxygen/oxygenAmount;
+
+		if(currentOxygen <= 0)
+		{
+			currentOxygen = 0;
+			
+			if(OnNoOxygen != null)
+			{
+				OnNoOxygen();
+			}
+		}
 	}
 
 	void Update()
