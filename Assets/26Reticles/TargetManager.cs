@@ -1,46 +1,55 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class TargetManager : MonoBehaviour
 {
 	public float scaleMultiplier = 1.0f;
 	public LayerMask targetMask = -1;
+	public Animator targetingAnimator;
+	public Text targetInfo;
 
 	private RectTransform rectTransform;
-	private CanvasRenderer canvasRenderer;
 	private Transform target = null;
 
 	// Use this for initialization
 	void Start ()
 	{
 		rectTransform = GetComponent<RectTransform>();
-		canvasRenderer = GetComponent<CanvasRenderer>();
-		//canvasRenderer.renderer.enabled = false;
-		transform.position = Vector3.one*10000.0f;
+		transform.parent.position = Vector3.one*10000.0f;
 	}
-	
-	// Update is called once per frame
-	void LateUpdate ()
+
+	void Update()
 	{
 		RaycastHit hit;
 		if(Physics.Raycast(Camera.main.transform.position,Camera.main.transform.forward,out hit,Mathf.Infinity,targetMask))
 		{
+			if(hit.transform != target)
+			{
+				targetingAnimator.SetTrigger("ActivateTargeting");
+			}
 			target = hit.transform;
 		}
-
+	}
+	
+	// Update is called once per frame
+	void LateUpdate()
+	{
 		if(target != null)
 		{
-			//canvasRenderer.renderer.enabled = true;
-			transform.position = Camera.main.WorldToScreenPoint(target.position);
+			transform.parent.position = Camera.main.WorldToScreenPoint(target.position);
 			Rect worldBounds = GUIRectWithObject(target);
 
 			rectTransform.sizeDelta = new Vector2(worldBounds.width,worldBounds.height)*scaleMultiplier;
 		}
 		else
 		{
-			transform.position = Vector3.one*10000.0f;
-			//canvasRenderer.renderer.enabled = false;
+			transform.parent.position = Vector3.one*10000.0f;
 		}
+
+		targetInfo.text = target.name + "\n" +
+			"X:" + target.position.x.ToString("F1") + " Y:" + target.position.y.ToString("F1") + " Z:" + target.position.z.ToString("F1") + "\n" +
+				"Distance: " + (target.position - Camera.main.transform.position).magnitude.ToString("F1") + "M";
 	}
 
 	public static Rect GUIRectWithObject(Transform trans)
