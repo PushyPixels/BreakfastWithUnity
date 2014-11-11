@@ -24,14 +24,14 @@ AnimationClip:
         outSlope: 0
         tangentMode: 0
       - time: 1
-        value: 256
+        value: 1000
         inSlope: 0
         outSlope: 0
         tangentMode: 0
       - time: 1.01666665
         value: 10000
-        inSlope: 584640.562
-        outSlope: 584640.562
+        inSlope: 540000.5
+        outSlope: 540000.5
         tangentMode: 10
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -81,14 +81,14 @@ AnimationClip:
         outSlope: 0
         tangentMode: 0
       - time: 1
-        value: 256
+        value: 1000
         inSlope: 0
         outSlope: 0
         tangentMode: 0
       - time: 1.01666665
         value: 10000
-        inSlope: 584640.562
-        outSlope: 584640.562
+        inSlope: 540000.5
+        outSlope: 540000.5
         tangentMode: 10
       m_PreInfinity: 2
       m_PostInfinity: 2

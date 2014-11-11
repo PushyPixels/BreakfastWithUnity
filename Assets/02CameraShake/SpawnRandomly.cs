@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SpawnRandomly : MonoBehaviour
 {
-	public GameObject objectToSpawn;
+	public GameObject[] objectsToSpawn;
 	public float distance = 3.0f;
 
 	public float minDelay = 1.0f;
@@ -17,7 +17,7 @@ public class SpawnRandomly : MonoBehaviour
 
 	void Spawn ()
 	{
-		Instantiate(objectToSpawn, transform.position+Random.insideUnitSphere*distance, Quaternion.identity);
+		Instantiate(objectsToSpawn[Random.Range(0,objectsToSpawn.Length)], transform.position+Random.insideUnitSphere*distance, Quaternion.identity);
 		Invoke("Spawn",Random.Range(minDelay,maxDelay));
 	}
 }
