@@ -11,12 +11,14 @@ public class TargetManager : MonoBehaviour
 
 	private RectTransform rectTransform;
 	private Transform target = null;
+	private Vector2 minSize;
 
 	// Use this for initialization
 	void Start ()
 	{
 		rectTransform = GetComponent<RectTransform>();
 		transform.parent.position = Vector3.one*10000.0f;
+		minSize = rectTransform.sizeDelta;
 	}
 
 	void Update()
@@ -40,16 +42,16 @@ public class TargetManager : MonoBehaviour
 			transform.parent.position = Camera.main.WorldToScreenPoint(target.position);
 			Rect worldBounds = GUIRectWithObject(target);
 
-			rectTransform.sizeDelta = new Vector2(worldBounds.width,worldBounds.height)*scaleMultiplier;
+			rectTransform.sizeDelta = Vector2.Max(new Vector2(worldBounds.width,worldBounds.height)*scaleMultiplier,minSize);
+
+			targetInfo.text = target.name + "\n" +
+				"X:" + target.position.x.ToString("F1") + " Y:" + target.position.y.ToString("F1") + " Z:" + target.position.z.ToString("F1") + "\n" +
+					"Distance: " + (target.position - Camera.main.transform.position).magnitude.ToString("F1") + "M";
 		}
 		else
 		{
 			transform.parent.position = Vector3.one*10000.0f;
 		}
-
-		targetInfo.text = target.name + "\n" +
-			"X:" + target.position.x.ToString("F1") + " Y:" + target.position.y.ToString("F1") + " Z:" + target.position.z.ToString("F1") + "\n" +
-				"Distance: " + (target.position - Camera.main.transform.position).magnitude.ToString("F1") + "M";
 	}
 
 	public static Rect GUIRectWithObject(Transform trans)
