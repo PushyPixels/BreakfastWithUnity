@@ -72,7 +72,7 @@ State:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: ActivateTargeting
-  m_Speed: .300000012
+  m_Speed: .600000024
   m_CycleOffset: 0
   m_Motions:
   - {fileID: 7400000, guid: c3cdfa1eed6974a8baa54b922e2e18ef, type: 2}
