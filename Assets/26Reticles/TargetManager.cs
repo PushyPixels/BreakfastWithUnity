@@ -4,20 +4,26 @@ using System.Collections;
 
 public class TargetManager : MonoBehaviour
 {
+	public static TargetManager Instance;
+
 	public float scaleMultiplier = 1.0f;
 	public LayerMask targetMask = -1;
 	public Animator targetingAnimator;
 	public Text targetInfo;
 	public Vector2 minSize = Vector2.one*16.0f;
 	public float maxScreenPercentage = 1.0f;
-
+	public string targetViewLayerName = "TargetView";
+	public string disabledLayerName = "Disabled";
 
 	private RectTransform rectTransform;
-	private Transform target = null;
+
+	[HideInInspector]
+	public Transform target = null;
 
 	// Use this for initialization
 	void Start ()
 	{
+		Instance = this;
 		rectTransform = GetComponent<RectTransform>();
 		transform.parent.position = Vector3.one*10000.0f;
 	}
@@ -30,9 +36,35 @@ public class TargetManager : MonoBehaviour
 			if(hit.transform != target)
 			{
 				targetingAnimator.SetTrigger("ActivateTargeting");
+
+				if(target != null)
+				{
+					try
+					{
+						target.GetComponentInChildren<TargetView>().gameObject.layer = LayerMask.NameToLayer(disabledLayerName);
+					}
+					catch
+					{
+						MissingTargetError();
+					}
+				}
+				target = hit.transform;
+
+				try
+				{
+					target.GetComponentInChildren<TargetView>().gameObject.layer = LayerMask.NameToLayer(targetViewLayerName);
+				}
+				catch
+				{
+					MissingTargetError();
+				}
 			}
-			target = hit.transform;
 		}
+	}
+
+	void MissingTargetError()
+	{
+		Debug.LogError("Target " + target.name + " does not have a TargetView representation.  Please add one!", target);
 	}
 	
 	// Update is called once per frame
@@ -48,8 +80,8 @@ public class TargetManager : MonoBehaviour
 			rectTransform.sizeDelta = Vector2.Min(rectTransform.sizeDelta,Vector2.one*smallestSide*maxScreenPercentage);
 
 			targetInfo.text = target.name + "\n" +
-				"X:" + target.position.x.ToString("F1") + " Y:" + target.position.y.ToString("F1") + " Z:" + target.position.z.ToString("F1") + "\n" +
-					"Distance: " + (target.position - Camera.main.transform.position).magnitude.ToString("F1") + "M";
+				"X:" + target.position.x.ToString("F2") + " Y:" + target.position.y.ToString("F2") + " Z:" + target.position.z.ToString("F2") + "\n" +
+					"Distance: " + (target.position - Camera.main.transform.position).magnitude.ToString("F2") + "M";
 		}
 		else
 		{
