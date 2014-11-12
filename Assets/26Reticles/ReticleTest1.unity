@@ -1931,6 +1931,8 @@ MonoBehaviour:
   materialInfoList:
   - material: {fileID: 2100000, guid: d85420d738b1b404896f9dd29a64d3cf, type: 2}
     textureName: _MainTex
+  - material: {fileID: 2100000, guid: 3dd3dcf3af68545eb953214cf3fbfa27, type: 2}
+    textureName: 
 --- !u!1001 &1885240037
 Prefab:
   m_ObjectHideFlags: 0

@@ -20,6 +20,7 @@ public class RandomTextureOffset : MonoBehaviour
 		foreach(MaterialInfo info in materialInfoList)
 		{
 			info.material.SetTextureOffset(info.textureName,new Vector2(Random.value,Random.value));
+			info.material.color = new Color(Random.value,Random.value,Random.value);
 		}
 	}
 
