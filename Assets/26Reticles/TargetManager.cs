@@ -74,30 +74,33 @@ public class TargetManager : MonoBehaviour
 	{
 		if(target != null)
 		{
-			if(!useScreenSpaceCamera)
+			if(Vector3.Dot(target.position - Camera.main.transform.position, Camera.main.transform.forward) > 0)
 			{
-				//This only works for Screen Space - Overlay
-				transform.parent.position = Camera.main.WorldToScreenPoint(target.position);
-				Vector3 newPosition = transform.parent.localPosition;
-				newPosition.z = 0.0f;
-				transform.parent.localPosition = newPosition;
-			}
-			else
-			{
-				//This works for Screen Space - Overlay, and Screen Space - Camera
-				//Neither is applicable for World Space
-				Vector3 newPosition = Camera.main.WorldToScreenPoint(target.position);
-				RectTransform parent = transform.parent.GetComponent<RectTransform>();
-				parent.anchoredPosition = (Vector3)newPosition;
+				if(!useScreenSpaceCamera)
+				{
+					//This only works for Screen Space - Overlay
+					transform.parent.position = Camera.main.WorldToScreenPoint(target.position);
+					Vector3 newPosition = transform.parent.localPosition;
+					newPosition.z = 0.0f;
+					transform.parent.localPosition = newPosition;
+				}
+				else
+				{
+					//This works for Screen Space - Overlay, and Screen Space - Camera
+					//Neither is applicable for World Space
+					Vector3 newPosition = Camera.main.WorldToScreenPoint(target.position);
+					RectTransform parent = transform.parent.GetComponent<RectTransform>();
+					parent.anchoredPosition = (Vector3)newPosition;
 
-				newPosition = parent.localPosition;
-				newPosition.z = 0.0f;
-				parent.localPosition = newPosition;
+					newPosition = parent.localPosition;
+					newPosition.z = 0.0f;
+					parent.localPosition = newPosition;
 
-				//Notes: anchoredPosition3D is broken, it does not set the y value properly
-				//Setting Z on Screen Space Camera isn't possible through transform.position
-				//You have to set the x and y using anchoredPosition (Set anchors to 0 in inspector), and then z via localPosition
-				//Setting localPosition only could work as well, but requires half-screen offset when using Camera.main.WorldToScreenPoint(target.position);
+					//Notes: anchoredPosition3D is broken, it does not set the y value properly
+					//Setting Z on Screen Space Camera isn't possible through transform.position
+					//You have to set the x and y using anchoredPosition (Set anchors to 0 in inspector), and then z via localPosition
+					//Setting localPosition only could work as well, but requires half-screen offset when using Camera.main.WorldToScreenPoint(target.position);
+				}
 			}
 
 			Rect worldBounds = GUIRectWithObject(target);
@@ -107,7 +110,7 @@ public class TargetManager : MonoBehaviour
 			rectTransform.sizeDelta = Vector2.Min(rectTransform.sizeDelta,Vector2.one*smallestSide*maxScreenPercentage);
 
 			targetInfo.text = target.name + "\n" +
-				"X:" + target.position.x.ToString("F2") + " Y:" + target.position.y.ToString("F2") + " Z:" + target.position.z.ToString("F2") + "\n" +
+				"X:" + target.position.x.ToString("F1") + " Y:" + target.position.y.ToString("F1") + " Z:" + target.position.z.ToString("F1") + "\n" +
 					"Distance: " + (target.position - Camera.main.transform.position).magnitude.ToString("F2") + "M";
 		}
 		else
