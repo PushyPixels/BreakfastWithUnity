@@ -16,7 +16,7 @@ public class PositionTargetViewCamera : MonoBehaviour
 
 			transform.position = target.position + (targetToPlayerVector).normalized*distanceFromTarget;
 
-			transform.rotation = Quaternion.LookRotation(-targetToPlayerVector);
+			transform.rotation = Quaternion.LookRotation(-targetToPlayerVector,Camera.main.transform.up);
 		}
 	}
 }
