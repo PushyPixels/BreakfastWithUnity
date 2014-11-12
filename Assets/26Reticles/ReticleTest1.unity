@@ -129,7 +129,7 @@ MonoBehaviour:
   targetingAnimator: {fileID: 1430032237}
   targetInfo: {fileID: 1472597484}
   minSize: {x: 16, y: 16}
-  maxScreenPercentage: .75
+  maxScreenPercentage: .600000024
 --- !u!114 &91153153
 MonoBehaviour:
   m_ObjectHideFlags: 0

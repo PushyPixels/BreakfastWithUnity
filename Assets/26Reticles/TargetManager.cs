@@ -44,7 +44,8 @@ public class TargetManager : MonoBehaviour
 			Rect worldBounds = GUIRectWithObject(target);
 
 			rectTransform.sizeDelta = Vector2.Max(new Vector2(worldBounds.width,worldBounds.height)*scaleMultiplier,minSize);
-			rectTransform.sizeDelta = Vector2.Min(rectTransform.sizeDelta,new Vector2(Screen.width,Screen.height)*maxScreenPercentage);
+			float smallestSide = Mathf.Min(Screen.width,Screen.height);
+			rectTransform.sizeDelta = Vector2.Min(rectTransform.sizeDelta,Vector2.one*smallestSide*maxScreenPercentage);
 
 			targetInfo.text = target.name + "\n" +
 				"X:" + target.position.x.ToString("F1") + " Y:" + target.position.y.ToString("F1") + " Z:" + target.position.z.ToString("F1") + "\n" +
