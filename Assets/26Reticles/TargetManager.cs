@@ -8,17 +8,18 @@ public class TargetManager : MonoBehaviour
 	public LayerMask targetMask = -1;
 	public Animator targetingAnimator;
 	public Text targetInfo;
+	public Vector2 minSize = Vector2.one*16.0f;
+	public float maxScreenPercentage = 1.0f;
+
 
 	private RectTransform rectTransform;
 	private Transform target = null;
-	private Vector2 minSize;
 
 	// Use this for initialization
 	void Start ()
 	{
 		rectTransform = GetComponent<RectTransform>();
 		transform.parent.position = Vector3.one*10000.0f;
-		minSize = rectTransform.sizeDelta;
 	}
 
 	void Update()
@@ -43,6 +44,7 @@ public class TargetManager : MonoBehaviour
 			Rect worldBounds = GUIRectWithObject(target);
 
 			rectTransform.sizeDelta = Vector2.Max(new Vector2(worldBounds.width,worldBounds.height)*scaleMultiplier,minSize);
+			rectTransform.sizeDelta = Vector2.Min(rectTransform.sizeDelta,new Vector2(Screen.width,Screen.height)*maxScreenPercentage);
 
 			targetInfo.text = target.name + "\n" +
 				"X:" + target.position.x.ToString("F1") + " Y:" + target.position.y.ToString("F1") + " Z:" + target.position.z.ToString("F1") + "\n" +
