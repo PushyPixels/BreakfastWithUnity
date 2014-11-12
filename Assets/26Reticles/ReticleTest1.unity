@@ -225,7 +225,7 @@ MonoBehaviour:
   maxScreenPercentage: .600000024
   targetViewLayerName: TargetView
   disabledLayerName: Disabled
-  useScreenSpaceCamera: 0
+  useScreenSpaceCamera: 1
   target: {fileID: 0}
 --- !u!114 &91153153
 MonoBehaviour:
@@ -445,7 +445,7 @@ GameObject:
   - 223: {fileID: 391640707}
   - 114: {fileID: 391640706}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UICanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -476,8 +476,8 @@ Canvas:
   m_GameObject: {fileID: 391640705}
   m_Enabled: 1
   serializedVersion: 2
-  m_RenderMode: 0
-  m_Camera: {fileID: 1864439638}
+  m_RenderMode: 1
+  m_Camera: {fileID: 1877865671}
   m_PlaneDistance: .5
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
@@ -892,7 +892,7 @@ GameObject:
   - 222: {fileID: 1071605058}
   - 114: {fileID: 1071605057}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Outline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1889,6 +1889,90 @@ MonoBehaviour:
     textureName: _MainTex
   - material: {fileID: 2100000, guid: 3dd3dcf3af68545eb953214cf3fbfa27, type: 2}
     textureName: 
+--- !u!1 &1877865667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1877865672}
+  - 20: {fileID: 1877865671}
+  - 124: {fileID: 1877865670}
+  - 92: {fileID: 1877865669}
+  - 81: {fileID: 1877865668}
+  m_Layer: 0
+  m_Name: Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!81 &1877865668
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1877865667}
+  m_Enabled: 1
+--- !u!92 &1877865669
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1877865667}
+  m_Enabled: 1
+--- !u!124 &1877865670
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1877865667}
+  m_Enabled: 1
+--- !u!20 &1877865671
+Camera:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1877865667}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 3
+  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: .300000012
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 32
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_HDR: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: .0219999999
+--- !u!4 &1877865672
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1877865667}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
 --- !u!1001 &1885240037
 Prefab:
   m_ObjectHideFlags: 0
@@ -2215,7 +2299,7 @@ GameObject:
   - 114: {fileID: 2119574855}
   - 114: {fileID: 2119574854}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: TargetViewUICanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
