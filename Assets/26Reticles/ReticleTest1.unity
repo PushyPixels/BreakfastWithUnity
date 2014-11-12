@@ -132,6 +132,7 @@ MonoBehaviour:
   maxScreenPercentage: .600000024
   targetViewLayerName: TargetView
   disabledLayerName: Disabled
+  useScreenSpaceCamera: 1
   target: {fileID: 0}
 --- !u!114 &91153153
 MonoBehaviour:
@@ -382,9 +383,9 @@ Canvas:
   m_GameObject: {fileID: 391640705}
   m_Enabled: 1
   serializedVersion: 2
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 1864439638}
-  m_PlaneDistance: 100
+  m_PlaneDistance: .5
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -1114,10 +1115,10 @@ RectTransform:
   - {fileID: 91153151}
   m_Father: {fileID: 391640708}
   m_RootOrder: 1
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10000, y: 10000}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 358, y: 209}
+  m_SizeDelta: {x: 10000, y: 9999}
   m_Pivot: {x: .5, y: .5}
 --- !u!95 &1430032237
 Animator:

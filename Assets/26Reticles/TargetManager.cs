@@ -15,6 +15,8 @@ public class TargetManager : MonoBehaviour
 	public string targetViewLayerName = "TargetView";
 	public string disabledLayerName = "Disabled";
 
+	public bool useScreenSpaceCamera = false;
+
 	private RectTransform rectTransform;
 
 	[HideInInspector]
@@ -72,9 +74,34 @@ public class TargetManager : MonoBehaviour
 	{
 		if(target != null)
 		{
-			transform.parent.position = Camera.main.WorldToScreenPoint(target.position);
-			Rect worldBounds = GUIRectWithObject(target);
+			if(!useScreenSpaceCamera)
+			{
+				//This only works for Screen Space - Overlay
+				transform.parent.position = Camera.main.WorldToScreenPoint(target.position);
+				Vector3 newPosition = transform.parent.localPosition;
+				newPosition.z = 0.0f;
+				transform.parent.localPosition = newPosition;
+			}
+			else
+			{
+				//This works for Screen Space - Overlay, and Screen Space - Camera
+				//Neither is applicable for World Space
+				Vector3 newPosition = Camera.main.WorldToScreenPoint(target.position);
+				RectTransform parent = transform.parent.GetComponent<RectTransform>();
+				parent.anchoredPosition = (Vector3)newPosition;
 
+				newPosition = parent.localPosition;
+				newPosition.z = 0.0f;
+				parent.localPosition = newPosition;
+
+				//Notes: anchoredPosition3D is broken, it does not set the y value properly
+				//Setting Z on Screen Space Camera isn't possible through transform.position
+				//You have to set the x and y using anchoredPosition (Set anchors to 0 in inspector), and then z via localPosition
+				//Setting localPosition only could work as well, but requires half-screen offset when using Camera.main.WorldToScreenPoint(target.position);
+			}
+
+			Rect worldBounds = GUIRectWithObject(target);
+			
 			rectTransform.sizeDelta = Vector2.Max(new Vector2(worldBounds.width,worldBounds.height)*scaleMultiplier,minSize);
 			float smallestSide = Mathf.Min(Screen.width,Screen.height);
 			rectTransform.sizeDelta = Vector2.Min(rectTransform.sizeDelta,Vector2.one*smallestSide*maxScreenPercentage);
