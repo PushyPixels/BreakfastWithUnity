@@ -1,6 +1,6 @@
-BreakfastWithUnity
+TargetUIFun
 ==================
 
-Files from Breakfast With Unity, a LIVE morning tutorial program at 8:00AM PDT every weekday!
-
 ![Some recent UI fun](http://i.imgur.com/GYeSFbJ.gif)
+
+Just playing around with Unity's new UI!  You should too!  Everything in the project works on Unity Basic! :D
