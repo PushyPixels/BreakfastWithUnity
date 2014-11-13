@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class TargetManager : MonoBehaviour
 {
 	public float scaleMultiplier = 1.0f;
 	public LayerMask targetMask = -1;
+	public Text targetInfo;
 
 	private RectTransform rectTransform;
 	private CanvasRenderer canvasRenderer;
@@ -35,6 +37,10 @@ public class TargetManager : MonoBehaviour
 			Rect worldBounds = GUIRectWithObject(target);
 
 			rectTransform.sizeDelta = new Vector2(worldBounds.width,worldBounds.height)*scaleMultiplier;
+
+			targetInfo.text = target.name + "\n" +
+				"X:" + target.position.x.ToString("F1") + " Y:" + target.position.y.ToString("F1") + " Z:" + target.position.z.ToString("F1") + "\n" +
+					"Distance: " + (Camera.main.transform.position - target.position).magnitude.ToString("F2");
 		}
 		else
 		{
