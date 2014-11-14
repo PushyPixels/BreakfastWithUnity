@@ -12,7 +12,7 @@ public class ToggleGameObjectsOnInteract : MonoBehaviour
 	
 	}
 
-	void Interact()
+	void InteractEvent()
 	{
 		activeNow = !activeNow;
 

@@ -26,7 +26,7 @@ public class SwitchCamera : MonoBehaviour
 		}
 	}
 
-	void Interact()
+	void InteractEvent()
 	{
 		if(activeNow == false)
 		{

@@ -40,7 +40,7 @@ public class SwitchToVehicleOnInteract : MonoBehaviour
 		}
 	}
 
-	void Interact()
+	void InteractEvent()
 	{
 		if(activeNow == false)
 		{
