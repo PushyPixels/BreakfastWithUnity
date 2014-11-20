@@ -6,11 +6,8 @@ public class DestroyAndDetachChildrenAtStart : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		foreach(Transform child in transform)
-		{
-			child.parent = null;
-		}
+		transform.DetachChildren();
 
-		Destroy(gameObject,1.0f);
+		Destroy(gameObject);
 	}
 }
