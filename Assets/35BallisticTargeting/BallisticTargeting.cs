@@ -6,7 +6,13 @@ public class BallisticTargeting : MonoBehaviour
 	public Transform target;
 	public Transform targetIndicator1;
 	public Transform targetIndicator2;
+
+	public GameObject targetHUD1;
+	public GameObject targetHUD2;
+
 	public float velocity = 10.0f; //Note: NOT LIVE TWEAKABLE because of caching
+
+	public bool debugMode = false;
 
 	private float v;
 	private float vSquared;
@@ -39,6 +45,11 @@ public class BallisticTargeting : MonoBehaviour
 
 		float underTheRoot = vHyperCubed - (g*(g*x*x + 2*y*vSquared));
 
+		if(underTheRoot < 0.0f)
+		{
+			return null;
+		}
+
 		float root = Mathf.Sqrt(underTheRoot);
 
 		float top1 = vSquared + root;
@@ -60,7 +71,22 @@ public class BallisticTargeting : MonoBehaviour
 	{
 		BallisticInfo info = CalculateTrajectoryAngles();
 
-		targetIndicator1.localEulerAngles = new Vector3(-info.lowAngle,0.0f,0.0f);
-		targetIndicator2.localEulerAngles = new Vector3(-info.highAngle,0.0f,0.0f);
+		if(info != null)
+		{
+			targetHUD1.SetActive(true);
+			targetHUD2.SetActive(true);
+			targetIndicator1.localEulerAngles = new Vector3(-info.lowAngle,0.0f,0.0f);
+			targetIndicator2.localEulerAngles = new Vector3(-info.highAngle,0.0f,0.0f);
+			if(debugMode)
+			{
+				transform.localRotation = Quaternion.LookRotation(target.position - transform.position);
+				Camera.main.transform.localEulerAngles = new Vector3(-info.highAngle,0.0f,0.0f);
+			}
+		}
+		else
+		{
+			targetHUD1.SetActive(false);
+			targetHUD2.SetActive(false);
+		}
 	}
 }
