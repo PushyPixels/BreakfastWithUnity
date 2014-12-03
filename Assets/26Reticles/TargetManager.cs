@@ -30,9 +30,8 @@ public class TargetManager : MonoBehaviour
 			target = hit.transform;
 		}
 
-		if(target != null)
+		if(target != null && Vector3.Dot(target.position - Camera.main.transform.position, Camera.main.transform.forward) > 0)
 		{
-			//canvasRenderer.renderer.enabled = true;
 			transform.position = Camera.main.WorldToScreenPoint(target.position);
 			Rect worldBounds = GUIRectWithObject(target);
 
