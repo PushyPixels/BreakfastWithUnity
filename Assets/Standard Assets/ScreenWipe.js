@@ -12,9 +12,12 @@ enum TransitionType {Left, Right, Up, Down}
 function Awake () {
 	if (use) {
 		Debug.LogWarning("Only one instance of ScreenCrossFadePro is allowed");
+		Destroy(gameObject);
 		return;
 	}
 	use = this;
+	
+	DontDestroyOnLoad(gameObject);
 
 	this.enabled = false;
 }
@@ -84,6 +87,25 @@ function CrossFade (cam1 : Camera, cam2 : Camera, time : float) {
 	yield AlphaTimer(time);
 
 	CameraCleanup (cam1, cam2);
+}
+
+function CrossFadeToScene (sceneName : String, time : float) {
+	if (!tex2D) {
+		tex2D = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+	}
+	
+	yield WaitForEndOfFrame();
+	tex2D.ReadPixels(Rect(0, 0, Screen.width, Screen.height), 0, 0, false);
+	tex2D.Apply();
+	tex = tex2D;
+	
+	Application.LoadLevel(sceneName);
+	
+	this.enabled = true;
+
+	yield AlphaTimer(time);
+
+	this.enabled = false;
 }
 
 function RectWipe (cam1 : Camera, cam2 : Camera, time : float, zoom : ZoomType) {
