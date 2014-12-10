@@ -15,7 +15,32 @@ public class MusicManager : MonoBehaviour
 	
 	}
 
-	public static void Crossfade(AudioClip newTrack, float fadeTime = 1.0f)
+	public void ButtonCrossfade(AudioClip newTrack)
+	{
+		Crossfade(newTrack);
+	}
+
+	public static void Crossfade(AudioClip newTrack)
+	{
+		Instance.StopAllCoroutines();
+		
+		if(Instance.GetComponents<AudioSource>().Length > 1)
+		{
+			Destroy(Instance.audio);
+		}
+		
+		AudioSource newAudioSource = Instance.gameObject.AddComponent<AudioSource>();
+		
+		newAudioSource.volume = 0.0f;
+		
+		newAudioSource.clip = newTrack;
+		
+		newAudioSource.Play();
+		
+		Instance.StartCoroutine(Instance.ActuallyCrossfade(newAudioSource,1.0f));
+	}
+
+	public static void Crossfade(AudioClip newTrack, float fadeTime)
 	{
 		Instance.StopAllCoroutines();
 
