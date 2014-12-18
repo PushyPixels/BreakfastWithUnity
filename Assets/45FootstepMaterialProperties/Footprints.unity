@@ -255,6 +255,7 @@ GameObject:
   - 114: {fileID: 204289742}
   - 95: {fileID: 204289741}
   - 114: {fileID: 204289739}
+  - 114: {fileID: 204289740}
   m_Layer: 9
   m_Name: Third Person Character
   m_TagString: Player
@@ -295,6 +296,18 @@ MonoBehaviour:
   footprintOffset: .0500000007
   leftFootAudioSource: {fileID: 1009450354}
   rightFootAudioSource: {fileID: 2135838833}
+--- !u!114 &204289740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 204289737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31179a6bbd11e2c3d000dc0b8d76c639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generateTriangleStrips: 1
 --- !u!95 &204289741
 Animator:
   serializedVersion: 3
