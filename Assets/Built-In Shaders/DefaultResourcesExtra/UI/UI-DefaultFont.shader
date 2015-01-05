@@ -70,7 +70,7 @@ Shader "UI/Default Font" {
 				o.color = v.color * _Color;
 				o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
 #ifdef UNITY_HALF_TEXEL_OFFSET
-				o.vertex.xy -= (_ScreenParams.zw-1.0);
+				o.vertex.xy += (_ScreenParams.zw-1.0)*float2(-1,1);
 #endif
 				return o;
 			}

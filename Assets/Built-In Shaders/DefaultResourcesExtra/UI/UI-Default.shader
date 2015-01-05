@@ -71,7 +71,7 @@ Shader "UI/Default"
 				OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
 				OUT.texcoord = IN.texcoord;
 #ifdef UNITY_HALF_TEXEL_OFFSET
-				OUT.vertex.xy -= (_ScreenParams.zw-1.0);
+				OUT.vertex.xy += (_ScreenParams.zw-1.0)*float2(-1,1);
 #endif
 				OUT.color = IN.color * _Color;
 				return OUT;

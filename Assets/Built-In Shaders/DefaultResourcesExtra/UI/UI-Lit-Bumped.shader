@@ -49,7 +49,7 @@ Shader "UI/Lit/Bumped"
 		ColorMask [_ColorMask]
 
 		CGPROGRAM
-			#pragma surface surf PPL alpha vertex:vert
+			#pragma surface surf PPL alpha
 				
 			#include "UnityCG.cginc"
 	
@@ -65,8 +65,7 @@ Shader "UI/Lit/Bumped"
 
 			struct Input
 			{
-				float4 vertex : SV_POSITION;
-				half2 uv_MainTex : TEXCOORD0;
+				half2 uv_MainTex;
 				fixed4 color : COLOR;
 			};
 
@@ -76,14 +75,6 @@ Shader "UI/Lit/Bumped"
 			fixed4 _Color;
 			fixed4 _Specular;
 			half _Shininess;
-				
-			void vert (inout appdata_t v, out Input o)
-			{
-				UNITY_INITIALIZE_OUTPUT(Input, o);
-#ifdef UNITY_HALF_TEXEL_OFFSET
-				o.vertex.xy -= (_ScreenParams.zw-1.0);
-#endif
-			}
 
 			void surf (Input IN, inout SurfaceOutput o)
 			{
