@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: $perlin_2002_cg_v001_292
+  m_Shader: {fileID: 4800000, guid: 6361ec8e3a0d5461faf5130a7fe5d38c, type: 3}
+  m_ShaderKeywords: []
+  m_CustomRenderQueue: -1
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: color_map
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: permutation
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: shine
+        second: 32
+      data:
+        first:
+          name: scale_x
+        second: 11.3999996
+      data:
+        first:
+          name: scale_y
+        second: 11.1999998
+      data:
+        first:
+          name: shift_x
+        second: 0
+      data:
+        first:
+          name: shift_y
+        second: 0
+      data:
+        first:
+          name: gain
+        second: 1
+      data:
+        first:
+          name: setup
+        second: .5
+    m_Colors:
+      data:
+        first:
+          name: ambient_color
+        second: {r: .5, g: .5, b: .5, a: 1}
+      data:
+        first:
+          name: diffuse_color
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: specular_color
+        second: {r: .5, g: .5, b: .5, a: 1}
+      data:
+        first:
+          name: lightpos
+        second: {r: -10, g: 10, b: 10, a: 1}
