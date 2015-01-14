@@ -35,31 +35,17 @@ public class MoveToClickLocation : MonoBehaviour
 			}
 		}
 
+
 		Vector3 newPosition = transform.position;
 
-		if(!atTarget)
+		Vector3 lookDirection = targetPosition - newPosition;
+
+		transform.position = Vector3.MoveTowards(transform.position,targetPosition,movementSpeed*Time.deltaTime);
+
+		if(lookDirection.sqrMagnitude != 0)
 		{
-			Vector3 moveDirection = transform.forward*movementSpeed*Time.deltaTime;
-
-			newPosition += moveDirection;
-
-			if(Vector3.Dot(moveDirection, targetPosition - newPosition) <= 0.0f) //We aren't facing target
-			{
-				if(facingTarget)
-				{
-					transform.position = targetPosition;
-					atTarget = true;
-					facingTarget = false;
-				}
-			}
-			else //We are facing target
-			{
-				transform.position = newPosition;
-				facingTarget = true;
-			}
+			transform.rotation = Quaternion.RotateTowards(transform.rotation,Quaternion.LookRotation(lookDirection),rotationSpeed*Time.deltaTime);
 		}
-
-		transform.rotation = Quaternion.RotateTowards(transform.rotation,Quaternion.LookRotation(targetPosition - newPosition),rotationSpeed*Time.deltaTime);
 	}
 
 }
