@@ -22,7 +22,7 @@
             #pragma vertex vert
             #pragma fragment frag
             
-                        struct appdata
+            struct appdata
             {
                 float4 vertex : POSITION;
             };
