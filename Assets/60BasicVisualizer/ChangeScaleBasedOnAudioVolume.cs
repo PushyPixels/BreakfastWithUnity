@@ -5,10 +5,11 @@ public class ChangeScaleBasedOnAudioVolume : MonoBehaviour
 {
 	public float scaleBoost = 1.0f;
 
+	float[] samples = new float[1];
+
 	// Update is called once per frame
 	void Update ()
 	{
-		float[] samples = new float[1];
 		AudioListener.GetOutputData(samples,0);
 
 		float averageValue = 0.0f;
