@@ -3,13 +3,15 @@ using System.Collections;
 
 public class Footsteps : MonoBehaviour
 {
+	[Header("Tweak Values")]
+	public float footprintOffset = 0.05f;
+
+	[Header("Required References")]
 	public GameObject leftFootprint;
 	public GameObject rightFootprint;
-
+	
 	public Transform leftFootLocation;
 	public Transform rightFootLocation;
-
-	public float footprintOffset = 0.05f;
 
 	public AudioSource leftFootAudioSource;
 	public AudioSource rightFootAudioSource;
