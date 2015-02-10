@@ -1,0 +1,8 @@
+distanceToTarget = timeToTarget*projectileVelocity
+distanceToTarget = (Camera.main.transform.position - target.position+target.velocity*timeToTarget).magnitude
+
+timeToTarget*projectileVelocity = (Camera.main.transform.position - target.position+target.velocity*timeToTarget).magnitude
+
+timeToTarget = (Camera.main.transform.position - target.position+target.velocity*timeToTarget).magnitude/projectileVelocity
+
+0 = (Camera.main.transform.position - target.position+target.velocity*timeToTarget).magnitude/projectileVelocity - timeToTarget
