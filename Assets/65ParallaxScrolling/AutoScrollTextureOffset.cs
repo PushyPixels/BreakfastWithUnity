@@ -16,17 +16,17 @@ public class AutoScrollTextureOffset : MonoBehaviour
 		Vector2 finalTextureOffset = renderer.material.mainTextureOffset;
 		finalTextureOffset += scrollSpeed*Time.deltaTime;
 
-		while(finalTextureOffset.x >= 1.0f)
+		if(finalTextureOffset.x >= 1.0f)
 		{
-			finalTextureOffset.x -= 1.0f;
+			finalTextureOffset.x -= (float)System.Math.Truncate(finalTextureOffset.x);
 		}
 		while(finalTextureOffset.x < 0.0f)
 		{
 			finalTextureOffset.x += 1.0f;
 		}
-		while(finalTextureOffset.y >= 1.0f)
+		if(finalTextureOffset.y >= 1.0f)
 		{
-			finalTextureOffset.y -= 1.0f;
+			finalTextureOffset.y -= (float)System.Math.Truncate(finalTextureOffset.y);
 		}
 		while(finalTextureOffset.y < 0.0f)
 		{
