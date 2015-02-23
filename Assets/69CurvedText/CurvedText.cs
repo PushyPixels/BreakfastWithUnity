@@ -4,10 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 
 [ExecuteInEditMode]
+[System.Serializable]
 public class CurvedText : Text
 {
+	[SerializeField]
 	public float radius = 0.5f;
+	[SerializeField]
 	public float wrapAngle = 360.0f;
+	[SerializeField]
 	public float scaleFactor = 100.0f;
 	
 	private float circumference
