@@ -23,8 +23,8 @@
 		};
 
 		void surf (Input IN, inout SurfaceOutput o) {
-			float x = IN.uv_MainTex.x-0.5;
-			float y = IN.uv_MainTex.y-0.5;
+			float x = IN.uv_MainTex.x-0.5; //Technically should multiply by 2 to normalize but it adds more computational cost
+			float y = IN.uv_MainTex.y-0.5; //Technically should multiply by 2 to normalize but it adds more computational cost
 			float dist = x*x + y*y; //Technically incorrect, you can use sqrt here for correct value but it adds more computational cost "sqrt(x*x + y*y);"
 			half4 c = tex2D (_MainTex, IN.uv_MainTex + float2(_DistortionScale,0)*sin((_Time*_DistortionSpeed+dist)*_DistortionFrequency));
 			o.Albedo = c.rgb;
