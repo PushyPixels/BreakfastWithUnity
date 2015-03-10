@@ -18,7 +18,7 @@ public class WheelEditor : Editor
 			{
 				Wheel wheel = (Wheel) target;
 				wheel.transform.position = wheel.wheelModel.transform.position;
-				var bounds = wheel.wheelModel.renderer.bounds;
+				var bounds = wheel.wheelModel.GetComponent<Renderer>().bounds;
 				wheel.GetComponent<WheelCollider>().radius = bounds.extents.y;
 			}
 		}

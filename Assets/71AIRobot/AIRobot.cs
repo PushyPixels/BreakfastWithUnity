@@ -32,13 +32,13 @@ public class AIRobot : MonoBehaviour
 	{
 		transform.forward = Vector3.Reflect(transform.forward,Vector3.ProjectOnPlane(collision.contacts[0].normal,Vector3.up));
 
-		rigidbody.velocity = Vector3.zero;
-		rigidbody.angularVelocity = Vector3.zero;
+		GetComponent<Rigidbody>().velocity = Vector3.zero;
+		GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 	}
 
 	void OnCollisionExit()
 	{
-		rigidbody.velocity = Vector3.zero;
-		rigidbody.angularVelocity = Vector3.zero;
+		GetComponent<Rigidbody>().velocity = Vector3.zero;
+		GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 	}
 }

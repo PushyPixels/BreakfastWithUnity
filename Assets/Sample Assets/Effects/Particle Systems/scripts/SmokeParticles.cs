@@ -7,8 +7,8 @@ public class SmokeParticles : MonoBehaviour {
 	
 	void Start()
 	{
-		audio.clip = extinguishSounds[Random.Range(0,extinguishSounds.Length)];	
-		audio.Play();
+		GetComponent<AudioSource>().clip = extinguishSounds[Random.Range(0,extinguishSounds.Length)];	
+		GetComponent<AudioSource>().Play();
 	}
 	
 }

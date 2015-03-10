@@ -21,9 +21,9 @@ public class ExplodeOnButton : MonoBehaviour
 		{
 			foreach(Collider col in Physics.OverlapSphere(transform.position, radius))
 			{
-				if(col.rigidbody != null)
+				if(col.GetComponent<Rigidbody>() != null)
 				{
-					col.rigidbody.AddExplosionForce(force,transform.position,radius,upwardsModifier,forceMode);
+					col.GetComponent<Rigidbody>().AddExplosionForce(force,transform.position,radius,upwardsModifier,forceMode);
 				}
 			}
 		}

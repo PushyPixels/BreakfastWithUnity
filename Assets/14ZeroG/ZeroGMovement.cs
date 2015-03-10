@@ -17,6 +17,6 @@ public class ZeroGMovement : MonoBehaviour
 	void FixedUpdate ()
 	{
 		Vector3 forceDirection = new Vector3(Input.GetAxis(horizontalAxisName),0.0f,Input.GetAxis(forwardAxisName)).normalized;
-		rigidbody.AddForce(transform.rotation*forceDirection*force,forceMode);
+		GetComponent<Rigidbody>().AddForce(transform.rotation*forceDirection*force,forceMode);
 	}
 }

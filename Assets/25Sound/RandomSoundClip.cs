@@ -8,11 +8,11 @@ public class RandomSoundClip : MonoBehaviour
 	
 	void Awake ()
 	{
-		audio.clip = soundClips[Random.Range(0,soundClips.Length)];
+		GetComponent<AudioSource>().clip = soundClips[Random.Range(0,soundClips.Length)];
 
 		if(playOnAwake)
 		{
-			audio.Play();
+			GetComponent<AudioSource>().Play();
 		}
 	}
 	

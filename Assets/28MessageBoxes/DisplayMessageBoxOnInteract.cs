@@ -30,9 +30,9 @@ public class DisplayMessageBoxOnInteract : MonoBehaviour
 		{
 			yield return new WaitForSeconds(characterDelay);
 			messageBoxText.text += c;
-			if(messageBox.audio != null)
+			if(messageBox.GetComponent<AudioSource>() != null)
 			{
-				messageBox.audio.Play();
+				messageBox.GetComponent<AudioSource>().Play();
 			}
 		}
 	}

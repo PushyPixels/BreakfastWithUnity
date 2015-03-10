@@ -31,7 +31,7 @@ public class FirstPersonCharacter : MonoBehaviour
 	void Awake ()
 	{
 		// Set up a reference to the capsule collider.
-		capsule = collider as CapsuleCollider;
+		capsule = GetComponent<Collider>() as CapsuleCollider;
 		grounded = true;
 		Screen.lockCursor = lockCursor;
 		rayHitComparer = new RayHitComparer();
@@ -87,7 +87,7 @@ public class FirstPersonCharacter : MonoBehaviour
 		Vector3 desiredMove = transform.forward * input.y * speed + transform.right * input.x * strafeSpeed;
 		
 		// preserving current y velocity (for falling, gravity)
-		float yv = rigidbody.velocity.y;
+		float yv = GetComponent<Rigidbody>().velocity.y;
 		
 		// add jump power
 		if (grounded && jump) {
@@ -96,14 +96,14 @@ public class FirstPersonCharacter : MonoBehaviour
 		}
 		
 		// Set the rigidbody's velocity according to the ground angle and desired move
-		rigidbody.velocity = desiredMove + Vector3.up * yv;
+		GetComponent<Rigidbody>().velocity = desiredMove + Vector3.up * yv;
 		
 		// Use low/high friction depending on whether we're moving or not
 		if (desiredMove.magnitude > 0 || !grounded)
 		{
-			collider.material = advanced.zeroFrictionMaterial;
+			GetComponent<Collider>().material = advanced.zeroFrictionMaterial;
 		} else {
-			collider.material = advanced.highFrictionMaterial;
+			GetComponent<Collider>().material = advanced.highFrictionMaterial;
 		}
 
 		
@@ -117,7 +117,7 @@ public class FirstPersonCharacter : MonoBehaviour
 		System.Array.Sort (hits, rayHitComparer);
 		
 		
-		if (grounded || rigidbody.velocity.y < jumpPower * .5f)
+		if (grounded || GetComponent<Rigidbody>().velocity.y < jumpPower * .5f)
 		{
 			// Default value if nothing is detected:
 			grounded = false;
@@ -132,9 +132,9 @@ public class FirstPersonCharacter : MonoBehaviour
 					
 					// stick to surface - helps character stick to ground - specially when running down slopes
 					//if (rigidbody.velocity.y <= 0) {
-					rigidbody.position = Vector3.MoveTowards (rigidbody.position, hits[i].point + Vector3.up * capsule.height*.5f, Time.deltaTime * advanced.groundStickyEffect);
+					GetComponent<Rigidbody>().position = Vector3.MoveTowards (GetComponent<Rigidbody>().position, hits[i].point + Vector3.up * capsule.height*.5f, Time.deltaTime * advanced.groundStickyEffect);
 					//}
-					rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
+					GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, GetComponent<Rigidbody>().velocity.z);
 					break;
 				}
 			}
@@ -144,7 +144,7 @@ public class FirstPersonCharacter : MonoBehaviour
 
 
 		// add extra gravity
-		rigidbody.AddForce(Physics.gravity * (advanced.gravityMultiplier - 1));
+		GetComponent<Rigidbody>().AddForce(Physics.gravity * (advanced.gravityMultiplier - 1));
 	}
 
 	

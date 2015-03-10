@@ -9,6 +9,6 @@ public class BrakeLight : MonoBehaviour
     void Update ()
     {
         // enable the renderer when the car is braking, disable it otherwise.
-        renderer.enabled = car.BrakeInput > 0f;
+        GetComponent<Renderer>().enabled = car.BrakeInput > 0f;
     }
 }

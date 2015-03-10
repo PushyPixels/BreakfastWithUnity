@@ -14,7 +14,7 @@ public class Ball : MonoBehaviour
     void Start()
 	{
         // Set the maximum angular velocity.
-		rigidbody.maxAngularVelocity = maxAngularVelocity;
+		GetComponent<Rigidbody>().maxAngularVelocity = maxAngularVelocity;
 	}
 
 
@@ -25,16 +25,16 @@ public class Ball : MonoBehaviour
         // If using torque to rotate the ball...
 		if (useTorque) 
             // ... add torque around the axis defined by the move direction.
-            rigidbody.AddTorque(new Vector3(moveDirection.z, 0, -moveDirection.x) * movePower);
+            GetComponent<Rigidbody>().AddTorque(new Vector3(moveDirection.z, 0, -moveDirection.x) * movePower);
 		else
             // Otherwise add force in the move direction.
-			rigidbody.AddForce( moveDirection * movePower );
+			GetComponent<Rigidbody>().AddForce( moveDirection * movePower );
 
         // If on the ground and jump is pressed...
         if (Physics.Raycast(transform.position, -Vector3.up, GroundRayLength) && jump)
         {
             // ... add force in upwards.
-            rigidbody.AddForce(Vector3.up*jumpPower, ForceMode.Impulse);
+            GetComponent<Rigidbody>().AddForce(Vector3.up*jumpPower, ForceMode.Impulse);
         }
 	}
 }

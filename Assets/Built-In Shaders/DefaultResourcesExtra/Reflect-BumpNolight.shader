@@ -1,3 +1,5 @@
+#warning Upgrade NOTE: unity_Scale shader variable was removed; replaced 'unity_Scale.w' with '1.0'
+
 Shader "Reflective/Bumped Unlit" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
@@ -47,9 +49,9 @@ v2f vert(appdata_tan v)
 	o.I = -WorldSpaceViewDir( v.vertex );
 	
 	TANGENT_SPACE_ROTATION;
-	o.TtoW0 = mul(rotation, _Object2World[0].xyz * unity_Scale.w);
-	o.TtoW1 = mul(rotation, _Object2World[1].xyz * unity_Scale.w);
-	o.TtoW2 = mul(rotation, _Object2World[2].xyz * unity_Scale.w);
+	o.TtoW0 = mul(rotation, _Object2World[0].xyz * 1.0);
+	o.TtoW1 = mul(rotation, _Object2World[1].xyz * 1.0);
+	o.TtoW2 = mul(rotation, _Object2World[2].xyz * 1.0);
 	
 	return o; 
 }

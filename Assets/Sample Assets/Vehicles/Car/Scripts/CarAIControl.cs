@@ -77,9 +77,9 @@ public class CarAIControl : MonoBehaviour
 			// we're driving somewhere!
 
 			Vector3 fwd = transform.forward;
-			if (rigidbody.velocity.magnitude > carController.MaxSpeed*0.1f)
+			if (GetComponent<Rigidbody>().velocity.magnitude > carController.MaxSpeed*0.1f)
 			{
-				fwd = rigidbody.velocity;
+				fwd = GetComponent<Rigidbody>().velocity;
 			}
 
 			float desiredSpeed = carController.MaxSpeed;
@@ -96,7 +96,7 @@ public class CarAIControl : MonoBehaviour
 				float approachingCornerAngle = Vector3.Angle(target.forward,fwd);
 
 				// also consider the current amount we're turning, multiplied up and then compared in the same way as an upcoming corner angle
-				float spinningAngle = rigidbody.angularVelocity.magnitude * cautiousAngularVelocityFactor;
+				float spinningAngle = GetComponent<Rigidbody>().angularVelocity.magnitude * cautiousAngularVelocityFactor;
 		
 				// if it's different to our current angle, we need to be cautious (i.e. slow down) a certain amount
 				float cautiousnessRequired = Mathf.InverseLerp(0, cautiousMaxAngle, Mathf.Max(spinningAngle, approachingCornerAngle));	
@@ -114,7 +114,7 @@ public class CarAIControl : MonoBehaviour
 				float distanceCautiousFactor = Mathf.InverseLerp( cautiousMaxDistance, 0, delta.magnitude );
 				
 				// also consider the current amount we're turning, multiplied up and then compared in the same way as an upcoming corner angle
-				float spinningAngle = rigidbody.angularVelocity.magnitude * cautiousAngularVelocityFactor;
+				float spinningAngle = GetComponent<Rigidbody>().angularVelocity.magnitude * cautiousAngularVelocityFactor;
 				
 				// if it's different to our current angle, we need to be cautious (i.e. slow down) a certain amount
 				float cautiousnessRequired = Mathf.Max ( Mathf.InverseLerp(0, cautiousMaxAngle, spinningAngle), distanceCautiousFactor);	

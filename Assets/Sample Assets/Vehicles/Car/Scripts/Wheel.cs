@@ -56,7 +56,7 @@ public class Wheel : MonoBehaviour
     void Start()
     {
 		car = transform.parent.GetComponent<CarController>();
-		wheelCollider = collider as WheelCollider;
+		wheelCollider = GetComponent<Collider>() as WheelCollider;
 	
 		if (wheelModel != null)
 		{

@@ -13,10 +13,10 @@ public class FadeParticlesBasedOnXYDistanceToTransform : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		ParticleSystem.Particle[] currentParticles = new ParticleSystem.Particle[particleSystem.particleCount];
-		particleSystem.GetParticles(currentParticles);
+		ParticleSystem.Particle[] currentParticles = new ParticleSystem.Particle[GetComponent<ParticleSystem>().particleCount];
+		GetComponent<ParticleSystem>().GetParticles(currentParticles);
 
-		for(int i = 0; i < particleSystem.particleCount; i++)
+		for(int i = 0; i < GetComponent<ParticleSystem>().particleCount; i++)
 		{
 			//Get vector from particle position to transform position
 			Vector3 particleVector = currentParticles[i].position - transform.position;
@@ -39,6 +39,6 @@ public class FadeParticlesBasedOnXYDistanceToTransform : MonoBehaviour
 			currentParticles[i].color = newColor;
 		}
 
-		particleSystem.SetParticles(currentParticles, particleSystem.particleCount);
+		GetComponent<ParticleSystem>().SetParticles(currentParticles, GetComponent<ParticleSystem>().particleCount);
 	}
 }

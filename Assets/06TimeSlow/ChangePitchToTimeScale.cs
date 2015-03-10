@@ -5,6 +5,6 @@ public class ChangePitchToTimeScale : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		audio.pitch = Time.timeScale;
+		GetComponent<AudioSource>().pitch = Time.timeScale;
 	}
 }

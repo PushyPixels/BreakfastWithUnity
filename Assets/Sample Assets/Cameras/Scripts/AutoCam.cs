@@ -42,9 +42,9 @@ public class AutoCam : PivotBasedCameraRig
 			// in follow velocity mode, the camera's rotation is aligned towards the object's velocity direction
 			// but only if the object is traveling faster than a given threshold.
 
-            if (target.rigidbody.velocity.magnitude > targetVelocityLowerLimit) {
+            if (target.GetComponent<Rigidbody>().velocity.magnitude > targetVelocityLowerLimit) {
 				// velocity is high enough, so we'll use the target's velocty
-	            targetForward = target.rigidbody.velocity.normalized;
+	            targetForward = target.GetComponent<Rigidbody>().velocity.normalized;
 	            targetUp = Vector3.up;
 	        }
             else {

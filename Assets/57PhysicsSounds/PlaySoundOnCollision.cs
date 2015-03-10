@@ -60,9 +60,9 @@ public class PlaySoundOnCollision : MonoBehaviour
 
 		if(sqrImpactVelocity > sqrMinImpactVelocity)
 		{
-			audio.volume = Mathf.Lerp(0.0f,1.0f,(sqrImpactVelocity - sqrMinImpactVelocity)/sqrMaxImpactVelocity);
-			audio.pitch = Mathf.Lerp(minPitch,maxPitch,(sqrImpactVelocity - sqrMinImpactVelocity)/sqrMaxImpactVelocity);
-			audio.Play();
+			GetComponent<AudioSource>().volume = Mathf.Lerp(0.0f,1.0f,(sqrImpactVelocity - sqrMinImpactVelocity)/sqrMaxImpactVelocity);
+			GetComponent<AudioSource>().pitch = Mathf.Lerp(minPitch,maxPitch,(sqrImpactVelocity - sqrMinImpactVelocity)/sqrMaxImpactVelocity);
+			GetComponent<AudioSource>().Play();
 		}
 	}
 }

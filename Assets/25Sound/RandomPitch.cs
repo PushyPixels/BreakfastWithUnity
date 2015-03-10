@@ -8,7 +8,7 @@ public class RandomPitch : MonoBehaviour
 	void Awake()
 	{
 		//Unity 5.0 version: GetComponent<AudioSource>()
-		audio.pitch = Random.Range(audio.pitch - pitchOffset,audio.pitch + pitchOffset);
+		GetComponent<AudioSource>().pitch = Random.Range(GetComponent<AudioSource>().pitch - pitchOffset,GetComponent<AudioSource>().pitch + pitchOffset);
 	}
 	
 	// Update is called once per frame

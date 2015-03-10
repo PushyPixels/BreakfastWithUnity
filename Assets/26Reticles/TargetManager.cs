@@ -50,8 +50,8 @@ public class TargetManager : MonoBehaviour
 
 	public static Rect GUIRectWithObject(Transform trans)
 	{
-		Vector3 cen = trans.renderer.bounds.center;
-		Vector3 ext = trans.renderer.bounds.extents;
+		Vector3 cen = trans.GetComponent<Renderer>().bounds.center;
+		Vector3 ext = trans.GetComponent<Renderer>().bounds.extents;
 		Vector2[] extentPoints = new Vector2[8]
 		{
 			Camera.main.WorldToScreenPoint(new Vector3(cen.x-ext.x, cen.y-ext.y, cen.z-ext.z)),

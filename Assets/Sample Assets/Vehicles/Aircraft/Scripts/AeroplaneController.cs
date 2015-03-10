@@ -42,8 +42,8 @@ public class AeroplaneController : MonoBehaviour
 	void Start ()
     {
 		// Store original drag settings, these are modified during flight.
-		originalDrag = rigidbody.drag;
-		originalAngularDrag = rigidbody.angularDrag;
+		originalDrag = GetComponent<Rigidbody>().drag;
+		originalAngularDrag = GetComponent<Rigidbody>().angularDrag;
 	}
 
 	public void Move(float rollInput, float pitchInput, float yawInput, float throttleInput, bool airBrakes)
@@ -125,7 +125,7 @@ public class AeroplaneController : MonoBehaviour
 	void CalculateForwardSpeed ()
 	{
 		// Forward speed is the speed in the planes's forward direction (not the same as its velocity, eg if falling in a stall)
-		var localVelocity = transform.InverseTransformDirection (rigidbody.velocity);
+		var localVelocity = transform.InverseTransformDirection (GetComponent<Rigidbody>().velocity);
 		ForwardSpeed = Mathf.Max (0, localVelocity.z);
 	}
 
@@ -147,11 +147,11 @@ public class AeroplaneController : MonoBehaviour
 	void CalculateDrag ()
 	{
 		// increase the drag based on speed, since a constant drag doesn't seem "Real" (tm) enough
-		float extraDrag = rigidbody.velocity.magnitude * dragIncreaseFactor;
+		float extraDrag = GetComponent<Rigidbody>().velocity.magnitude * dragIncreaseFactor;
 		// Air brakes work by directly modifying drag. This part is actually pretty realistic!
-		rigidbody.drag = (AirBrakes ? (originalDrag + extraDrag) * airBrakesEffect : originalDrag + extraDrag);
+		GetComponent<Rigidbody>().drag = (AirBrakes ? (originalDrag + extraDrag) * airBrakesEffect : originalDrag + extraDrag);
 		// Forward speed affects angular drag - at high forward speed, it's much harder for the plane to spin
-		rigidbody.angularDrag = originalAngularDrag * ForwardSpeed;
+		GetComponent<Rigidbody>().angularDrag = originalAngularDrag * ForwardSpeed;
 	}
 
 
@@ -161,19 +161,19 @@ public class AeroplaneController : MonoBehaviour
 		// "Aerodynamic" calculations. This is a very simple approximation of the effect that a plane
 		// will naturally try to align itself in the direction that it's facing when moving at speed.
 		// Without this, the plane would behave a bit like the asteroids spaceship!
-		if (rigidbody.velocity.magnitude > 0) {
+		if (GetComponent<Rigidbody>().velocity.magnitude > 0) {
 			// compare the direction we're pointing with the direction we're moving:
-			aeroFactor = Vector3.Dot (transform.forward, rigidbody.velocity.normalized);
+			aeroFactor = Vector3.Dot (transform.forward, GetComponent<Rigidbody>().velocity.normalized);
 			// multipled by itself results in a desirable rolloff curve of the effect
 			aeroFactor *= aeroFactor;
 			// Finally we calculate a new velocity by bending the current velocity direction towards
 			// the the direction the plane is facing, by an amount based on this aeroFactor
-			var newVelocity = Vector3.Lerp (rigidbody.velocity, transform.forward * ForwardSpeed, aeroFactor * ForwardSpeed * aerodynamicEffect * Time.deltaTime);
-			rigidbody.velocity = newVelocity;
+			var newVelocity = Vector3.Lerp (GetComponent<Rigidbody>().velocity, transform.forward * ForwardSpeed, aeroFactor * ForwardSpeed * aerodynamicEffect * Time.deltaTime);
+			GetComponent<Rigidbody>().velocity = newVelocity;
 
 			// also rotate the plane towards the direction of movement - this should be a very small effect, but means the plane ends up
 			// pointing downwards in a stall
-			rigidbody.rotation = Quaternion.Slerp( rigidbody.rotation, Quaternion.LookRotation(rigidbody.velocity, transform.up), aerodynamicEffect * Time.deltaTime);
+			GetComponent<Rigidbody>().rotation = Quaternion.Slerp( GetComponent<Rigidbody>().rotation, Quaternion.LookRotation(GetComponent<Rigidbody>().velocity, transform.up), aerodynamicEffect * Time.deltaTime);
 		}
 	}
 
@@ -185,7 +185,7 @@ public class AeroplaneController : MonoBehaviour
 		// Add the engine power in the forward direction
 		forces += EnginePower * transform.forward;
 		// The direction that the lift force is applied is at right angles to the plane's velocity (usually, this is 'up'!)
-		var liftDirection = Vector3.Cross (rigidbody.velocity, transform.right).normalized;
+		var liftDirection = Vector3.Cross (GetComponent<Rigidbody>().velocity, transform.right).normalized;
 		// The amount of lift drops off as the plane increases speed - in reality this occurs as the pilot retracts the flaps
 		// shortly after takeoff, giving the plane less drag, but less lift. Because we don't simulate flaps, this is
 		// a simple way of doing it automatically:
@@ -194,7 +194,7 @@ public class AeroplaneController : MonoBehaviour
 		var liftPower = ForwardSpeed * ForwardSpeed * lift * zeroLiftFactor * aeroFactor;
 		forces += liftPower * liftDirection;
 		// Apply the calculated forces to the the rigidbody
-		rigidbody.AddForce (forces);
+		GetComponent<Rigidbody>().AddForce (forces);
 	}
 
 	void CalculateTorque ()
@@ -212,7 +212,7 @@ public class AeroplaneController : MonoBehaviour
 		// The total torque is multiplied by the forward speed, so the controls have more effect at high speed,
 		// and little effect at low speed, or when not moving in the direction of the nose of the plane
 		// (i.e. falling while stalled)
-		rigidbody.AddTorque (torque * ForwardSpeed * aeroFactor);
+		GetComponent<Rigidbody>().AddTorque (torque * ForwardSpeed * aeroFactor);
 	}
 
 

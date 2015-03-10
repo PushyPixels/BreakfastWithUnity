@@ -15,7 +15,7 @@ public class AfterburnerPhysicsForce : MonoBehaviour {
 	
 	void Start()
 	{
-		sphere = (collider as SphereCollider);
+		sphere = (GetComponent<Collider>() as SphereCollider);
 	}
 
 	// Update is called once per frame
@@ -38,8 +38,8 @@ public class AfterburnerPhysicsForce : MonoBehaviour {
 
 	void OnDrawGizmosSelected()
 	{
-		(collider as SphereCollider).radius = effectDistance*.5f;
-		(collider as SphereCollider).center = new Vector3(0,0,effectDistance*.5f);
+		(GetComponent<Collider>() as SphereCollider).radius = effectDistance*.5f;
+		(GetComponent<Collider>() as SphereCollider).center = new Vector3(0,0,effectDistance*.5f);
 		Vector3[] directions = new Vector3[] { Vector3.up, -Vector3.up, Vector3.right, -Vector3.right };
 		Vector3[] perpDirections = new Vector3[] { -Vector3.right, Vector3.right, Vector3.up, -Vector3.up };
 		Gizmos.color = new Color(0,1,0,0.5f);
@@ -49,7 +49,7 @@ public class AfterburnerPhysicsForce : MonoBehaviour {
 
 			Vector3 direction = transform.TransformDirection( Quaternion.AngleAxis( effectAngle, perpDirections[n] ) * Vector3.forward ) ;
 
-			Gizmos.DrawLine(origin, origin + direction * (collider as SphereCollider).radius*2 );
+			Gizmos.DrawLine(origin, origin + direction * (GetComponent<Collider>() as SphereCollider).radius*2 );
 		}
 
 

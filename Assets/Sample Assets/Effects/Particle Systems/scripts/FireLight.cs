@@ -16,7 +16,7 @@ public class FireLight : MonoBehaviour {
 	{		
 		if (burning)
 		{
-			light.intensity = 2 * Mathf.PerlinNoise(rnd+Time.time,rnd+1+Time.time*1);
+			GetComponent<Light>().intensity = 2 * Mathf.PerlinNoise(rnd+Time.time,rnd+1+Time.time*1);
 			float x = Mathf.PerlinNoise(rnd+0+Time.time*2,rnd+1+Time.time*2)-0.5f;
 			float y = Mathf.PerlinNoise(rnd+2+Time.time*2,rnd+3+Time.time*2)-0.5f;
 			float z = Mathf.PerlinNoise(rnd+4+Time.time*2,rnd+5+Time.time*2)-0.5f;
@@ -27,6 +27,6 @@ public class FireLight : MonoBehaviour {
 	public void Extinguish()
 	{
 		burning = false;
-		light.enabled = false;
+		GetComponent<Light>().enabled = false;
 	}
 }

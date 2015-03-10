@@ -13,8 +13,8 @@ public class ApplyForceInRandomDirection : MonoBehaviour
 	{
 		if(Input.GetButtonDown(buttonName))
 		{
-			rigidbody.AddForce(Random.onUnitSphere*forceAmount,forceMode);
-			rigidbody.AddTorque(Random.onUnitSphere*torqueAmount,forceMode);
+			GetComponent<Rigidbody>().AddForce(Random.onUnitSphere*forceAmount,forceMode);
+			GetComponent<Rigidbody>().AddTorque(Random.onUnitSphere*torqueAmount,forceMode);
 		}
 	}
 }

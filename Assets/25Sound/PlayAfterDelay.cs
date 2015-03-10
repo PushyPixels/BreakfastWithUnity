@@ -13,6 +13,6 @@ public class PlayAfterDelay : MonoBehaviour {
 
 	void PlayNow ()
 	{
-		audio.Play();
+		GetComponent<AudioSource>().Play();
 	}
 }

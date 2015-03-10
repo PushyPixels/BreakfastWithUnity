@@ -9,7 +9,7 @@ public class TargetLeadPosition : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate()
 	{
-		Vector3 relativeVelocity = target.velocity - Camera.main.rigidbody.velocity;
+		Vector3 relativeVelocity = target.velocity - Camera.main.GetComponent<Rigidbody>().velocity;
 		Vector3 delta = target.position - Camera.main.transform.position;
 
 		float timeToTarget = AimAhead(delta, relativeVelocity, projectileVelocity);

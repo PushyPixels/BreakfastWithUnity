@@ -19,12 +19,12 @@ public class DisplayCurrentDieValue : MonoBehaviour
 			currentValue = hit.collider.GetComponent<DieValue>().value;
 		}
 
-		if(rigidbody.IsSleeping() && !rollComplete)
+		if(GetComponent<Rigidbody>().IsSleeping() && !rollComplete)
 		{
 			rollComplete = true;
 			Debug.Log("Die roll complete, die is at rest");
 		}
-		else if(!rigidbody.IsSleeping())
+		else if(!GetComponent<Rigidbody>().IsSleeping())
 		{
 			rollComplete = false;
 		}

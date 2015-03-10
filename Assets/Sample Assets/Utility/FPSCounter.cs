@@ -25,7 +25,7 @@ public class FPSCounter : MonoBehaviour {
 			currentFps = (int)(fpsAccumulator / fpsMeasurePeriod);
 			fpsAccumulator = 0;
 			fpsNextPeriod += fpsMeasurePeriod;
-			guiText.text = string.Format(display, currentFps);
+			GetComponent<GUIText>().text = string.Format(display, currentFps);
 		}
 
 

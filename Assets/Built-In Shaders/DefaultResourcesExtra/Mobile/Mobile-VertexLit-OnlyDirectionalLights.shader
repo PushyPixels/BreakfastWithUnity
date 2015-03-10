@@ -1,3 +1,7 @@
+// Upgrade NOTE: commented out 'float4 unity_LightmapST', a built-in variable
+// Upgrade NOTE: commented out 'sampler2D unity_Lightmap', a built-in variable
+// Upgrade NOTE: replaced tex2D unity_Lightmap with UNITY_SAMPLE_TEX2D
+
 // Simplified VertexLit shader, optimized for high-poly meshes. Differences from regular VertexLit one:
 // - less per-vertex work compared with Mobile-VertexLit
 // - supports only DIRECTIONAL lights and ambient term, saves some vertex processing power
@@ -63,7 +67,7 @@ CGPROGRAM
   LIGHTING_COORDS(3,4)
 };
 #ifndef LIGHTMAP_OFF
-float4 unity_LightmapST;
+// float4 unity_LightmapST;
 float4 unity_LightmapFade;
 #endif
 float4 _MainTex_ST;
@@ -88,7 +92,7 @@ v2f_surf vert_surf (appdata_full v) {
 	return o;
 }
 #ifndef LIGHTMAP_OFF
-sampler2D unity_Lightmap;
+// sampler2D unity_Lightmap;
 #endif
 fixed4 frag_surf (v2f_surf IN) : SV_Target {
 	Input surfIN;
@@ -111,7 +115,7 @@ fixed4 frag_surf (v2f_surf IN) : SV_Target {
 	c.rgb = o.Albedo * IN.vlight * atten;
 	#endif // LIGHTMAP_OFF
 	#ifndef LIGHTMAP_OFF
-	fixed3 lm = DecodeLightmap (tex2D(unity_Lightmap, IN.lmap.xy));
+	fixed3 lm = DecodeLightmap (UNITY_SAMPLE_TEX2D(unity_Lightmap, IN.lmap.xy));
 	#ifdef SHADOWS_SCREEN
 	c.rgb += o.Albedo * min(lm, atten*2);
 	#else

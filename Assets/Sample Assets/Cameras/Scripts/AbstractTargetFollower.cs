@@ -30,7 +30,7 @@ public abstract class AbstractTargetFollower : MonoBehaviour
 		if (autoTargetPlayer && (target == null || !target.gameObject.activeSelf)) {
 			FindAndTargetPlayer();
 		}
-		if (updateType == UpdateType.FixedUpdate || updateType == UpdateType.Auto && target != null && (target.rigidbody != null && !target.rigidbody.isKinematic)) {
+		if (updateType == UpdateType.FixedUpdate || updateType == UpdateType.Auto && target != null && (target.GetComponent<Rigidbody>() != null && !target.GetComponent<Rigidbody>().isKinematic)) {
 			FollowTarget(Time.deltaTime);
 		}
 	}
@@ -43,7 +43,7 @@ public abstract class AbstractTargetFollower : MonoBehaviour
 		if (autoTargetPlayer && (target == null || !target.gameObject.activeSelf)) {
 			FindAndTargetPlayer();
 		}
-		if (updateType == UpdateType.LateUpdate || updateType == UpdateType.Auto && target != null && (target.rigidbody == null || target.rigidbody.isKinematic)) {
+		if (updateType == UpdateType.LateUpdate || updateType == UpdateType.Auto && target != null && (target.GetComponent<Rigidbody>() == null || target.GetComponent<Rigidbody>().isKinematic)) {
 			FollowTarget(Time.deltaTime);
 		}
 	}

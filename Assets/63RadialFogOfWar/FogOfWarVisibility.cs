@@ -14,11 +14,11 @@ public class FogOfWarVisibility : MonoBehaviour
 	{
 		if(observed)
 		{
-			renderer.enabled = true;
+			GetComponent<Renderer>().enabled = true;
 		}
 		else
 		{
-			renderer.enabled = false;
+			GetComponent<Renderer>().enabled = false;
 		}
 
 		observed = false;

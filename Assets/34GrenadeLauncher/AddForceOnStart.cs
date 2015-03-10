@@ -9,6 +9,6 @@ public class AddForceOnStart : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		rigidbody.AddForce(transform.forward*force,forceMode);
+		GetComponent<Rigidbody>().AddForce(transform.forward*force,forceMode);
 	}
 }

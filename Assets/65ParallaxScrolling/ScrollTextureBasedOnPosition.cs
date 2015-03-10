@@ -18,6 +18,6 @@ public class ScrollTextureBasedOnPosition : MonoBehaviour
 		Vector3 position = transform.position;
 		position.x *= scrollSpeedX;
 		position.y *= scrollSpeedY;
-		renderer.material.mainTextureOffset = position;
+		GetComponent<Renderer>().material.mainTextureOffset = position;
 	}
 }

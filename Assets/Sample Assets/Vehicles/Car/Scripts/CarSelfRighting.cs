@@ -13,7 +13,7 @@ public class CarSelfRighting : MonoBehaviour
     void Update ()
     {
         // is the car is the right way up
-        if(transform.up.y > 0f || rigidbody.velocity.magnitude > velocityThreshold)
+        if(transform.up.y > 0f || GetComponent<Rigidbody>().velocity.magnitude > velocityThreshold)
         {
 			lastOkTime = Time.time;
         }

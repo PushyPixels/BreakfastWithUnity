@@ -1,3 +1,6 @@
+// Upgrade NOTE: replaced 'glstate.matrix.modelview[0]' with 'UNITY_MATRIX_MV'
+// Upgrade NOTE: replaced 'glstate.matrix.mvp' with 'UNITY_MATRIX_MVP'
+
 Shader "Perlin_2002_Cg_v001"
 {
 	Properties 
@@ -109,11 +112,11 @@ v2f vertex_shader(a2v IN)
 	v2f OUT;
 
 	float4 pos = float4(IN.vertex.xyz, 1.0);
-	OUT.position 	= mul(glstate.matrix.mvp, pos);
+	OUT.position 	= mul(UNITY_MATRIX_MVP, pos);
 	OUT.texcoord 	= IN.texcoord.xy;	
 	
 
-	float3x3 modelviewrot	=float3x3(glstate.matrix.modelview[0]);
+	float3x3 modelviewrot	=float3x3(UNITY_MATRIX_MV);
 
 	float3 IN_bINormal 		= cross( IN.normal, IN.tangent.xyz )*IN.tangent.w;	
 	float3 tangent			= mul(modelviewrot,IN.tangent.xyz);
@@ -121,7 +124,7 @@ v2f vertex_shader(a2v IN)
 	float3 normal			= mul(modelviewrot,IN.normal);
 	float3x3 tangentspace	= float3x3(IN.tangent.xyz,IN_bINormal,IN.normal);
 	
-	float3 vpos	=mul(glstate.matrix.modelview[0],pos).xyz;		
+	float3 vpos	=mul(UNITY_MATRIX_MV,pos).xyz;		
 	OUT.eye		=mul(tangentspace,vpos);
 	OUT.light	=mul(tangentspace,lightpos.xyz-vpos);		
 	//OUT.light=mul(tangentspace,glstate.light[0].position.xyz -vpos);	

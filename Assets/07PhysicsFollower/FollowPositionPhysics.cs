@@ -18,9 +18,9 @@ public class FollowPositionPhysics : MonoBehaviour
 		// calc a target vel proportional to distance (clamped to maxVel)
 		Vector3 tgtVel = Vector3.ClampMagnitude(toVel * dist, maxVel);
 		// calculate the velocity error
-		Vector3 error = tgtVel - rigidbody.velocity;
+		Vector3 error = tgtVel - GetComponent<Rigidbody>().velocity;
 		// calc a force proportional to the error (clamped to maxForce)
 		Vector3 force = Vector3.ClampMagnitude(gain * error, maxForce);
-		rigidbody.AddForce(force);
+		GetComponent<Rigidbody>().AddForce(force);
 	}
 }

@@ -48,17 +48,17 @@ public class AeroplanePropellerAnimator : MonoBehaviour
 	        if (propellorBlurState == 0)
 		    {
 				// switch to using the 'real' propellor model
-				propellorModel.renderer.enabled = true;
-		        propellorBlur.renderer.enabled = false;
+				propellorModel.GetComponent<Renderer>().enabled = true;
+		        propellorBlur.GetComponent<Renderer>().enabled = false;
 		    }
 		    else
 		    {
 	            // Otherwise turn off the propellor model and turn on the blur.
-		        propellorModel.renderer.enabled = false;
-		        propellorBlur.renderer.enabled = true;
+		        propellorModel.GetComponent<Renderer>().enabled = false;
+		        propellorBlur.GetComponent<Renderer>().enabled = true;
 
 	            // set the appropriate texture from the blur array
-		        propellorBlur.renderer.material.mainTexture = propellorBlurTextures[propellorBlurState];
+		        propellorBlur.GetComponent<Renderer>().material.mainTexture = propellorBlurTextures[propellorBlurState];
 		    }
 		}
     }

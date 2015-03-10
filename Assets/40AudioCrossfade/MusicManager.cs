@@ -26,7 +26,7 @@ public class MusicManager : MonoBehaviour
 		
 		if(Instance.GetComponents<AudioSource>().Length > 1)
 		{
-			Destroy(Instance.audio);
+			Destroy(Instance.GetComponent<AudioSource>());
 		}
 		
 		AudioSource newAudioSource = Instance.gameObject.AddComponent<AudioSource>();
@@ -46,7 +46,7 @@ public class MusicManager : MonoBehaviour
 
 		if(Instance.GetComponents<AudioSource>().Length > 1)
 		{
-			Destroy(Instance.audio);
+			Destroy(Instance.GetComponent<AudioSource>());
 		}
 
 		AudioSource newAudioSource = Instance.gameObject.AddComponent<AudioSource>();
@@ -64,11 +64,11 @@ public class MusicManager : MonoBehaviour
 	{
 		float t = 0.0f;
 
-		float initialVolume = audio.volume;
+		float initialVolume = GetComponent<AudioSource>().volume;
 
 		while(t < fadeTime)
 		{
-			audio.volume = Mathf.Lerp(initialVolume,0.0f,t/fadeTime);
+			GetComponent<AudioSource>().volume = Mathf.Lerp(initialVolume,0.0f,t/fadeTime);
 			newSource.volume = Mathf.Lerp(0.0f,1.0f,t/fadeTime);
 
 			t += Time.deltaTime;
@@ -77,7 +77,7 @@ public class MusicManager : MonoBehaviour
 
 		newSource.volume = 1.0f;
 
-		Destroy(audio);
+		Destroy(GetComponent<AudioSource>());
 	}
 
 

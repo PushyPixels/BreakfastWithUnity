@@ -1,3 +1,5 @@
+// Upgrade NOTE: unity_Scale shader variable was removed; replaced 'unity_Scale.w' with '1.0'
+
 #ifndef UNITY_CG_INCLUDED
 #define UNITY_CG_INCLUDED
 
@@ -55,7 +57,7 @@ uniform fixed4 unity_ColorSpaceGrey;
 #define USING_LIGHT_MULTI_COMPILE
 #endif
 
-#define SCALED_NORMAL (v.normal * unity_Scale.w)
+#define SCALED_NORMAL (v.normal * 1.0)
 
 struct appdata_base {
     float4 vertex : POSITION;
@@ -108,7 +110,7 @@ inline float3 ObjSpaceLightDir( in float4 v )
 		return objSpaceLightPos.xyz - v.xyz * _WorldSpaceLightPos0.w;
 	#else
 		#ifndef USING_DIRECTIONAL_LIGHT
-		return objSpaceLightPos.xyz * unity_Scale.w - v.xyz;
+		return objSpaceLightPos.xyz * 1.0 - v.xyz;
 		#else
 		return objSpaceLightPos.xyz;
 		#endif
@@ -124,7 +126,7 @@ inline float3 WorldSpaceViewDir( in float4 v )
 // Computes object space view direction
 inline float3 ObjSpaceViewDir( in float4 v )
 {
-	float3 objSpaceCameraPos = mul(_World2Object, float4(_WorldSpaceCameraPos.xyz, 1)).xyz * unity_Scale.w;
+	float3 objSpaceCameraPos = mul(_World2Object, float4(_WorldSpaceCameraPos.xyz, 1)).xyz * 1.0;
 	return objSpaceCameraPos - v.xyz;
 }
 

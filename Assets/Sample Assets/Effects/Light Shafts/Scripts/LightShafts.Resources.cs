@@ -202,7 +202,7 @@ public partial class LightShafts : MonoBehaviour
 			m_SpotMesh.hideFlags = HideFlags.HideAndDontSave;
 		}
 
-		Light l = light;
+		Light l = GetComponent<Light>();
 		if (m_SpotMeshNear != m_SpotNear || m_SpotMeshFar != m_SpotFar || m_SpotMeshAngle != l.spotAngle || m_SpotMeshRange != l.range)
 		{
 			float far = l.range * m_SpotFar;
@@ -238,7 +238,7 @@ public partial class LightShafts : MonoBehaviour
 
 	public void UpdateLightType()
 	{
-		m_LightType = light.type;
+		m_LightType = GetComponent<Light>().type;
 	}
 
 	public bool CheckMinRequirements()

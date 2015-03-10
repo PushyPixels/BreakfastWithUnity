@@ -22,7 +22,7 @@ public class SkidTrail : MonoBehaviour {
 			if (transform.parent == null) {
 
                 // set the start colour
-				Color startCol = renderer.material.color;
+				Color startCol = GetComponent<Renderer>().material.color;
 
                 // wait for the persist time
 				yield return new WaitForSeconds(persistTime);
@@ -32,7 +32,7 @@ public class SkidTrail : MonoBehaviour {
                 // fade out the skid mark
 				while (Time.time < t+fadeDuration) {
 					float i = Mathf.InverseLerp(t,t+fadeDuration,Time.time);
-					renderer.material.color = startCol * new Color(1,1,1,1-i);
+					GetComponent<Renderer>().material.color = startCol * new Color(1,1,1,1-i);
 					yield return null;
 				}
 

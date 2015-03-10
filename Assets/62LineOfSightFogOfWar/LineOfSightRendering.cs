@@ -22,16 +22,16 @@ public class LineOfSightRendering : MonoBehaviour
 		{
 			if(hit.collider.gameObject == player)
 			{
-				renderer.enabled = true;
+				GetComponent<Renderer>().enabled = true;
 			}
 			else
 			{
-				renderer.enabled = false;
+				GetComponent<Renderer>().enabled = false;
 			}
 		}
 		else
 		{
-			renderer.enabled = false;
+			GetComponent<Renderer>().enabled = false;
 		}
 	
 	}

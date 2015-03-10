@@ -25,9 +25,9 @@ public class SetObliqueFrustrum : MonoBehaviour
 
 	void SetObliqueness(float horizObl, float vertObl)
 	{
-		Matrix4x4 mat = camera.projectionMatrix;
+		Matrix4x4 mat = GetComponent<Camera>().projectionMatrix;
 		mat[0, 2] = horizObl;
 		mat[1, 2] = vertObl;
-		camera.projectionMatrix = mat;
+		GetComponent<Camera>().projectionMatrix = mat;
 	}
 }

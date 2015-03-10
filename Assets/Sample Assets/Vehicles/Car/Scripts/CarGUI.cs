@@ -18,6 +18,6 @@ public class CarGUI : MonoBehaviour
         object[] args = new object[] { car.CurrentSpeed * MphtoMps, car.GearNum + 1, car.NumGears, car.RevsFactor, car.AccelInput };
 
         // display the car gui information
-        guiText.text = string.Format(display, args);
+        GetComponent<GUIText>().text = string.Format(display, args);
     }
 }

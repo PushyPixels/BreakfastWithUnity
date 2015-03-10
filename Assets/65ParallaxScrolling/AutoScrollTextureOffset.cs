@@ -13,7 +13,7 @@ public class AutoScrollTextureOffset : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		Vector2 finalTextureOffset = renderer.material.mainTextureOffset;
+		Vector2 finalTextureOffset = GetComponent<Renderer>().material.mainTextureOffset;
 		finalTextureOffset += scrollSpeed*Time.deltaTime;
 
 		if(finalTextureOffset.x >= 1.0f)
@@ -33,6 +33,6 @@ public class AutoScrollTextureOffset : MonoBehaviour
 			finalTextureOffset.y += 1.0f;
 		}
 
-		renderer.material.mainTextureOffset = finalTextureOffset;
+		GetComponent<Renderer>().material.mainTextureOffset = finalTextureOffset;
 	}
 }

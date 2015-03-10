@@ -22,8 +22,8 @@ public class Hose : MonoBehaviour {
 		
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			var sys = transform.Find("Callback Particles").particleSystem;
-			sys.renderer.enabled = !sys.renderer.enabled;	
+			var sys = transform.Find("Callback Particles").GetComponent<ParticleSystem>();
+			sys.GetComponent<Renderer>().enabled = !sys.GetComponent<Renderer>().enabled;	
 		}
 		
 		//audio.volume = Mathf.InverseLerp(0,maxPower,power);

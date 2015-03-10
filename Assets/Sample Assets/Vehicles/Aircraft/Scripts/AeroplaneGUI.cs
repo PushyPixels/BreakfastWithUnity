@@ -17,7 +17,7 @@ public class AeroplaneGUI : MonoBehaviour
         object[] args = new object[] { plane.Throttle, plane.ForwardSpeed * MpsToKph, plane.Altitude };
 
         // display the aeroplane gui information
-        guiText.text = string.Format(displayText, args);
+        GetComponent<GUIText>().text = string.Format(displayText, args);
     }
 
 }

@@ -149,7 +149,7 @@ public class CarController : MonoBehaviour
 	void OnEnable()
 	{
 		// set adjusted centre of mass.
-		rigidbody.centerOfMass = Vector3.up * adjustCentreOfMass;
+		GetComponent<Rigidbody>().centerOfMass = Vector3.up * adjustCentreOfMass;
 	}
 
 
@@ -211,7 +211,7 @@ public class CarController : MonoBehaviour
 	void CalculateSpeedValues ()
 	{
 		// current speed is measured in the forward direction of the car (sliding sideways doesn't count!)
-		CurrentSpeed = transform.InverseTransformDirection (rigidbody.velocity).z;
+		CurrentSpeed = transform.InverseTransformDirection (GetComponent<Rigidbody>().velocity).z;
 		// speedfactor is a normalized representation of speed in relation to max speed:
 		SpeedFactor = Mathf.InverseLerp (0, reversing ? maxReversingSpeed : maxSpeed, Mathf.Abs (CurrentSpeed));
 		curvedSpeedFactor = reversing ? 0 : CurveFactor (SpeedFactor);
@@ -290,7 +290,7 @@ public class CarController : MonoBehaviour
 	{
 		// apply downforce
 		if (anyOnGround) {
-			rigidbody.AddForce (-transform.up * curvedSpeedFactor * advanced.downForce);
+			GetComponent<Rigidbody>().AddForce (-transform.up * curvedSpeedFactor * advanced.downForce);
 		}
 	}
 
@@ -307,9 +307,9 @@ public class CarController : MonoBehaviour
 	void PreserveDirectionInAir()
 	{
 		// special feature which allows cars to remain roughly pointing in the direction of travel
-		if (!anyOnGround && preserveDirectionWhileInAir && rigidbody.velocity.magnitude > smallSpeed) {
-			rigidbody.MoveRotation (Quaternion.Slerp (rigidbody.rotation, Quaternion.LookRotation (rigidbody.velocity), Time.deltaTime));
-			rigidbody.angularVelocity = Vector3.Lerp (rigidbody.angularVelocity, Vector3.zero, Time.deltaTime);
+		if (!anyOnGround && preserveDirectionWhileInAir && GetComponent<Rigidbody>().velocity.magnitude > smallSpeed) {
+			GetComponent<Rigidbody>().MoveRotation (Quaternion.Slerp (GetComponent<Rigidbody>().rotation, Quaternion.LookRotation (GetComponent<Rigidbody>().velocity), Time.deltaTime));
+			GetComponent<Rigidbody>().angularVelocity = Vector3.Lerp (GetComponent<Rigidbody>().angularVelocity, Vector3.zero, Time.deltaTime);
 		}
 	}
 
@@ -358,7 +358,7 @@ public class CarController : MonoBehaviour
 	{
 		// visualise the adjusted centre of mass in the editor
 		Gizmos.color = Color.cyan;
-		Gizmos.DrawWireSphere(rigidbody.position + Vector3.up * adjustCentreOfMass, 0.2f);
+		Gizmos.DrawWireSphere(GetComponent<Rigidbody>().position + Vector3.up * adjustCentreOfMass, 0.2f);
 	}
 
 	// Immobilize can be called from other objects, if the car needs to be made uncontrollable

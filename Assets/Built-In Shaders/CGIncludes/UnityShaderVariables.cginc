@@ -1,3 +1,5 @@
+// Upgrade NOTE: unity_Scale shader variable was removed; replaced 'unity_Scale' with 'float4(1,1,1,1)'
+
 // Upgrade NOTE: commented out 'float3 _WorldSpaceCameraPos', a built-in variable
 // Upgrade NOTE: commented out 'float4 unity_ShadowFadeCenterAndType', a built-in variable
 // Upgrade NOTE: commented out 'float4x4 _Object2World', a built-in variable
@@ -138,7 +140,7 @@ CBUFFER_START(UnityPerDraw)
 	// uniform float4x4 _Object2World;
 	// uniform float4x4 _World2Object;
 		
-	uniform float4 unity_Scale; // w = 1 / uniform scale
+	uniform float4 float4(1,1,1,1); // w = 1 / uniform scale
 CBUFFER_END
 
 

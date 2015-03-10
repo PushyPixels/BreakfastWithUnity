@@ -55,13 +55,13 @@ public class FirstPersonHeadBob : MonoBehaviour {
 
 		originalLocalPos = head.localPosition;
 		character = GetComponent<FirstPersonCharacter>();
-		if (audio == null)
+		if (GetComponent<AudioSource>() == null)
 		{
 			// we automatically add an audiosource, if one has not been manually added.
 			// (if you want to control the rolloff or other audio settings, add an audiosource manually)
 			gameObject.AddComponent<AudioSource>();
 		}
-		prevPosition = rigidbody.position;
+		prevPosition = GetComponent<Rigidbody>().position;
 	}
 
 
@@ -71,9 +71,9 @@ public class FirstPersonHeadBob : MonoBehaviour {
 
 		// we use the actual distance moved as the velocity since last frame, rather than reading
 		//the rigidbody's velocity, because this prevents the 'running against a wall' effect.
-		Vector3 velocity = (rigidbody.position - prevPosition) / Time.deltaTime;
+		Vector3 velocity = (GetComponent<Rigidbody>().position - prevPosition) / Time.deltaTime;
 		Vector3 velocityChange = velocity - prevVelocity;
-		prevPosition = rigidbody.position;
+		prevPosition = GetComponent<Rigidbody>().position;
 		prevVelocity = velocity;
 
                   // vertical head position "spring simulation" for jumping/landing impacts
@@ -130,8 +130,8 @@ public class FirstPersonHeadBob : MonoBehaviour {
 		{
 			if (!prevGrounded)
 			{
-				audio.clip = landSound;
-				audio.Play();
+				GetComponent<AudioSource>().clip = landSound;
+				GetComponent<AudioSource>().Play();
 				nextStepTime = headBobCycle + .5f;
 				
 			} else {
@@ -145,12 +145,12 @@ public class FirstPersonHeadBob : MonoBehaviour {
 					// pick & play a random footstep sound from the array,
 					// excluding sound at index 0
 					int n = Random.Range(1,footstepSounds.Length);
-					audio.clip = footstepSounds[n];
-					audio.Play();
+					GetComponent<AudioSource>().clip = footstepSounds[n];
+					GetComponent<AudioSource>().Play();
 
 					// move picked sound to index 0 so it's not picked next time
 					footstepSounds[n] = footstepSounds[0];
-					footstepSounds[0] = audio.clip;
+					footstepSounds[0] = GetComponent<AudioSource>().clip;
 
 				}
 			}
@@ -160,8 +160,8 @@ public class FirstPersonHeadBob : MonoBehaviour {
 			
 			if (prevGrounded)
 			{
-				audio.clip = jumpSound;
-				audio.Play();
+				GetComponent<AudioSource>().clip = jumpSound;
+				GetComponent<AudioSource>().Play();
 			}
 			prevGrounded = false;
 		}

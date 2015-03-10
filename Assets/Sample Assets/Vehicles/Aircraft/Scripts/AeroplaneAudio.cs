@@ -78,7 +78,7 @@ public class AeroplaneAudio : MonoBehaviour
 		engineSoundSource.volume = Mathf.InverseLerp(0,plane.MaxEnginePower * advanced.engineMasterVolume, plane.EnginePower);
 
         // Set the wind's pitch and volume to be proportional to the aeroplane's forward speed.
-		float planeSpeed = rigidbody.velocity.magnitude;
+		float planeSpeed = GetComponent<Rigidbody>().velocity.magnitude;
 		windSoundSource.pitch = windBasePitch + planeSpeed * windSpeedPitchFactor;	
 		windSoundSource.volume = Mathf.InverseLerp( 0, windMaxSpeedVolume, planeSpeed ) * advanced.windMasterVolume;
 

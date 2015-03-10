@@ -151,7 +151,7 @@ function ShapeWipe (cam1 : Camera, cam2 : Camera, time : float, zoom : ZoomType,
 	}
 	if (!shape) {
 		shape = new GameObject("Shape", MeshFilter, MeshRenderer).transform;
-		shape.renderer.material = shapeMaterial;
+		shape.GetComponent.<Renderer>().material = shapeMaterial;
 	}
 
 	CameraSetup (cam1, cam2, true, false);
@@ -260,10 +260,10 @@ function InitializeDreamWipe () {
 	
 	// Set up plane object
 	plane = new GameObject("Plane", MeshFilter, MeshRenderer);
-	plane.renderer.material = planeMaterial;
-	plane.renderer.castShadows = false;
-	plane.renderer.receiveShadows = false;
-	plane.renderer.enabled = false;
+	plane.GetComponent.<Renderer>().material = planeMaterial;
+	plane.GetComponent.<Renderer>().castShadows = false;
+	plane.GetComponent.<Renderer>().receiveShadows = false;
+	plane.GetComponent.<Renderer>().enabled = false;
 
 	// Create the mesh used for the distortion effect
 	var planeMesh = new Mesh();
@@ -347,7 +347,7 @@ function DreamWipe (cam1 : Camera, cam2 : Camera, time : float, waveScale : floa
 	cam2Clone.transform.parent = cam2.transform;
 		
 	// Initialize some stuff
-	plane.renderer.enabled = true;
+	plane.GetComponent.<Renderer>().enabled = true;
 	var scale = 0.0;
 	var planeMesh = plane.GetComponent(MeshFilter).mesh;
 	cam1.targetTexture = renderTex;
@@ -369,7 +369,7 @@ function DreamWipe (cam1 : Camera, cam2 : Camera, time : float, waveScale : floa
 	
 	// Clean up
 	CameraCleanup (cam1, cam2);
-	plane.renderer.enabled = false;
+	plane.GetComponent.<Renderer>().enabled = false;
 	plane.transform.parent = null;
 	Destroy(cam2Clone.gameObject);
 	cam1.targetTexture = cam2.targetTexture = null;

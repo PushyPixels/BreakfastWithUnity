@@ -16,7 +16,7 @@ public class ZeroGRotation : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
-		rigidbody.AddTorque(transform.up*force*Input.GetAxis(horizontalAxisName),forceMode);
-		rigidbody.AddTorque(-transform.right*force*Input.GetAxis(verticalAxisName),forceMode);
+		GetComponent<Rigidbody>().AddTorque(transform.up*force*Input.GetAxis(horizontalAxisName),forceMode);
+		GetComponent<Rigidbody>().AddTorque(-transform.right*force*Input.GetAxis(verticalAxisName),forceMode);
 	}
 }

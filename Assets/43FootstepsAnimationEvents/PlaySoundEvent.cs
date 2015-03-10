@@ -6,6 +6,6 @@ public class PlaySoundEvent : MonoBehaviour
 {
 	void PlaySound()
 	{
-		audio.Play();
+		GetComponent<AudioSource>().Play();
 	}
 }
