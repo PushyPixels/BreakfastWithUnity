@@ -61,7 +61,7 @@ LightmapSettings:
     m_BakeResolution: 40
     m_TextureWidth: 1024
     m_TextureHeight: 1024
-    m_AOMaxDistance: 1
+    m_AOMaxDistance: 5
     m_Padding: 2
     m_CompAOExponent: 0
     m_LightmapParameters: {fileID: 0}
@@ -155,7 +155,7 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
-  m_HDR: 0
+  m_HDR: 1
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
@@ -648,6 +648,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2014176688}
   - 108: {fileID: 2014176687}
+  - 95: {fileID: 2014176689}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -665,7 +666,7 @@ Light:
   serializedVersion: 6
   m_Type: 1
   m_Color: {r: 1, g: .956862748, b: .839215696, a: 1}
-  m_Intensity: .100000001
+  m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -683,7 +684,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_Lightmapping: 4
-  m_BounceIntensity: 8
+  m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
@@ -693,12 +694,29 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2014176686}
-  m_LocalRotation: {x: .412608564, y: .19608371, z: -.0914353505, w: .8848418}
+  m_LocalRotation: {x: -.39829123, y: -.303054005, z: .141316414, w: -.854138196}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
+--- !u!95 &2014176689
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2014176686}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 547b4aa4476634e6290e8f7b764380e0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &2097977534
 GameObject:
   m_ObjectHideFlags: 0
@@ -767,8 +785,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2097977534}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.95000005, y: -3.9000001, z: 5.03999996}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -3, z: 5.03999996}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 835240983}
   m_Father: {fileID: 0}
