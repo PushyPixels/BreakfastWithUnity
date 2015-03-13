@@ -6,4 +6,4 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/GITest/GITest.unity
+    path: Assets/75GlobalIllumination/MessAround.unity

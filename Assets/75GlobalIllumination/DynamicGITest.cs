@@ -3,7 +3,9 @@ using System.Collections;
 
 public class DynamicGITest : MonoBehaviour
 {
+	[Range(0,1)]
 	public float hue = 0.0f;
+	[Range(0,1)]
 	public float saturation = 1.0f;
 	public float brightness = 1.0f;
 
@@ -20,7 +22,7 @@ public class DynamicGITest : MonoBehaviour
 	void Update ()
 	{
 		color = new HSBColor(hue,saturation,brightness).ToColor(); 
-		renderer.sharedMaterial.SetColor("_Emission",color);
+		renderer.sharedMaterial.SetColor("_EmissionColor",color);
 		DynamicGI.SetEmissive(renderer, color);
 	}
 }
