@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[ExecuteInEditMode]
 public class PixelPerfectScale : MonoBehaviour
 {
 	public int screenVerticalPixels = 256;
