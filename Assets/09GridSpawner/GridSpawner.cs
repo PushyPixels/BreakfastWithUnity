@@ -13,6 +13,7 @@ public class GridSpawner : MonoBehaviour
 	public Vector3 objectSpacing = Vector3.one;
 
 	// Use this for initialization
+	[ContextMenu("SpawnCubesNow")]
 	void Start ()
 	{
 		for(int x = 0; x < numObjectsX; x++)
