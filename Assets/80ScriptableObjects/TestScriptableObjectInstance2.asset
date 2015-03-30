@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2af97d6abf1954de496ff9d9b1b39c43, type: 3}
+  m_Name: TestScriptableObjectInstance2
+  m_EditorClassIdentifier: 
+  exampleFloat: 3.49000001
+  exampleVector: {x: 6.13999987, y: 6.69999981, z: 16.1399994}
+  gameObjectReference: {fileID: 143866, guid: f3f91be9da5fa48df8aa2e0925f1bf56, type: 2}
