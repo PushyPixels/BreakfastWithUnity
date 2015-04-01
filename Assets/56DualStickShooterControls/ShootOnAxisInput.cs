@@ -24,11 +24,12 @@ public class ShootOnAxisInput : MonoBehaviour
 		Vector3 shootDirection = Vector3.right*Input.GetAxis(horizontalAxis) + Vector3.forward*Input.GetAxis(verticalAxis);
 		if(canShoot && shootDirection.sqrMagnitude > 0.0f)
 		{
-			transform.rotation = Quaternion.LookRotation(shootDirection,Vector3.up);
 			Instantiate(bullet,transform.position,transform.rotation);
 
 			canShoot = false;
 			Invoke("ResetShot",shootDelay);
 		}
+
+		transform.rotation = Quaternion.LookRotation(shootDirection,Vector3.up);
 	}
 }
