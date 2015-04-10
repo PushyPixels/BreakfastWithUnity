@@ -2,42 +2,42 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  tags:
+  serializedVersion: 2
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
   - 
-  Builtin Layer 0: Default
-  Builtin Layer 1: TransparentFX
-  Builtin Layer 2: Ignore Raycast
-  Builtin Layer 3: 
-  Builtin Layer 4: Water
-  Builtin Layer 5: UI
-  Builtin Layer 6: 
-  Builtin Layer 7: 
-  User Layer 8: LaserDot
-  User Layer 9: NoCollision
-  User Layer 10: Interact
-  User Layer 11: OxygenDepletingWater
-  User Layer 12: Targetable
-  User Layer 13: NoShadow
-  User Layer 14: Player
-  User Layer 15: PlayerProjectile
-  User Layer 16: MovementLayer
-  User Layer 17: DieValueLayer
-  User Layer 18: Enemies
-  User Layer 19: 
-  User Layer 20: 
-  User Layer 21: 
-  User Layer 22: 
-  User Layer 23: 
-  User Layer 24: 
-  User Layer 25: 
-  User Layer 26: 
-  User Layer 27: 
-  User Layer 28: 
-  User Layer 29: 
-  User Layer 30: 
-  User Layer 31: 
+  - Water
+  - UI
+  - 
+  - 
+  - LaserDot
+  - NoCollision
+  - Interact
+  - OxygenDepletingWater
+  - Targetable
+  - NoShadow
+  - Player
+  - PlayerProjectile
+  - MovementLayer
+  - DieValueLayer
+  - Enemies
+  - Radar
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   m_SortingLayers:
   - name: Default
-    userID: 0
     uniqueID: 0
     locked: 0
