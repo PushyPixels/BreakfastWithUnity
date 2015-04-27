@@ -11,7 +11,8 @@ CBUFFER_START(UnityTerrain)
 	float3 _CameraRight, _CameraUp;
 	
 	// trees
-	float4 _Scale;
+	fixed4 _TreeInstanceColor;
+	float4 _TreeInstanceScale;
 	float4x4 _TerrainEngineBendTree;
 	float4 _SquashPlaneNormal;
 	float _SquashAmount;
@@ -28,11 +29,11 @@ CBUFFER_END
 // ---- Vertex input structures
 
 struct appdata_tree {
-    float4 vertex : POSITION;		// position
-    float4 tangent : TANGENT;		// directional AO
-    float3 normal : NORMAL;			// normal
-    fixed4 color : COLOR;			// .w = bend factor
-    float4 texcoord : TEXCOORD0;	// UV
+	float4 vertex : POSITION;		// position
+	float4 tangent : TANGENT;		// directional AO
+	float3 normal : NORMAL;			// normal
+	fixed4 color : COLOR;			// .w = bend factor
+	float4 texcoord : TEXCOORD0;	// UV
 };
 
 struct appdata_tree_billboard {
@@ -124,7 +125,7 @@ void TerrainBillboardGrass( inout float4 pos, float2 offset )
 	float3 grasspos = pos.xyz - _CameraPosition.xyz;
 	if (dot(grasspos, grasspos) > _WaveAndDistance.w)
 		offset = 0.0;
-    pos.xyz += offset.x * _CameraRight.xyz;
+	pos.xyz += offset.x * _CameraRight.xyz;
 	pos.xyz += offset.y * _CameraUp.xyz;
 }
 
@@ -182,7 +183,7 @@ inline float4 Squash(in float4 pos)
 
 void TerrainAnimateTree( inout float4 pos, float alpha )
 {
-	pos.xyz *= _Scale.xyz;
+	pos.xyz *= _TreeInstanceScale.xyz;
 	float3 bent = mul(_TerrainEngineBendTree, float4(pos.xyz, 0.0)).xyz;
 	pos.xyz = lerp( pos.xyz, bent, alpha );
 	
@@ -274,10 +275,10 @@ inline void ExpandBillboard (in float4x4 mat, inout float4 pos, inout float3 nor
 	float isBillboard = 1.0f - abs(tangent.w);
 	
 	// billboard normal
-	float3 norb = normalize(mul(float4(normal, 0), mat));
+	float3 norb = normalize(mul(float4(normal, 0), mat)).xyz;
 	
 	// billboard tangent
-	float3 tanb = normalize(mul(float4(tangent.xyz, 0.0f), mat));
+	float3 tanb = normalize(mul(float4(tangent.xyz, 0.0f), mat)).xyz;
 	
 	pos += mul(float4(normal.xy, 0, 0), mat) * isBillboard;
 	normal = lerp(normal, norb, isBillboard);
@@ -332,43 +333,5 @@ inline float4 AnimateVertex(float4 pos, float3 normal, float4 animParams)
 	
 	return pos;
 }
-
-void TreeVertBark (inout appdata_full v)
-{
-	v.vertex.xyz *= _Scale.xyz;
-	v.vertex = AnimateVertex(v.vertex, v.normal, float4(v.color.xy, v.texcoord1.xy));
-	
-	v.vertex = Squash(v.vertex);
-	
-	v.color = float4 (1, 1, 1, v.color.a);
-	v.normal = normalize(v.normal);
-	v.tangent.xyz = normalize(v.tangent.xyz); 
-}
-
-void TreeVertLeaf (inout appdata_full v)
-{
-	ExpandBillboard (UNITY_MATRIX_IT_MV, v.vertex, v.normal, v.tangent);
-	v.vertex.xyz *= _Scale.xyz;
-	v.vertex = AnimateVertex (v.vertex,v.normal, float4(v.color.xy, v.texcoord1.xy));
-	
-	v.vertex = Squash(v.vertex);
-	
-	v.color = float4 (1, 1, 1, v.color.a);
-	v.normal = normalize(v.normal);
-	v.tangent.xyz = normalize(v.tangent.xyz);
-}
-
-
-// ---- Obsolete
-
-// Use appdata_full instead
-struct appdata_grass {
-	float4 vertex : POSITION;
-	float4 tangent : TANGENT;
-	float3 normal : NORMAL;			// normal
-	fixed4 color : COLOR;			// XSize, ySize, wavyness, unused
-	float4 texcoord : TEXCOORD0;	// UV Coordinates 
-	float4 texcoord1 : TEXCOORD1;	// Billboard extrusion
-};
 
 #endif

@@ -40,14 +40,13 @@ Shader "UI/Lit/Transparent"
 		Lighting Off
 		ZWrite Off
 		ZTest [unity_GUIZTestMode]
-		Fog { Mode Off }
 		Offset -1, -1
 		Blend SrcAlpha OneMinusSrcAlpha
 		AlphaTest Greater 0
 		ColorMask [_ColorMask]
 
 		CGPROGRAM
-			#pragma surface surf PPL alpha
+			#pragma surface surf PPL alpha noshadow novertexlights nolightmap nofog
 			#include "UnityCG.cginc"
 	
 			struct appdata_t
@@ -68,7 +67,7 @@ Shader "UI/Lit/Transparent"
 			sampler2D _MainTex;
 			fixed4 _Color;
 			fixed4 _Specular;
-	
+				
 			void surf (Input IN, inout SurfaceOutput o)
 			{			
 				fixed4 col = tex2D(_MainTex, IN.uv_MainTex) * _Color * IN.color;
@@ -96,7 +95,7 @@ Shader "UI/Lit/Transparent"
 
 				half4 c;
 				c.rgb = (s.Albedo * diffuseFactor + _Specular.rgb * specularFactor) * _LightColor0.rgb;
-				c.rgb *= (atten * 2.0);
+				c.rgb *= atten;
 				c.a = s.Alpha;
 				clip (c.a - 0.01);
 				return c;

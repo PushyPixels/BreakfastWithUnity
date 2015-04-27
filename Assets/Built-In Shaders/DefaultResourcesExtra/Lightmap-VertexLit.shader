@@ -40,7 +40,8 @@ SubShader {
 			combine previous * constant + primary
 		}
 		SetTexture [_MainTex] {
-			combine texture * previous DOUBLE, texture * primary
+			constantColor (1,1,1,1)
+			combine texture * previous DOUBLE, constant // UNITY_OPAQUE_ALPHA_FFP
 		}
 	}
 }

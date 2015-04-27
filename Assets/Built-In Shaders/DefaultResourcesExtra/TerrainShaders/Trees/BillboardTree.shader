@@ -13,14 +13,16 @@ Shader "Hidden/TerrainEngine/BillboardTree" {
 			
 			CGPROGRAM
 			#pragma vertex vert
+			#pragma fragment frag
+			#pragma multi_compile_fog
 			#include "UnityCG.cginc"
 			#include "TerrainEngine.cginc"
-			#pragma fragment frag
 
 			struct v2f {
 				float4 pos : SV_POSITION;
 				fixed4 color : COLOR0;
 				float2 uv : TEXCOORD0;
+				UNITY_FOG_COORDS(1)
 			};
 
 			v2f vert (appdata_tree_billboard v) {
@@ -30,6 +32,7 @@ Shader "Hidden/TerrainEngine/BillboardTree" {
 				o.uv.x = v.texcoord.x;
 				o.uv.y = v.texcoord.y > 0;
 				o.color = v.color;
+				UNITY_TRANSFER_FOG(o,o.pos);
 				return o;
 			}
 
@@ -39,6 +42,7 @@ Shader "Hidden/TerrainEngine/BillboardTree" {
 				fixed4 col = tex2D( _MainTex, input.uv);
 				col.rgb *= input.color.rgb;
 				clip(col.a);
+				UNITY_APPLY_FOG(input.fogCoord, col);
 				return col;
 			}
 			ENDCG			

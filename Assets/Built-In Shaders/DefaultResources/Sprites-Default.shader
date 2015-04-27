@@ -21,7 +21,6 @@ Shader "Sprites/Default"
 		Cull Off
 		Lighting Off
 		ZWrite Off
-		Fog { Mode Off }
 		Blend One OneMinusSrcAlpha
 
 		Pass
@@ -29,7 +28,7 @@ Shader "Sprites/Default"
 		CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			#pragma multi_compile DUMMY PIXELSNAP_ON
+			#pragma multi_compile _ PIXELSNAP_ON
 			#include "UnityCG.cginc"
 			
 			struct appdata_t

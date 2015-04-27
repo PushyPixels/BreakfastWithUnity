@@ -18,6 +18,7 @@ SubShader {
 		CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
+			#pragma multi_compile_fog
 			
 			#include "UnityCG.cginc"
 
@@ -29,6 +30,7 @@ SubShader {
 			struct v2f {
 				float4 vertex : SV_POSITION;
 				half2 texcoord : TEXCOORD0;
+				UNITY_FOG_COORDS(1)
 			};
 
 			sampler2D _MainTex;
@@ -40,6 +42,7 @@ SubShader {
 				v2f o;
 				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
 				o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
+				UNITY_TRANSFER_FOG(o,o.vertex);
 				return o;
 			}
 			
@@ -47,6 +50,7 @@ SubShader {
 			{
 				fixed4 col = tex2D(_MainTex, i.texcoord);
 				clip(col.a - _Cutoff);
+				UNITY_APPLY_FOG(i.fogCoord, col);
 				return col;
 			}
 		ENDCG

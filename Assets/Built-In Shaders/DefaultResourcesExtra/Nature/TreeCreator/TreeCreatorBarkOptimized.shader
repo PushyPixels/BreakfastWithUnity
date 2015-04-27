@@ -7,8 +7,9 @@ Properties {
 	
 	// These are here only to provide default values
 	_SpecColor ("Specular Color", Color) = (0.5, 0.5, 0.5, 1)
-	_Scale ("Scale", Vector) = (1,1,1,1)
-	_SquashAmount ("Squash", Float) = 1
+	[HideInInspector] _TreeInstanceColor ("TreeInstanceColor", Vector) = (1,1,1,1)
+	[HideInInspector] _TreeInstanceScale ("TreeInstanceScale", Vector) = (1,1,1,1)
+	[HideInInspector] _SquashAmount ("Squash", Float) = 1
 }
 
 SubShader { 
@@ -17,9 +18,7 @@ SubShader {
 	
 CGPROGRAM
 #pragma surface surf BlinnPhong vertex:TreeVertBark addshadow nolightmap
-#pragma exclude_renderers flash
-#pragma glsl_no_auto_normalization
-#include "Tree.cginc"
+#include "UnityBuiltin3xTreeLibrary.cginc"
 
 sampler2D _MainTex;
 sampler2D _BumpSpecMap;
@@ -32,7 +31,7 @@ struct Input {
 
 void surf (Input IN, inout SurfaceOutput o) {
 	fixed4 c = tex2D(_MainTex, IN.uv_MainTex);
-	o.Albedo = c.rgb * _Color.rgb * IN.color.a;
+	o.Albedo = c.rgb * IN.color.rgb * IN.color.a;
 	
 	fixed4 trngls = tex2D (_TranslucencyMap, IN.uv_MainTex);
 	o.Gloss = trngls.a * _Color.r;

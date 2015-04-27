@@ -9,7 +9,6 @@ Shader "Hidden/TerrainEngine/Details/BillboardWavingDoublePass" {
 CGINCLUDE
 #include "UnityCG.cginc"
 #include "TerrainEngine.cginc"
-#pragma glsl_no_auto_normalization
 
 struct v2f {
 	float4 pos : SV_POSITION;
@@ -34,14 +33,13 @@ ENDCG
 			"Queue" = "Geometry+200"
 			"IgnoreProjector"="True"
 			"RenderType"="GrassBillboard"
+			"DisableBatching"="True"
 		}
 		Cull Off
 		LOD 200
-		ColorMask RGB
 				
 CGPROGRAM
 #pragma surface surf Lambert vertex:WavingGrassBillboardVert addshadow
-#pragma exclude_renderers flash
 			
 sampler2D _MainTex;
 fixed _Cutoff;
@@ -62,28 +60,5 @@ void surf (Input IN, inout SurfaceOutput o) {
 ENDCG			
 	}
 
-	SubShader {
-		Tags {
-			"Queue" = "Geometry+200"
-			"IgnoreProjector"="True"
-			"RenderType"="GrassBillboard"
-		}
-
-		ColorMask RGB
-		Cull Off
-		Lighting On
-		
-		Pass {
-			CGPROGRAM
-			#pragma vertex BillboardVert
-			#pragma exclude_renderers shaderonly
-			ENDCG
-
-			AlphaTest Greater [_Cutoff]
-
-			SetTexture [_MainTex] { combine texture * primary DOUBLE, texture * primary }
-		}
-	} 
-	
 	Fallback Off
 }

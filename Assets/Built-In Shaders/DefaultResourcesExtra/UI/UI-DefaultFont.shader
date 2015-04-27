@@ -35,7 +35,6 @@ Shader "UI/Default Font" {
 		Cull Off 
 		ZTest [unity_GUIZTestMode]
 		ZWrite Off 
-		Fog { Mode Off }
 		Blend SrcAlpha OneMinusSrcAlpha
 		ColorMask [_ColorMask]
 

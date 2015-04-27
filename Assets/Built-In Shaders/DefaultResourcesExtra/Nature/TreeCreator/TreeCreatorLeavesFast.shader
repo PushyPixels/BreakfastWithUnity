@@ -9,8 +9,9 @@ Properties {
 	_MainTex ("Base (RGB) Alpha (A)", 2D) = "white" {}
 	
 	// These are here only to provide default values
-	_Scale ("Scale", Vector) = (1,1,1,1)
-	_SquashAmount ("Squash", Float) = 1
+	[HideInInspector] _TreeInstanceColor ("TreeInstanceColor", Vector) = (1,1,1,1)
+	[HideInInspector] _TreeInstanceScale ("TreeInstanceScale", Vector) = (1,1,1,1)
+	[HideInInspector] _SquashAmount ("Squash", Float) = 1
 }
 
 SubShader { 
@@ -25,12 +26,12 @@ SubShader {
 		Name "ForwardBase"
 
 	CGPROGRAM
-		#include "TreeVertexLit.cginc"
+		#include "UnityBuiltin3xTreeLibrary.cginc"
 
 		#pragma vertex VertexLeaf
 		#pragma fragment FragmentLeaf
-		#pragma exclude_renderers flash
 		#pragma multi_compile_fwdbase nolightmap
+		#pragma multi_compile_fog
 		
 		sampler2D _MainTex;
 		float4 _MainTex_ST;
@@ -48,6 +49,7 @@ SubShader {
 		#if defined(SHADOWS_SCREEN)
 			float4 screenPos : TEXCOORD1;
 		#endif
+			UNITY_FOG_COORDS(2)
 		};
 
 		v2f_leaf VertexLeaf (appdata_full v)
@@ -59,9 +61,9 @@ SubShader {
 			fixed ao = v.color.a;
 			ao += 0.1; ao = saturate(ao * ao * ao); // emphasize AO
 						
-			fixed3 color = v.color.rgb * _Color.rgb * ao;
+			fixed3 color = v.color.rgb * ao;
 			
-			float3 worldN = mul ((float3x3)_Object2World, SCALED_NORMAL);
+			float3 worldN = UnityObjectToWorldNormal (v.normal);
 
 			fixed4 mainLight;
 			mainLight.rgb = ShadeTranslucentMainLight (v.vertex, worldN) * color;
@@ -72,10 +74,10 @@ SubShader {
 			o.mainLight = mainLight;
 			o.screenPos = ComputeScreenPos (o.pos);
 		#else
-			o.diffuse *= 0.5;
 			o.diffuse += mainLight;
 		#endif			
 			o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+			UNITY_TRANSFER_FOG(o,o.pos);
 			return o;
 		}
 
@@ -88,14 +90,15 @@ SubShader {
 		#if defined(SHADOWS_SCREEN)
 			half4 light = IN.mainLight;
 			half atten = tex2Dproj(_ShadowMapTexture, UNITY_PROJ_COORD(IN.screenPos)).r;
-			light.rgb *= lerp(2, 2*atten, _ShadowStrength);
+			light.rgb *= lerp(1, atten, _ShadowStrength);
 			light.rgb += IN.diffuse.rgb;
 		#else
 			half4 light = IN.diffuse;
-			light.rgb *= 2.0;
 		#endif
 
-			return fixed4 (albedo.rgb * light, 0.0);
+			fixed4 col = fixed4 (albedo.rgb * light, 0.0);
+			UNITY_APPLY_FOG(IN.fogCoord, col);
+			return col;
 		}
 
 	ENDCG

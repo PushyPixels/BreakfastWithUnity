@@ -1,4 +1,4 @@
-Shader "Diffuse Detail" {
+Shader "Legacy Shaders/Diffuse Detail" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_MainTex ("Base (RGB)", 2D) = "white" {}
@@ -23,12 +23,12 @@ struct Input {
 
 void surf (Input IN, inout SurfaceOutput o) {
 	fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
-	c.rgb *= tex2D(_Detail,IN.uv_Detail).rgb*2;
+	c.rgb *= tex2D(_Detail,IN.uv_Detail).rgb * unity_ColorSpaceDouble.r;
 	o.Albedo = c.rgb;
 	o.Alpha = c.a;
 }
 ENDCG
 }
 
-Fallback "Diffuse"
+Fallback "Legacy Shaders/Diffuse"
 }

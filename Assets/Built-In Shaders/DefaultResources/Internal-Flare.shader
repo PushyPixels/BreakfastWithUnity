@@ -5,7 +5,6 @@ Shader "Hidden/Internal-Flare"
 
 		Tags {"RenderType"="Overlay"}
 		ZWrite Off ZTest Always
-		Fog {Mode Off}
 		Cull Off
 		Blend One One
 		ColorMask RGB

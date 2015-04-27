@@ -1,10 +1,10 @@
-Shader "Reflective/Parallax Diffuse" {
+Shader "Legacy Shaders/Reflective/Parallax Diffuse" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_ReflectColor ("Reflection Color", Color) = (1,1,1,0.5)
 	_Parallax ("Height", Range (0.005, 0.08)) = 0.02
 	_MainTex ("Base (RGB) RefStrength (A)", 2D) = "white" {}
-	_Cube ("Reflection Cubemap", Cube) = "_Skybox" { TexGen CubeReflect }
+	_Cube ("Reflection Cubemap", Cube) = "_Skybox" {}
 	_BumpMap ("Normalmap", 2D) = "bump" {}
 	_ParallaxMap ("Heightmap (A)", 2D) = "black" {}
 }
@@ -15,8 +15,6 @@ SubShader {
 CGPROGRAM
 #pragma surface surf Lambert
 #pragma target 3.0
-//input limit (8) exceeded, shader uses 9
-#pragma exclude_renderers d3d11_9x
 
 sampler2D _MainTex;
 sampler2D _BumpMap;
@@ -56,5 +54,5 @@ void surf (Input IN, inout SurfaceOutput o) {
 ENDCG
 }
 
-FallBack "Reflective/Bumped Diffuse"
+FallBack "Legacy Shaders/Reflective/Bumped Diffuse"
 }

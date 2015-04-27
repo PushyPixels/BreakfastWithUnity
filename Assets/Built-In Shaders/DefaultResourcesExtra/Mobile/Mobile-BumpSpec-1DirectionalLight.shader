@@ -27,8 +27,8 @@ inline fixed4 LightingMobileBlinnPhong (SurfaceOutput s, fixed3 lightDir, fixed3
 	fixed spec = pow (nh, s.Specular*128) * s.Gloss;
 	
 	fixed4 c;
-	c.rgb = (s.Albedo * _LightColor0.rgb * diff + _LightColor0.rgb * spec) * (atten*2);
-	c.a = 0.0;
+	c.rgb = (s.Albedo * _LightColor0.rgb * diff + _LightColor0.rgb * spec) * atten;
+	UNITY_OPAQUE_ALPHA(c.a);
 	return c;
 }
 

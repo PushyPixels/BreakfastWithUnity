@@ -9,7 +9,7 @@ SubShader {
 	LOD 200
 	Tags { "RenderType" = "Opaque" }
 CGPROGRAM
-#pragma surface surf Lambert
+#pragma surface surf Lambert nodynlightmap
 struct Input {
   float2 uv_MainTex;
   float2 uv2_LightMap;

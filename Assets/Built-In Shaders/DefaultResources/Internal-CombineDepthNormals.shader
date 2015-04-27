@@ -2,7 +2,7 @@ Shader "Hidden/Internal-CombineDepthNormals" {
 SubShader {
 	
 Pass {
-	ZWrite Off ZTest Always Cull Off Fog { Mode Off }
+	ZWrite Off ZTest Always Cull Off
 CGPROGRAM
 #pragma vertex vert
 #pragma fragment frag

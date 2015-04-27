@@ -1,4 +1,4 @@
-Shader "Reflective/Parallax Specular" {
+Shader "Legacy Shaders/Reflective/Parallax Specular" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_SpecColor ("Specular Color", Color) = (0.5,0.5,0.5,1)
@@ -6,7 +6,7 @@ Properties {
 	_ReflectColor ("Reflection Color", Color) = (1,1,1,0.5)
 	_Parallax ("Height", Range (0.005, 0.08)) = 0.02
 	_MainTex ("Base (RGB) Gloss (A)", 2D) = "white" { }
-	_Cube ("Reflection Cubemap", Cube) = "_Skybox" { TexGen CubeReflect }
+	_Cube ("Reflection Cubemap", Cube) = "_Skybox" {}
 	_BumpMap ("Normalmap", 2D) = "bump" { }
 	_ParallaxMap ("Heightmap (A)", 2D) = "black" {}
 }
@@ -17,8 +17,6 @@ SubShader {
 CGPROGRAM
 #pragma surface surf BlinnPhong
 #pragma target 3.0
-//input limit (8) exceeded, shader uses 9
-#pragma exclude_renderers d3d11_9x
 
 sampler2D _MainTex;
 sampler2D _BumpMap;
@@ -60,5 +58,5 @@ void surf (Input IN, inout SurfaceOutput o) {
 ENDCG
 }
 
-FallBack "Reflective/Bumped Specular"
+FallBack "Legacy Shaders/Reflective/Bumped Specular"
 }

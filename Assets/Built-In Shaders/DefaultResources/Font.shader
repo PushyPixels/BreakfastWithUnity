@@ -12,10 +12,10 @@ Shader "GUI/Text Shader" {
 			"RenderType"="Transparent"
 			"PreviewType"="Plane"
 		}
-		Lighting Off Cull Off ZTest Always ZWrite Off Fog { Mode Off }
+		Lighting Off Cull Off ZTest Always ZWrite Off
 		Blend SrcAlpha OneMinusSrcAlpha
 
-		Pass {	
+		Pass {
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
@@ -37,7 +37,7 @@ Shader "GUI/Text Shader" {
 			sampler2D _MainTex;
 			uniform float4 _MainTex_ST;
 			uniform fixed4 _Color;
-			
+
 			v2f vert (appdata_t v)
 			{
 				v2f o;
@@ -53,7 +53,7 @@ Shader "GUI/Text Shader" {
 				col.a *= tex2D(_MainTex, i.texcoord).a;
 				return col;
 			}
-			ENDCG 
+			ENDCG
 		}
 	}
 }

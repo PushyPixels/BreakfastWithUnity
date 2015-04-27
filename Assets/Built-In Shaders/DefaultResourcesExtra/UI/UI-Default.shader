@@ -38,7 +38,6 @@ Shader "UI/Default"
 		Lighting Off
 		ZWrite Off
 		ZTest [unity_GUIZTestMode]
-		Fog { Mode Off }
 		Blend SrcAlpha OneMinusSrcAlpha
 		ColorMask [_ColorMask]
 

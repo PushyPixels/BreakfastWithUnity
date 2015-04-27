@@ -1,4 +1,4 @@
-Shader "Transparent/Cutout/Bumped Diffuse" {
+Shader "Legacy Shaders/Transparent/Cutout/Bumped Diffuse" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
@@ -31,5 +31,5 @@ void surf (Input IN, inout SurfaceOutput o) {
 ENDCG
 }
 
-FallBack "Transparent/Cutout/Diffuse"
+FallBack "Legacy Shaders/Transparent/Cutout/Diffuse"
 }

@@ -2,7 +2,7 @@ Shader "Hidden/BlitCopy" {
 	Properties { _MainTex ("", any) = "" {} }
 	SubShader { 
 		Pass {
- 			ZTest Always Cull Off ZWrite Off Fog { Mode Off }
+ 			ZTest Always Cull Off ZWrite Off
 
 			CGPROGRAM
 			#pragma vertex vert

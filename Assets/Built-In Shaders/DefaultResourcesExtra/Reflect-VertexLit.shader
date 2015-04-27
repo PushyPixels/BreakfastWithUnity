@@ -1,15 +1,10 @@
-#warning Upgrade NOTE: unity_Scale shader variable was removed; replaced 'unity_Scale.w' with '1.0'
-
-Shader "Reflective/VertexLit" {
+Shader "Legacy Shaders/Reflective/VertexLit" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
-	_SpecColor ("Spec Color", Color) = (1,1,1,1)
-	_Shininess ("Shininess", Range (0.03, 1)) = 0.7
 	_ReflectColor ("Reflection Color", Color) = (1,1,1,0.5)
 	_MainTex ("Base (RGB) RefStrength (A)", 2D) = "white" {} 
-	_Cube ("Reflection Cubemap", Cube) = "_Skybox" { TexGen CubeReflect }
+	_Cube ("Reflection Cubemap", Cube) = "_Skybox" {}
 }
-
 Category {
 	Tags { "RenderType"="Opaque" }
 	LOD 150
@@ -21,15 +16,16 @@ Category {
 			Name "BASE"
 			Tags {"LightMode" = "Always"}
 CGPROGRAM
-#pragma exclude_renderers gles xbox360 ps3 gles3
 #pragma vertex vert
 #pragma fragment frag
+#pragma multi_compile_fog
 #include "UnityCG.cginc"
 
 struct v2f {
 	float4 pos : SV_POSITION;
 	float2 uv : TEXCOORD0;
 	float3 I : TEXCOORD1;
+	UNITY_FOG_COORDS(2)
 };
 
 uniform float4 _MainTex_ST;
@@ -42,9 +38,10 @@ v2f vert(appdata_tan v)
 
 	// calculate world space reflection vector	
 	float3 viewDir = WorldSpaceViewDir( v.vertex );
-	float3 worldN = mul((float3x3)_Object2World, v.normal * 1.0);
+	float3 worldN = UnityObjectToWorldNormal( v.normal );
 	o.I = reflect( -viewDir, worldN );
 	
+	UNITY_TRANSFER_FOG(o,o.pos);
 	return o; 
 }
 
@@ -57,125 +54,162 @@ fixed4 frag (v2f i) : SV_Target
 	fixed4 texcol = tex2D (_MainTex, i.uv);
 	fixed4 reflcol = texCUBE( _Cube, i.I );
 	reflcol *= texcol.a;
-	return reflcol * _ReflectColor;
+	fixed4 col = reflcol * _ReflectColor;
+	UNITY_APPLY_FOG(i.fogCoord, col);
+	UNITY_OPAQUE_ALPHA(col.a);
+	return col;
 } 
 ENDCG
 		}
 		
-		// Vertex Lit
+		// Vertex Lit, emulated in shaders (4 lights max, no specular)
 		Pass {
 			Tags { "LightMode" = "Vertex" }
-			Blend One One ZWrite Off Fog { Color (0,0,0,0) }
+			Blend One One ZWrite Off
 			Lighting On
-			Material {
-				Diffuse [_Color]
-				Emission [_PPLAmbient]
-				Specular [_SpecColor]
-				Shininess [_Shininess]
-			}
-			SeparateSpecular On
 CGPROGRAM
-#pragma exclude_renderers shaderonly
+#pragma vertex vert
 #pragma fragment frag
+#pragma multi_compile_fog
 
 #include "UnityCG.cginc"
 
 struct v2f {
 	float2 uv : TEXCOORD0;
+	UNITY_FOG_COORDS(1)
 	fixed4 diff : COLOR0;
-	fixed4 spec : COLOR1;
+	float4 pos : SV_POSITION;
 };
 
-uniform sampler2D _MainTex : register(s0);
+uniform float4 _MainTex_ST;
+uniform float4 _Color;
 uniform fixed4 _ReflectColor;
-uniform fixed4 _SpecColor;
+
+v2f vert (appdata_base v)
+{
+	v2f o;
+	o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+	o.uv = TRANSFORM_TEX(v.texcoord,_MainTex);
+	float4 lighting = float4(ShadeVertexLightsFull(v.vertex, v.normal, 4, true),_ReflectColor.w);
+	o.diff = lighting * _Color;
+	UNITY_TRANSFER_FOG(o,o.pos);
+	return o; 
+}
+
+uniform sampler2D _MainTex;
 
 fixed4 frag (v2f i) : SV_Target
 {
 	fixed4 temp = tex2D (_MainTex, i.uv);	
 	fixed4 c;
-	c.xyz = (temp.xyz * i.diff.xyz + temp.w * i.spec.xyz ) * 2;
-	c.w = temp.w * (i.diff.w + Luminance(i.spec.xyz) * _SpecColor.a);
+	c.xyz = temp.xyz * i.diff.xyz;
+	c.w = temp.w * i.diff.w;
+	UNITY_APPLY_FOG_COLOR(i.fogCoord, c, fixed4(0,0,0,0)); // fog towards black due to our blend mode
+	UNITY_OPAQUE_ALPHA(c.a);
 	return c;
 } 
 ENDCG
-			SetTexture[_MainTex] {}
 		}
 		
 		// Lightmapped
 		Pass {
 			Tags { "LightMode" = "VertexLM" }
-			Blend One One ZWrite Off Fog { Color (0,0,0,0) }
+			Blend One One ZWrite Off
 			ColorMask RGB
-			
-			BindChannels {
-				Bind "Vertex", vertex
-				Bind "normal", normal
-				Bind "texcoord1", texcoord0 // lightmap uses 2nd uv
-				Bind "texcoord", texcoord1 // main uses 1st uv
+
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
+			#pragma multi_compile_fog
+
+			#include "UnityCG.cginc"
+
+			struct v2f {
+				half2 uv : TEXCOORD0;
+				half2 uv2 : TEXCOORD1;
+				UNITY_FOG_COORDS(2)
+				float4 pos : SV_POSITION;
+			};
+
+			uniform float4 _MainTex_ST;
+			uniform float4x4 unity_LightmapMatrix;
+
+			v2f vert (float4 vertex : POSITION, float2 uv : TEXCOORD0, float2 uv2: TEXCOORD1)
+			{
+				v2f o;
+				o.pos = mul(UNITY_MATRIX_MVP, vertex);
+				o.uv = TRANSFORM_TEX(uv,_MainTex);
+				o.uv2 = mul(unity_LightmapMatrix, float4(uv2,0,1)).xy;
+				UNITY_TRANSFER_FOG(o,o.pos);
+				return o;
 			}
-			
-			SetTexture [unity_Lightmap] {
-				matrix [unity_LightmapMatrix]
-				constantColor [_Color]
-				combine texture * constant
+
+			uniform sampler2D _MainTex;
+			uniform fixed4 _Color;
+
+			fixed4 frag (v2f i) : SV_Target
+			{
+				fixed4 lm = UNITY_SAMPLE_TEX2D (unity_Lightmap, i.uv2) * _Color;
+				fixed4 c = tex2D (_MainTex, i.uv);
+				c.rgb *= lm.rgb * 2;
+				UNITY_APPLY_FOG_COLOR(i.fogCoord, c, fixed4(0,0,0,0)); // fog towards black due to our blend mode
+				UNITY_OPAQUE_ALPHA(c.a);
+				return c;
 			}
-			SetTexture [_MainTex] {
-				combine texture * previous DOUBLE, texture * primary
-			}
+			ENDCG
 		}
 		
 		// Lightmapped, encoded as RGBM
 		Pass {
 			Tags { "LightMode" = "VertexLMRGBM" }
-			Blend One One ZWrite Off Fog { Color (0,0,0,0) }
+			Blend One One ZWrite Off
 			ColorMask RGB
-			
-			BindChannels {
-				Bind "Vertex", vertex
-				Bind "normal", normal
-				Bind "texcoord1", texcoord0 // lightmap uses 2nd uv
-				Bind "texcoord1", texcoord1 // unused
-				Bind "texcoord", texcoord2 // main uses 1st uv
-			}
-			
-			SetTexture [unity_Lightmap] {
-				matrix [unity_LightmapMatrix]
-				combine texture * texture alpha DOUBLE
-			}
-			SetTexture [unity_Lightmap] {
-				constantColor [_Color]
-				combine previous * constant
-			}
-			SetTexture [_MainTex] {
-				combine texture * previous QUAD, texture * primary
-			}
-		}
-	}
 
-	
-	SubShader {
-		Pass { 
-			Name "BASE"
-			Tags { "LightMode" = "Vertex" }
-			Material {
-				Diffuse [_Color]
-				Ambient (1,1,1,1)
-				Shininess [_Shininess]
-				Specular [_SpecColor]
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
+			#pragma multi_compile_fog
+
+			#include "UnityCG.cginc"
+
+			struct v2f {
+				half2 uv : TEXCOORD0;
+				half2 uv2 : TEXCOORD1;
+				UNITY_FOG_COORDS(2)
+				float4 pos : SV_POSITION;
+			};
+
+			uniform float4 _MainTex_ST;
+			uniform float4x4 unity_LightmapMatrix;
+
+			v2f vert (float4 vertex : POSITION, float2 uv : TEXCOORD0, float2 uv2: TEXCOORD1)
+			{
+				v2f o;
+				o.pos = mul(UNITY_MATRIX_MVP, vertex);
+				o.uv = TRANSFORM_TEX(uv,_MainTex);
+				o.uv2 = mul(unity_LightmapMatrix, float4(uv2,0,1)).xy;
+				UNITY_TRANSFER_FOG(o,o.pos);
+				return o;
 			}
-			Lighting On
-			SeparateSpecular on
-			SetTexture [_MainTex] {
-				combine texture * primary DOUBLE, texture * primary
+
+			uniform sampler2D _MainTex;
+			uniform fixed4 _Color;
+
+			fixed4 frag (v2f i) : SV_Target
+			{
+				fixed4 lm = UNITY_SAMPLE_TEX2D (unity_Lightmap, i.uv2);
+				lm *= lm.a * 2;
+				lm *= _Color;
+				fixed4 c = tex2D (_MainTex, i.uv);
+				c.rgb *= lm.rgb * 4;
+				UNITY_APPLY_FOG_COLOR(i.fogCoord, c, fixed4(0,0,0,0)); // fog towards black due to our blend mode
+				UNITY_OPAQUE_ALPHA(c.a);
+				return c;
 			}
-			SetTexture [_Cube] {
-				combine texture * previous alpha + previous, previous
-			}
+			ENDCG
 		}
 	}
 }
 
-// Fallback for cards that don't do cubemapping
-FallBack "VertexLit"
+FallBack "Legacy Shaders/VertexLit"
 }

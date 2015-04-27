@@ -1,4 +1,4 @@
-Shader "Transparent/Parallax Specular" {
+Shader "Legacy Shaders/Transparent/Parallax Specular" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_SpecColor ("Specular Color", Color) = (0.5, 0.5, 0.5, 0)
@@ -14,8 +14,8 @@ SubShader {
 	LOD 600
 	
 CGPROGRAM
-#pragma surface surf BlinnPhong alpha
-#pragma exclude_renderers flash
+#pragma surface surf BlinnPhong alpha:blend
+#pragma target 3.0
 
 sampler2D _MainTex;
 sampler2D _BumpMap;
@@ -46,5 +46,5 @@ void surf (Input IN, inout SurfaceOutput o) {
 ENDCG
 }
 
-FallBack "Transparent/Bumped Specular"
+FallBack "Legacy Shaders/Transparent/Bumped Specular"
 }

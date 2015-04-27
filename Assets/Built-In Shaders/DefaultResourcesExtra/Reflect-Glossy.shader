@@ -1,11 +1,11 @@
-Shader "Reflective/Specular" {
+Shader "Legacy Shaders/Reflective/Specular" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_SpecColor ("Specular Color", Color) = (0.5, 0.5, 0.5, 1)
 	_Shininess ("Shininess", Range (0.01, 1)) = 0.078125
 	_ReflectColor ("Reflection Color", Color) = (1,1,1,0.5)
 	_MainTex ("Base (RGB) Gloss (A)", 2D) = "white" {}
-	_Cube ("Reflection Cubemap", Cube) = "_Skybox" { TexGen CubeReflect }
+	_Cube ("Reflection Cubemap", Cube) = "_Skybox" {}
 }
 SubShader {
 	LOD 300
@@ -41,5 +41,5 @@ void surf (Input IN, inout SurfaceOutput o) {
 ENDCG
 }
 
-FallBack "Reflective/VertexLit"
+FallBack "Legacy Shaders/Reflective/VertexLit"
 }

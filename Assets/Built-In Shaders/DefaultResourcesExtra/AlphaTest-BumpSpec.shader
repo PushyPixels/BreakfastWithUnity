@@ -1,4 +1,4 @@
-Shader "Transparent/Cutout/Bumped Specular" {
+Shader "Legacy Shaders/Transparent/Cutout/Bumped Specular" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_SpecColor ("Specular Color", Color) = (0.5, 0.5, 0.5, 0)
@@ -14,7 +14,7 @@ SubShader {
 	
 CGPROGRAM
 #pragma surface surf BlinnPhong alphatest:_Cutoff
-#pragma exclude_renderers flash
+#pragma target 3.0
 
 sampler2D _MainTex;
 sampler2D _BumpMap;
@@ -37,5 +37,5 @@ void surf (Input IN, inout SurfaceOutput o) {
 ENDCG
 }
 
-FallBack "Transparent/Cutout/VertexLit"
+FallBack "Legacy Shaders/Transparent/Cutout/VertexLit"
 }

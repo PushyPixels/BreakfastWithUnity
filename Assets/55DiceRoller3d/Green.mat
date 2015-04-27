@@ -2,13 +2,14 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Green
-  m_Shader: {fileID: 4800000, guid: 6721fc16d7cdb4f1ba54beb76b0a20a0, type: 3}
-  m_ShaderKeywords: []
+  m_Shader: {fileID: 4800000, guid: eb8d6d72633e943109f4ed62ecd34e38, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   m_SavedProperties:
     serializedVersion: 2

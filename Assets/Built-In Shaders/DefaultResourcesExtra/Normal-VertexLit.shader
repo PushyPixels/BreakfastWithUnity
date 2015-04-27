@@ -1,4 +1,4 @@
-Shader "VertexLit" {
+Shader "Legacy Shaders/VertexLit" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_SpecColor ("Spec Color", Color) = (1,1,1,1)
@@ -25,7 +25,8 @@ SubShader {
 		Lighting On
 		SeparateSpecular On
 		SetTexture [_MainTex] {
-			Combine texture * primary DOUBLE, texture * primary
+			constantColor (1,1,1,1)
+			Combine texture * primary DOUBLE, constant // UNITY_OPAQUE_ALPHA_FFP
 		} 
 	}
 	
@@ -46,7 +47,8 @@ SubShader {
 			combine texture * constant
 		}
 		SetTexture [_MainTex] {
-			combine texture * previous DOUBLE, texture * primary
+			constantColor (1,1,1,1)
+			combine texture * previous DOUBLE, constant // UNITY_OPAQUE_ALPHA_FFP
 		}
 	}
 	
@@ -71,7 +73,8 @@ SubShader {
 			combine previous * constant
 		}
 		SetTexture [_MainTex] {
-			combine texture * previous QUAD, texture * primary
+			constantColor (1,1,1,1)
+			combine texture * previous QUAD, constant // UNITY_OPAQUE_ALPHA_FFP
 		}
 	}
 	
@@ -80,10 +83,6 @@ SubShader {
 		Name "ShadowCaster"
 		Tags { "LightMode" = "ShadowCaster" }
 		
-		Fog {Mode Off}
-		ZWrite On ZTest LEqual Cull Off
-		Offset 1, 1
-
 CGPROGRAM
 #pragma vertex vert
 #pragma fragment frag
@@ -97,7 +96,7 @@ struct v2f {
 v2f vert( appdata_base v )
 {
 	v2f o;
-	TRANSFER_SHADOW_CASTER(o)
+	TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
 	return o;
 }
 
@@ -109,44 +108,6 @@ ENDCG
 
 	}
 	
-	// Pass to render object as a shadow collector
-	Pass {
-		Name "ShadowCollector"
-		Tags { "LightMode" = "ShadowCollector" }
-		
-		Fog {Mode Off}
-		ZWrite On ZTest LEqual
-
-CGPROGRAM
-#pragma vertex vert
-#pragma fragment frag
-#pragma multi_compile_shadowcollector 
-
-#define SHADOW_COLLECTOR_PASS
-#include "UnityCG.cginc"
-
-struct appdata {
-	float4 vertex : POSITION;
-};
-
-struct v2f {
-	V2F_SHADOW_COLLECTOR;
-};
-
-v2f vert (appdata v)
-{
-	v2f o;
-	TRANSFER_SHADOW_COLLECTOR(o)
-	return o;
-}
-
-fixed4 frag (v2f i) : SV_Target
-{
-	SHADOW_COLLECTOR_FRAGMENT(i)
-}
-ENDCG
-
-	}
 }
 
 }

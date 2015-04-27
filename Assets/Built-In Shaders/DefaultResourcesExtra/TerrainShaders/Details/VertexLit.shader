@@ -31,7 +31,8 @@ SubShader {
 		ColorMaterial AmbientAndDiffuse
 		Lighting On
 		SetTexture [_MainTex] {
-			combine texture * primary DOUBLE, texture * primary
+			constantColor (1,1,1,1)
+			combine texture * primary DOUBLE, constant // UNITY_OPAQUE_ALPHA_FFP
 		} 
 	}
 	Pass {
@@ -46,7 +47,9 @@ SubShader {
 			matrix [unity_LightmapMatrix]
 			combine texture * texture alpha DOUBLE
 		}
-		SetTexture [_MainTex] { combine texture * previous QUAD, texture }
+		SetTexture [_MainTex] {
+			combine texture * previous QUAD, constant // UNITY_OPAQUE_ALPHA_FFP
+		}
 	}
 }
 

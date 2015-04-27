@@ -1,4 +1,4 @@
-Shader "Bumped Diffuse" {
+Shader "Legacy Shaders/Bumped Diffuse" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_MainTex ("Base (RGB)", 2D) = "white" {}
@@ -30,5 +30,5 @@ void surf (Input IN, inout SurfaceOutput o) {
 ENDCG  
 }
 
-FallBack "Diffuse"
+FallBack "Legacy Shaders/Diffuse"
 }

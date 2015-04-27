@@ -11,7 +11,6 @@ Shader "Hidden/Internal-GUITexture"
 		Blend SrcAlpha OneMinusSrcAlpha 
 		Cull Off 
 		ZWrite Off 
-		Fog { Mode Off } 
 		ZTest Always 
 		
 		Pass {	

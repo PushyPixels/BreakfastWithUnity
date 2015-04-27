@@ -54,7 +54,6 @@ Shader "UI/Lit/Refraction Detail (Pro Only)"
 		Lighting Off
 		ZWrite Off
 		ZTest [unity_GUIZTestMode]
-		Fog { Mode Off }
 		Offset -1, -1
 		Blend SrcAlpha OneMinusSrcAlpha
 		AlphaTest Greater 0
@@ -62,7 +61,7 @@ Shader "UI/Lit/Refraction Detail (Pro Only)"
 
 		CGPROGRAM
 			#pragma target 3.0
-			#pragma surface surf PPL alpha vertex:vert
+			#pragma surface surf PPL alpha noshadow novertexlights nolightmap vertex:vert nofog
 				
 			#include "UnityCG.cginc"
 	
@@ -174,7 +173,7 @@ Shader "UI/Lit/Refraction Detail (Pro Only)"
 
 				half4 c;
 				c.rgb = (s.Albedo * diffuseFactor + _Specular.rgb * specularFactor) * _LightColor0.rgb;
-				c.rgb *= (atten * 2.0);
+				c.rgb *= atten;
 				c.a = s.Alpha;
 				clip (c.a - 0.01);
 				return c;

@@ -39,7 +39,6 @@ Shader "UI/Unlit/Transparent"
 		ZWrite Off
 		ZTest [unity_GUIZTestMode]
 		Offset -1, -1
-		Fog { Mode Off }
 		Blend SrcAlpha OneMinusSrcAlpha
 		ColorMask [_ColorMask]
 

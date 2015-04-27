@@ -1,4 +1,4 @@
-Shader "Self-Illumin/Bumped Specular" {
+Shader "Legacy Shaders/Self-Illumin/Bumped Specular" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_SpecColor ("Specular Color", Color) = (0.5, 0.5, 0.5, 1)
@@ -6,13 +6,13 @@ Properties {
 	_MainTex ("Base (RGB) Gloss (A)", 2D) = "white" {}
 	_Illum ("Illumin (A)", 2D) = "white" {}
 	_BumpMap ("Normalmap", 2D) = "bump" {}
-	_EmissionLM ("Emission (Lightmapper)", Float) = 0
 }
 SubShader {
 	Tags { "RenderType"="Opaque" }
 	LOD 400
 CGPROGRAM
 #pragma surface surf BlinnPhong
+#pragma target 3.0
 
 sampler2D _MainTex;
 sampler2D _BumpMap;
@@ -38,5 +38,6 @@ void surf (Input IN, inout SurfaceOutput o) {
 }
 ENDCG
 }
-FallBack "Self-Illumin/Specular"
+FallBack "Legacy Shaders/Self-Illumin/Specular"
+CustomEditor "LegacyIlluminShaderGUI"
 }

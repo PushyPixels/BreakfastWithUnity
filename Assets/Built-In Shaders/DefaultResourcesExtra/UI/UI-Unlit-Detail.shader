@@ -41,7 +41,6 @@
 		Lighting Off
 		ZWrite Off
 		ZTest [unity_GUIZTestMode]
-		Fog { Mode Off }
 		Offset -1, -1
 		Blend SrcAlpha OneMinusSrcAlpha
 		ColorMask [_ColorMask]

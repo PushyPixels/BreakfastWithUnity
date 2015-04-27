@@ -1,9 +1,9 @@
-Shader "Reflective/Bumped Diffuse" {
+Shader "Legacy Shaders/Reflective/Bumped Diffuse" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_ReflectColor ("Reflection Color", Color) = (1,1,1,0.5)
 	_MainTex ("Base (RGB) RefStrength (A)", 2D) = "white" {}
-	_Cube ("Reflection Cubemap", Cube) = "_Skybox" { TexGen CubeReflect }
+	_Cube ("Reflection Cubemap", Cube) = "_Skybox" { }
 	_BumpMap ("Normalmap", 2D) = "bump" {}
 }
 
@@ -45,5 +45,5 @@ void surf (Input IN, inout SurfaceOutput o) {
 ENDCG
 }
 
-FallBack "Reflective/VertexLit"
+FallBack "Legacy Shaders/Reflective/VertexLit"
 }

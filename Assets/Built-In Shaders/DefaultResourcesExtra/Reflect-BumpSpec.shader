@@ -1,11 +1,11 @@
-Shader "Reflective/Bumped Specular" {
+Shader "Legacy Shaders/Reflective/Bumped Specular" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_SpecColor ("Specular Color", Color) = (0.5,0.5,0.5,1)
 	_Shininess ("Shininess", Range (0.01, 1)) = 0.078125
 	_ReflectColor ("Reflection Color", Color) = (1,1,1,0.5)
 	_MainTex ("Base (RGB) RefStrGloss (A)", 2D) = "white" {}
-	_Cube ("Reflection Cubemap", Cube) = "" { TexGen CubeReflect }
+	_Cube ("Reflection Cubemap", Cube) = "" {}
 	_BumpMap ("Normalmap", 2D) = "bump" {}
 }
 
@@ -15,8 +15,6 @@ SubShader {
 CGPROGRAM
 #pragma surface surf BlinnPhong
 #pragma target 3.0
-//input limit (8) exceeded, shader uses 9
-#pragma exclude_renderers d3d11_9x
 
 sampler2D _MainTex;
 sampler2D _BumpMap;
@@ -52,5 +50,5 @@ void surf (Input IN, inout SurfaceOutput o) {
 ENDCG
 }
 
-FallBack "Reflective/Bumped Diffuse"
+FallBack "Legacy Shaders/Reflective/Bumped Diffuse"
 }

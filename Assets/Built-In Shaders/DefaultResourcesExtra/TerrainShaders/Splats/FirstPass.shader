@@ -1,54 +1,68 @@
 Shader "Nature/Terrain/Diffuse" {
-Properties {
-	[HideInInspector] _Control ("Control (RGBA)", 2D) = "red" {}
-	[HideInInspector] _Splat3 ("Layer 3 (A)", 2D) = "white" {}
-	[HideInInspector] _Splat2 ("Layer 2 (B)", 2D) = "white" {}
-	[HideInInspector] _Splat1 ("Layer 1 (G)", 2D) = "white" {}
-	[HideInInspector] _Splat0 ("Layer 0 (R)", 2D) = "white" {}
-	// used in fallback on old cards & base map
-	[HideInInspector] _MainTex ("BaseMap (RGB)", 2D) = "white" {}
-	[HideInInspector] _Color ("Main Color", Color) = (1,1,1,1)
-}
-	
-SubShader {
-	Tags {
-		"SplatCount" = "4"
-		"Queue" = "Geometry-100"
-		"RenderType" = "Opaque"
+	Properties {
+		[HideInInspector] _Control ("Control (RGBA)", 2D) = "red" {}
+		[HideInInspector] _Splat3 ("Layer 3 (A)", 2D) = "white" {}
+		[HideInInspector] _Splat2 ("Layer 2 (B)", 2D) = "white" {}
+		[HideInInspector] _Splat1 ("Layer 1 (G)", 2D) = "white" {}
+		[HideInInspector] _Splat0 ("Layer 0 (R)", 2D) = "white" {}
+		[HideInInspector] _Normal3 ("Normal 3 (A)", 2D) = "bump" {}
+		[HideInInspector] _Normal2 ("Normal 2 (B)", 2D) = "bump" {}
+		[HideInInspector] _Normal1 ("Normal 1 (G)", 2D) = "bump" {}
+		[HideInInspector] _Normal0 ("Normal 0 (R)", 2D) = "bump" {}
+		// used in fallback on old cards & base map
+		[HideInInspector] _MainTex ("BaseMap (RGB)", 2D) = "white" {}
+		[HideInInspector] _Color ("Main Color", Color) = (1,1,1,1)
 	}
-CGPROGRAM
-#pragma surface surf Lambert
-struct Input {
-	float2 uv_Control : TEXCOORD0;
-	float2 uv_Splat0 : TEXCOORD1;
-	float2 uv_Splat1 : TEXCOORD2;
-	float2 uv_Splat2 : TEXCOORD3;
-	float2 uv_Splat3 : TEXCOORD4;
-};
 
-sampler2D _Control;
-sampler2D _Splat0,_Splat1,_Splat2,_Splat3;
+	CGINCLUDE
+		#pragma surface surf Lambert vertex:SplatmapVert finalcolor:myfinal exclude_path:prepass exclude_path:deferred
+		#pragma multi_compile_fog
+		#include "TerrainSplatmapCommon.cginc"
 
-void surf (Input IN, inout SurfaceOutput o) {
-	fixed4 splat_control = tex2D (_Control, IN.uv_Control);
-	fixed3 col;
-	col  = splat_control.r * tex2D (_Splat0, IN.uv_Splat0).rgb;
-	col += splat_control.g * tex2D (_Splat1, IN.uv_Splat1).rgb;
-	col += splat_control.b * tex2D (_Splat2, IN.uv_Splat2).rgb;
-	col += splat_control.a * tex2D (_Splat3, IN.uv_Splat3).rgb;
-	o.Albedo = col;
-	o.Alpha = 0.0;
-}
-ENDCG  
-}
+		void surf(Input IN, inout SurfaceOutput o)
+		{
+			half4 splat_control;
+			half weight;
+			fixed4 mixedDiffuse;
+			SplatmapMix(IN, splat_control, weight, mixedDiffuse, o.Normal);
+			o.Albedo = mixedDiffuse.rgb;
+			o.Alpha = weight;
+		}
 
-Dependency "AddPassShader" = "Hidden/TerrainEngine/Splatmap/Lightmap-AddPass"
-Dependency "BaseMapShader" = "Diffuse"
-Dependency "Details0"      = "Hidden/TerrainEngine/Details/Vertexlit"
-Dependency "Details1"      = "Hidden/TerrainEngine/Details/WavingDoublePass"
-Dependency "Details2"      = "Hidden/TerrainEngine/Details/BillboardWavingDoublePass"
-Dependency "Tree0"         = "Hidden/TerrainEngine/BillboardTree"
+		void myfinal(Input IN, SurfaceOutput o, inout fixed4 color)
+		{
+			SplatmapApplyWeight(color, o.Alpha);
+			SplatmapApplyFog(color, IN);
+		}
 
-// Fallback to Diffuse
-Fallback "Diffuse"
+	ENDCG
+
+	Category {
+		Tags {
+			"SplatCount" = "4"
+			"Queue" = "Geometry-99"
+			"RenderType" = "Opaque"
+		}
+		// TODO: Seems like "#pragma target 3.0 _TERRAIN_NORMAL_MAP" can't fallback correctly on less capable devices?
+		// Use two sub-shaders to simulate different features for different targets and still fallback correctly.
+		SubShader { // for sm3.0+ targets
+			CGPROGRAM
+				#pragma target 3.0
+				#pragma multi_compile __ _TERRAIN_NORMAL_MAP
+			ENDCG
+		}
+		SubShader { // for sm2.0 targets
+			CGPROGRAM
+			ENDCG
+		}
+	}
+
+	Dependency "AddPassShader" = "Hidden/TerrainEngine/Splatmap/Diffuse-AddPass"
+	Dependency "BaseMapShader" = "Diffuse"
+	Dependency "Details0"      = "Hidden/TerrainEngine/Details/Vertexlit"
+	Dependency "Details1"      = "Hidden/TerrainEngine/Details/WavingDoublePass"
+	Dependency "Details2"      = "Hidden/TerrainEngine/Details/BillboardWavingDoublePass"
+	Dependency "Tree0"         = "Hidden/TerrainEngine/BillboardTree"
+
+	Fallback "Diffuse"
 }

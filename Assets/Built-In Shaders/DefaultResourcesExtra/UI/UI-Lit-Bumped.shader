@@ -42,15 +42,13 @@ Shader "UI/Lit/Bumped"
 		Lighting Off
 		ZWrite Off
 		ZTest [unity_GUIZTestMode]
-		Fog { Mode Off }
 		Offset -1, -1
 		Blend SrcAlpha OneMinusSrcAlpha
 		AlphaTest Greater 0
 		ColorMask [_ColorMask]
 
 		CGPROGRAM
-			#pragma surface surf PPL alpha
-				
+			#pragma surface surf PPL alpha noshadow novertexlights nolightmap nofog
 			#include "UnityCG.cginc"
 	
 			struct appdata_t
@@ -75,7 +73,7 @@ Shader "UI/Lit/Bumped"
 			fixed4 _Color;
 			fixed4 _Specular;
 			half _Shininess;
-
+				
 			void surf (Input IN, inout SurfaceOutput o)
 			{
 				fixed4 col = tex2D(_MainTex, IN.uv_MainTex);
@@ -109,7 +107,7 @@ Shader "UI/Lit/Bumped"
 
 				half4 c;
 				c.rgb = (s.Albedo * diffuseFactor + _Specular.rgb * specularFactor) * _LightColor0.rgb;
-				c.rgb *= (atten * 2.0);
+				c.rgb *= atten;
 				c.a = s.Alpha;
 				clip (c.a - 0.01);
 				return c;

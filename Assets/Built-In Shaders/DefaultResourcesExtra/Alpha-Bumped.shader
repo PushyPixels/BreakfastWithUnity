@@ -1,4 +1,4 @@
-Shader "Transparent/Bumped Diffuse" {
+Shader "Legacy Shaders/Transparent/Bumped Diffuse" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
@@ -10,7 +10,7 @@ SubShader {
 	LOD 300
 	
 CGPROGRAM
-#pragma surface surf Lambert alpha
+#pragma surface surf Lambert alpha:blend
 
 sampler2D _MainTex;
 sampler2D _BumpMap;
@@ -30,5 +30,5 @@ void surf (Input IN, inout SurfaceOutput o) {
 ENDCG
 }
 
-FallBack "Transparent/Diffuse"
+FallBack "Legacy Shaders/Transparent/Diffuse"
 }

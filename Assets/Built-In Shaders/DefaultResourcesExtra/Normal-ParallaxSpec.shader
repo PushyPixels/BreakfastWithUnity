@@ -1,4 +1,4 @@
-Shader "Parallax Specular" {
+Shader "Legacy Shaders/Parallax Specular" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_SpecColor ("Specular Color", Color) = (0.5, 0.5, 0.5, 1)
@@ -45,5 +45,5 @@ void surf (Input IN, inout SurfaceOutput o) {
 ENDCG
 }
 
-FallBack "Bumped Specular"
+FallBack "Legacy Shaders/Bumped Specular"
 }

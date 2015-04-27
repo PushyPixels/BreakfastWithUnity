@@ -1,4 +1,4 @@
-Shader "Parallax Diffuse" {
+Shader "Legacy Shaders/Parallax Diffuse" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_Parallax ("Height", Range (0.005, 0.08)) = 0.02
@@ -7,13 +7,7 @@ Properties {
 	_ParallaxMap ("Heightmap (A)", 2D) = "black" {}
 }
 
-SubShader {
-	Tags { "RenderType"="Opaque" }
-	LOD 500
-
-CGPROGRAM
-#pragma surface surf Lambert
-
+CGINCLUDE
 sampler2D _MainTex;
 sampler2D _BumpMap;
 sampler2D _ParallaxMap;
@@ -37,8 +31,26 @@ void surf (Input IN, inout SurfaceOutput o) {
 	o.Alpha = c.a;
 	o.Normal = UnpackNormal(tex2D(_BumpMap, IN.uv_BumpMap));
 }
-ENDCG 
+ENDCG
+
+SubShader {
+	Tags { "RenderType"="Opaque" }
+	LOD 500
+
+	CGPROGRAM
+	#pragma surface surf Lambert
+	#pragma target 3.0
+	ENDCG
 }
 
-FallBack "Bumped Diffuse"
+SubShader {
+	Tags { "RenderType"="Opaque" }
+	LOD 500
+
+	CGPROGRAM
+	#pragma surface surf Lambert nodynlightmap
+	ENDCG
+}
+
+FallBack "Legacy Shaders/Bumped Diffuse"
 }

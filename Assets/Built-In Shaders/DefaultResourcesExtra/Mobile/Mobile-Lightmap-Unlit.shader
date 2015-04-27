@@ -16,7 +16,10 @@ SubShader {
 	Pass {
 		Tags { "LightMode" = "Vertex" }
 		Lighting Off
-		SetTexture [_MainTex] { combine texture } 
+		SetTexture [_MainTex] {
+			constantColor (1,1,1,1)
+			combine texture, constant // UNITY_OPAQUE_ALPHA_FFP
+		}  
 	}
 	
 	// Lightmapped, encoded as dLDR
@@ -35,7 +38,8 @@ SubShader {
 			combine texture
 		}
 		SetTexture [_MainTex] {
-			combine texture * previous DOUBLE, texture * primary
+			constantColor (1,1,1,1)
+			combine texture * previous DOUBLE, constant // UNITY_OPAQUE_ALPHA_FFP
 		}
 	}
 	
@@ -55,7 +59,8 @@ SubShader {
 			combine texture * texture alpha DOUBLE
 		}
 		SetTexture [_MainTex] {
-			combine texture * previous QUAD, texture * primary
+			constantColor (1,1,1,1)
+			combine texture * previous QUAD, constant // UNITY_OPAQUE_ALPHA_FFP
 		}
 	}	
 	

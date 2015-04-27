@@ -11,14 +11,13 @@ SubShader {
 		"Queue" = "Geometry+200"
 		"IgnoreProjector"="True"
 		"RenderType"="Grass"
+		"DisableBatching"="True"
 	}
 	Cull Off
 	LOD 200
-	ColorMask RGB
 		
 CGPROGRAM
 #pragma surface surf Lambert vertex:WavingGrassVert addshadow
-#pragma exclude_renderers flash
 #include "TerrainEngine.cginc"
 
 sampler2D _MainTex;

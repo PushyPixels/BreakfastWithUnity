@@ -8,7 +8,7 @@ Category {
 	Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
 	Blend DstColor SrcColor
 	ColorMask RGB
-	Cull Off Lighting Off ZWrite Off Fog { Color (0.5,0.5,0.5,0.5) }
+	Cull Off Lighting Off ZWrite Off
 	
 	SubShader {
 		Pass {
@@ -17,6 +17,7 @@ Category {
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma multi_compile_particles
+			#pragma multi_compile_fog
 
 			#include "UnityCG.cginc"
 
@@ -33,8 +34,9 @@ Category {
 				float4 vertex : SV_POSITION;
 				fixed4 color : COLOR;
 				float2 texcoord : TEXCOORD0;
+				UNITY_FOG_COORDS(1)
 				#ifdef SOFTPARTICLES_ON
-				float4 projPos : TEXCOORD1;
+				float4 projPos : TEXCOORD2;
 				#endif
 			};
 			
@@ -50,6 +52,7 @@ Category {
 				#endif
 				o.color = v.color;
 				o.texcoord = TRANSFORM_TEX(v.texcoord,_MainTex);
+				UNITY_TRANSFER_FOG(o,o.vertex);
 				return o;
 			}
 
@@ -69,7 +72,9 @@ Category {
 				fixed4 tex = tex2D(_MainTex, i.texcoord);
 				col.rgb = tex.rgb * i.color.rgb * 2;
 				col.a = i.color.a * tex.a;
-				return lerp(fixed4(0.5f,0.5f,0.5f,0.5f), col, col.a);
+				col = lerp(fixed4(0.5f,0.5f,0.5f,0.5f), col, col.a);
+				UNITY_APPLY_FOG_COLOR(i.fogCoord, col, fixed4(0.5,0.5,0.5,0.5)); // fog towards gray due to our blend mode
+				return col;
 			}
 			ENDCG 
 		}

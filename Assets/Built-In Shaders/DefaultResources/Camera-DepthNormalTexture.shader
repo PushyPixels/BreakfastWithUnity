@@ -4,8 +4,6 @@ Properties {
 	_Cutoff ("", Float) = 0.5
 	_Color ("", Color) = (1,1,1,1)
 }
-Category {
-	Fog { Mode Off }
 
 SubShader {
 	Tags { "RenderType"="Opaque" }
@@ -71,10 +69,9 @@ SubShader {
 CGPROGRAM
 #pragma vertex vert
 #pragma fragment frag
-#pragma glsl_no_auto_normalization
 #include "UnityCG.cginc"
 #include "Lighting.cginc"
-#include "TerrainEngine.cginc"
+#include "UnityBuiltin3xTreeLibrary.cginc"
 struct v2f {
     float4 pos : SV_POSITION;
     float2 uv : TEXCOORD0;
@@ -103,10 +100,9 @@ SubShader {
 CGPROGRAM
 #pragma vertex vert
 #pragma fragment frag
-#pragma glsl_no_auto_normalization
 #include "UnityCG.cginc"
 #include "Lighting.cginc"
-#include "TerrainEngine.cginc"
+#include "UnityBuiltin3xTreeLibrary.cginc"
 struct v2f {
     float4 pos : SV_POSITION;
     float2 uv : TEXCOORD0;
@@ -135,7 +131,7 @@ ENDCG
 }
 
 SubShader {
-	Tags { "RenderType"="TreeOpaque" }
+	Tags { "RenderType"="TreeOpaque" "DisableBatching"="True" }
 	Pass {
 CGPROGRAM
 #pragma vertex vert
@@ -167,7 +163,7 @@ ENDCG
 } 
 
 SubShader {
-	Tags { "RenderType"="TreeTransparentCutout" }
+	Tags { "RenderType"="TreeTransparentCutout" "DisableBatching"="True" }
 	Pass {
 		Cull Back
 CGPROGRAM
@@ -289,7 +285,6 @@ CGPROGRAM
 #pragma fragment frag
 #include "UnityCG.cginc"
 #include "TerrainEngine.cginc"
-#pragma glsl_no_auto_normalization
 
 struct v2f {
 	float4 pos : SV_POSITION;
@@ -356,7 +351,6 @@ fixed4 frag(v2f i) : SV_Target {
 }
 ENDCG
 	}
-}
 }
 Fallback Off
 }

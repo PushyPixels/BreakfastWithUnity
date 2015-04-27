@@ -21,12 +21,11 @@ Shader "Sprites/Diffuse"
 		Cull Off
 		Lighting Off
 		ZWrite Off
-		Fog { Mode Off }
 		Blend One OneMinusSrcAlpha
 
 		CGPROGRAM
-		#pragma surface surf Lambert vertex:vert
-		#pragma multi_compile DUMMY PIXELSNAP_ON
+		#pragma surface surf Lambert vertex:vert nofog keepalpha
+		#pragma multi_compile _ PIXELSNAP_ON
 
 		sampler2D _MainTex;
 		fixed4 _Color;
@@ -39,10 +38,9 @@ Shader "Sprites/Diffuse"
 		
 		void vert (inout appdata_full v, out Input o)
 		{
-			#if defined(PIXELSNAP_ON) && !defined(SHADER_API_FLASH)
+			#if defined(PIXELSNAP_ON)
 			v.vertex = UnityPixelSnap (v.vertex);
 			#endif
-			v.normal = float3(0,0,-1);
 			
 			UNITY_INITIALIZE_OUTPUT(Input, o);
 			o.color = v.color * _Color;

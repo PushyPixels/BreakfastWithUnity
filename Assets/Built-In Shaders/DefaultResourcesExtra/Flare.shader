@@ -9,7 +9,7 @@ SubShader {
 		"RenderType"="Transparent"
 		"PreviewType"="Plane"
 	}
-	Cull Off Lighting Off ZWrite Off Ztest Always Fog { Mode Off }
+	Cull Off Lighting Off ZWrite Off Ztest Always
 	Blend One One
 
 	Pass {	

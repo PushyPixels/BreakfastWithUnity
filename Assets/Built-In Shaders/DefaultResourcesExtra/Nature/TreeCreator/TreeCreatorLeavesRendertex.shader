@@ -11,15 +11,13 @@ Properties {
 }
 
 SubShader {  
-	Fog { Mode Off }
 	
 	Pass {
 CGPROGRAM
 #pragma vertex vert
 #pragma fragment frag
 #include "UnityCG.cginc"
-#include "Lighting.cginc"
-#include "Tree.cginc"
+#include "UnityBuiltin3xTreeLibrary.cginc"
 
 struct v2f {
 	float4 pos : SV_POSITION;
@@ -100,7 +98,7 @@ fixed4 frag (v2f i) : SV_Target {
 	}
 	
 	fixed4 c;
-	c.rgb = light * 2.0;
+	c.rgb = light;
 	c.a = 1;
 	return c;
 }

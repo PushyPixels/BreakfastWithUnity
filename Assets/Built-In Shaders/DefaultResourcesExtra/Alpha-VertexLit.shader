@@ -1,4 +1,4 @@
-Shader "Transparent/VertexLit" {
+Shader "Legacy Shaders/Transparent/VertexLit" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_SpecColor ("Spec Color", Color) = (1,1,1,0)

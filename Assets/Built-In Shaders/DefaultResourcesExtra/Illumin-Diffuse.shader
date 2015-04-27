@@ -1,9 +1,8 @@
-Shader "Self-Illumin/Diffuse" {
+Shader "Legacy Shaders/Self-Illumin/Diffuse" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
-	_MainTex ("Base (RGB) Gloss (A)", 2D) = "white" {}
+	_MainTex ("Base (RGB)", 2D) = "white" {}
 	_Illum ("Illumin (A)", 2D) = "white" {}
-	_EmissionLM ("Emission (Lightmapper)", Float) = 0
 }
 SubShader {
 	Tags { "RenderType"="Opaque" }
@@ -30,5 +29,6 @@ void surf (Input IN, inout SurfaceOutput o) {
 }
 ENDCG
 } 
-FallBack "Self-Illumin/VertexLit"
+FallBack "Legacy Shaders/Self-Illumin/VertexLit"
+CustomEditor "LegacyIlluminShaderGUI"
 }

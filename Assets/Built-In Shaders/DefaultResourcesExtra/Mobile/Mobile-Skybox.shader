@@ -12,7 +12,7 @@ Properties {
 }
 
 SubShader {
-	Tags { "Queue"="Background" "RenderType"="Background" }
+	Tags { "Queue"="Background" "RenderType"="Background" "PreviewType"="Skybox" }
 	Cull Off ZWrite Off Fog { Mode Off }
 	Pass {
 		SetTexture [_FrontTex] { combine texture }

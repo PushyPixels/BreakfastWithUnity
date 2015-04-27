@@ -1,4 +1,4 @@
-Shader "Decal" {
+Shader "Legacy Shaders/Decal" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_MainTex ("Base (RGB)", 2D) = "white" {}
@@ -32,5 +32,5 @@ void surf (Input IN, inout SurfaceOutput o) {
 ENDCG
 }
 
-Fallback "Diffuse"
+Fallback "Legacy Shaders/Diffuse"
 }

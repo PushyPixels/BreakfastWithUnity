@@ -31,7 +31,7 @@ Shader "Hidden/InternalClear" {
 	ENDCG 
 
 	SubShader { 
-		ZTest Always Cull Off Fog { Mode Off }
+		ZTest Always Cull Off
 		Pass {
 			ColorMask 0 ZWrite Off
 			CGPROGRAM

@@ -6,29 +6,29 @@ Shader "Hidden/Nature/Tree Soft Occlusion Bark Rendertex" {
 		_AO ("Amb. Occlusion", Range(0, 10)) = 2.4
 		
 		// These are here only to provide default values
-		_Scale ("Scale", Vector) = (1,1,1,1)
-		_SquashAmount ("Squash", Float) = 1
+		[HideInInspector] _TreeInstanceColor ("TreeInstanceColor", Vector) = (1,1,1,1)
+		[HideInInspector] _TreeInstanceScale ("TreeInstanceScale", Vector) = (1,1,1,1)
+		[HideInInspector] _SquashAmount ("Squash", Float) = 1
 	}
 	
 	SubShader {
-		Fog { Mode Off }
 		Pass {
 			Lighting On
 		
 			CGPROGRAM
 			#pragma vertex bark
 			#pragma fragment frag 
-			#pragma glsl_no_auto_normalization
 			#define WRITE_ALPHA_1 1
 			#define USE_CUSTOM_LIGHT_DIR 1
-			#include "SH_Vertex.cginc"
+			#include "UnityBuiltin2xTreeLibrary.cginc"
 
 			sampler2D _MainTex;
 			
 			fixed4 frag(v2f input) : SV_Target
 			{
 				fixed4 col = input.color;
-				col.rgb *= 2.0f * tex2D( _MainTex, input.uv.xy).rgb;
+				col.rgb *= tex2D( _MainTex, input.uv.xy).rgb;
+				UNITY_OPAQUE_ALPHA(col.a);
 				return col;
 			}
 			ENDCG

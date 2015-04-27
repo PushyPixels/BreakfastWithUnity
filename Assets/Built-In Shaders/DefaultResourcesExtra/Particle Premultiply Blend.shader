@@ -8,7 +8,7 @@ Category {
 	Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
 	Blend One OneMinusSrcAlpha 
 	ColorMask RGB
-	Cull Off Lighting Off ZWrite Off Fog { Mode Off }
+	Cull Off Lighting Off ZWrite Off
 
 	SubShader {
 		Pass {

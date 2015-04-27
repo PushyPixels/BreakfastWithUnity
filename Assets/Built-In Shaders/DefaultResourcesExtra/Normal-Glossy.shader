@@ -1,4 +1,4 @@
-Shader "Specular" {
+Shader "Legacy Shaders/Specular" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_SpecColor ("Specular Color", Color) = (0.5, 0.5, 0.5, 1)
@@ -31,5 +31,5 @@ void surf (Input IN, inout SurfaceOutput o) {
 ENDCG
 }
 
-Fallback "VertexLit"
+Fallback "Legacy Shaders/VertexLit"
 }

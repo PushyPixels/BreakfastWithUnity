@@ -1,4 +1,4 @@
-Shader "Bumped Specular" {
+Shader "Legacy Shaders/Bumped Specular" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_SpecColor ("Specular Color", Color) = (0.5, 0.5, 0.5, 1)
@@ -6,14 +6,8 @@ Properties {
 	_MainTex ("Base (RGB) Gloss (A)", 2D) = "white" {}
 	_BumpMap ("Normalmap", 2D) = "bump" {}
 }
-SubShader { 
-	Tags { "RenderType"="Opaque" }
-	LOD 400
-	
-CGPROGRAM
-#pragma surface surf BlinnPhong
 
-
+CGINCLUDE
 sampler2D _MainTex;
 sampler2D _BumpMap;
 fixed4 _Color;
@@ -33,7 +27,25 @@ void surf (Input IN, inout SurfaceOutput o) {
 	o.Normal = UnpackNormal(tex2D(_BumpMap, IN.uv_BumpMap));
 }
 ENDCG
+
+SubShader { 
+	Tags { "RenderType"="Opaque" }
+	LOD 400
+	
+	CGPROGRAM
+	#pragma surface surf BlinnPhong
+	#pragma target 3.0
+	ENDCG
 }
 
-FallBack "Specular"
+SubShader { 
+	Tags { "RenderType"="Opaque" }
+	LOD 400
+	
+	CGPROGRAM
+	#pragma surface surf BlinnPhong nodynlightmap
+	ENDCG
+}
+
+FallBack "Legacy Shaders/Specular"
 }

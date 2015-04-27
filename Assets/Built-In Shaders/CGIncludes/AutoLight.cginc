@@ -2,27 +2,44 @@
 #define AUTOLIGHT_INCLUDED
 
 #include "HLSLSupport.cginc"
+#include "UnityShadowLibrary.cginc"
 
-// ------------ Shadow helpers --------
+#if (SHADER_TARGET < 30) || defined(SHADER_API_MOBILE)
+	// We prefer performance over quality on SM2.0 and Mobiles
+	// mobile or SM2.0: half precision for shadow coords
+	#define unityShadowCoord half
+	#define unityShadowCoord2 half2
+	#define unityShadowCoord3 half3
+#if defined(SHADER_API_PSP2)
+	#define unityShadowCoord4 float4	// Vita PCF only works when using float4 with tex2Dproj, doesn't work with half4.
+#else
+	#define unityShadowCoord4 half4
+#endif
+	#define unityShadowCoord4x4 half4x4
+#else
+	#define unityShadowCoord float
+	#define unityShadowCoord2 float2
+	#define unityShadowCoord3 float3
+	#define unityShadowCoord4 float4
+	#define unityShadowCoord4x4 float4x4
+#endif
 
+
+// ----------------
+//  Shadow helpers
+// ----------------
 
 // ---- Screen space shadows
 #if defined (SHADOWS_SCREEN)
 
-uniform float4 _ShadowOffsets[4];
-
-#if defined(SHADOWS_NATIVE)
 UNITY_DECLARE_SHADOWMAP(_ShadowMapTexture);
-#else
-uniform sampler2D _ShadowMapTexture;
-#endif
 
-#define SHADOW_COORDS(idx1) float4 _ShadowCoord : TEXCOORD##idx1;
+#define SHADOW_COORDS(idx1) unityShadowCoord4 _ShadowCoord : TEXCOORD##idx1;
 
-#if (defined(SHADER_API_GLES) || defined(SHADER_API_GLES3)) && defined(SHADER_API_MOBILE)
+#if defined(UNITY_NO_SCREENSPACE_SHADOWS)
 #define TRANSFER_SHADOW(a) a._ShadowCoord = mul( unity_World2Shadow[0], mul( _Object2World, v.vertex ) );
 
-inline fixed unitySampleShadow (float4 shadowCoord)
+inline fixed unitySampleShadow (unityShadowCoord4 shadowCoord)
 {
 	#if defined(SHADOWS_NATIVE)
 
@@ -32,7 +49,7 @@ inline fixed unitySampleShadow (float4 shadowCoord)
 
 	#else
 
-	float dist = tex2Dproj( _ShadowMapTexture, UNITY_PROJ_COORD(shadowCoord) ).x;
+	unityShadowCoord dist = SAMPLE_DEPTH_TEXTURE_PROJ(_ShadowMapTexture, shadowCoord);
 
 	// tegra is confused if we use _LightShadowData.x directly
 	// with "ambiguous overloaded function reference max(mediump float, float)"
@@ -42,11 +59,11 @@ inline fixed unitySampleShadow (float4 shadowCoord)
 	#endif
 }
 
-#else // !((defined(SHADER_API_GLES) || defined(SHADER_API_GLES3)) && defined(SHADER_API_MOBILE))
+#else // UNITY_NO_SCREENSPACE_SHADOWS
 
 #define TRANSFER_SHADOW(a) a._ShadowCoord = ComputeScreenPos(a.pos);
 
-inline fixed unitySampleShadow (float4 shadowCoord)
+inline fixed unitySampleShadow (unityShadowCoord4 shadowCoord)
 {
 	fixed shadow = tex2Dproj( _ShadowMapTexture, UNITY_PROJ_COORD(shadowCoord) ).r;
 	return shadow;
@@ -59,119 +76,34 @@ inline fixed unitySampleShadow (float4 shadowCoord)
 #endif
 
 
-// ---- Depth map shadows
-
+// ---- Spot light shadows
 #if defined (SHADOWS_DEPTH) && defined (SPOT)
-
-#if !defined(SHADOWMAPSAMPLER_DEFINED)
-UNITY_DECLARE_SHADOWMAP(_ShadowMapTexture);
-#endif
-#if defined (SHADOWS_SOFT)
-uniform float4 _ShadowOffsets[4];
-#endif
-
-inline fixed unitySampleShadow (float4 shadowCoord)
-{
-	// DX11 feature level 9.x shader compiler (d3dcompiler_47 at least)
-	// has a bug where trying to do more than one shadowmap sample fails compilation
-	// with "inconsistent sampler usage". Until that is fixed, just never compile
-	// multi-tap shadow variant on d3d11_9x.
-
-	#if defined (SHADOWS_SOFT) && !defined (SHADER_API_D3D11_9X)
-
-	// 4-tap shadows
-
-	float3 coord = shadowCoord.xyz / shadowCoord.w;
-	#if defined (SHADOWS_NATIVE)
-	half4 shadows;
-	shadows.x = UNITY_SAMPLE_SHADOW(_ShadowMapTexture, coord + _ShadowOffsets[0]);
-	shadows.y = UNITY_SAMPLE_SHADOW(_ShadowMapTexture, coord + _ShadowOffsets[1]);
-	shadows.z = UNITY_SAMPLE_SHADOW(_ShadowMapTexture, coord + _ShadowOffsets[2]);
-	shadows.w = UNITY_SAMPLE_SHADOW(_ShadowMapTexture, coord + _ShadowOffsets[3]);
-	shadows = _LightShadowData.rrrr + shadows * (1-_LightShadowData.rrrr);
-	#else
-	float4 shadowVals;
-	shadowVals.x = SAMPLE_DEPTH_TEXTURE ( _ShadowMapTexture, coord + _ShadowOffsets[0].xy );
-	shadowVals.y = SAMPLE_DEPTH_TEXTURE ( _ShadowMapTexture, coord + _ShadowOffsets[1].xy );
-	shadowVals.z = SAMPLE_DEPTH_TEXTURE ( _ShadowMapTexture, coord + _ShadowOffsets[2].xy );
-	shadowVals.w = SAMPLE_DEPTH_TEXTURE ( _ShadowMapTexture, coord + _ShadowOffsets[3].xy );
-	half4 shadows = (shadowVals < coord.zzzz) ? _LightShadowData.rrrr : 1.0f;
-	#endif
-
-	// average-4 PCF
-	half shadow = dot (shadows, 0.25f);
-
-	#else
-
-	// 1-tap shadows
-
-	#if defined (SHADOWS_NATIVE)
-	half shadow = UNITY_SAMPLE_SHADOW_PROJ(_ShadowMapTexture, shadowCoord);
-	shadow = _LightShadowData.r + shadow * (1-_LightShadowData.r);
-	#else
-	half shadow = SAMPLE_DEPTH_TEXTURE_PROJ(_ShadowMapTexture, UNITY_PROJ_COORD(shadowCoord)) < (shadowCoord.z / shadowCoord.w) ? _LightShadowData.r : 1.0;
-	#endif
-
-	#endif
-
-	return shadow;
-}
-#define SHADOW_COORDS(idx1) float4 _ShadowCoord : TEXCOORD##idx1;
-#define TRANSFER_SHADOW(a) a._ShadowCoord = mul (unity_World2Shadow[0], mul(_Object2World,v.vertex));
-#define SHADOW_ATTENUATION(a) unitySampleShadow(a._ShadowCoord)
-
+	#define SHADOW_COORDS(idx1) unityShadowCoord4 _ShadowCoord : TEXCOORD##idx1;
+	#define TRANSFER_SHADOW(a) a._ShadowCoord = mul (unity_World2Shadow[0], mul(_Object2World,v.vertex));
+	#define SHADOW_ATTENUATION(a) UnitySampleShadowmap(a._ShadowCoord)
 #endif
 
 
 // ---- Point light shadows
-
 #if defined (SHADOWS_CUBE)
-
-uniform samplerCUBE _ShadowMapTexture;
-inline float SampleCubeDistance (float3 vec)
-{
-	float4 packDist = texCUBE (_ShadowMapTexture, vec);
-	return DecodeFloatRGBA( packDist );
-}
-inline float unityCubeShadow (float3 vec)
-{
-	float mydist = length(vec) * _LightPositionRange.w;
-	mydist *= 0.97; // bias
-
-	#if defined (SHADOWS_SOFT)
-	float z = 1.0/128.0;
-	float4 shadowVals;
-	shadowVals.x = SampleCubeDistance (vec+float3( z, z, z));
-	shadowVals.y = SampleCubeDistance (vec+float3(-z,-z, z));
-	shadowVals.z = SampleCubeDistance (vec+float3(-z, z,-z));
-	shadowVals.w = SampleCubeDistance (vec+float3( z,-z,-z));
-	half4 shadows = (shadowVals < mydist.xxxx) ? _LightShadowData.rrrr : 1.0f;
-	return dot(shadows,0.25);
-	#else
-	float dist = SampleCubeDistance (vec);
-	return dist < mydist ? _LightShadowData.r : 1.0;
-	#endif
-}
-#define SHADOW_COORDS(idx1) float3 _ShadowCoord : TEXCOORD##idx1;
-#define TRANSFER_SHADOW(a) a._ShadowCoord = mul(_Object2World, v.vertex).xyz - _LightPositionRange.xyz;
-#define SHADOW_ATTENUATION(a) unityCubeShadow(a._ShadowCoord)
-
+	#define SHADOW_COORDS(idx1) unityShadowCoord3 _ShadowCoord : TEXCOORD##idx1;
+	#define TRANSFER_SHADOW(a) a._ShadowCoord = mul(_Object2World, v.vertex).xyz - _LightPositionRange.xyz;
+	#define SHADOW_ATTENUATION(a) UnitySampleShadowmap(a._ShadowCoord)
 #endif
-
-
 
 // ---- Shadows off
 #if !defined (SHADOWS_SCREEN) && !defined (SHADOWS_DEPTH) && !defined (SHADOWS_CUBE)
-
-#define SHADOW_COORDS(idx1)
-#define TRANSFER_SHADOW(a)
-#define SHADOW_ATTENUATION(a) 1.0
-
+	#define SHADOW_COORDS(idx1)
+	#define TRANSFER_SHADOW(a)
+	#define SHADOW_ATTENUATION(a) 1.0
 #endif
 
 
+// ------------------------------
+//  Light helpers (5.0+ version)
+// ------------------------------
 
-// ------------ Light helpers --------
+// This version depends on having worldPos available in the fragment shader and using that to compute light coordinates.
 
 // If none of the keywords are defined, assume directional?
 #if !defined(POINT) && !defined(SPOT) && !defined(DIRECTIONAL) && !defined(POINT_COOKIE) && !defined(DIRECTIONAL_COOKIE)
@@ -180,30 +112,71 @@ inline float unityCubeShadow (float3 vec)
 
 
 #ifdef POINT
-#define LIGHTING_COORDS(idx1,idx2) float3 _LightCoord : TEXCOORD##idx1; SHADOW_COORDS(idx2)
 uniform sampler2D _LightTexture0;
-uniform float4x4 _LightMatrix0;
+uniform unityShadowCoord4x4 _LightMatrix0;
+#define UNITY_LIGHT_ATTENUATION(destName, input, worldPos) \
+	unityShadowCoord3 lightCoord = mul(_LightMatrix0, unityShadowCoord4(worldPos, 1)).xyz; \
+	fixed destName = (tex2D(_LightTexture0, dot(lightCoord, lightCoord).rr).UNITY_ATTEN_CHANNEL * SHADOW_ATTENUATION(input));
+#endif
+
+#ifdef SPOT
+uniform sampler2D _LightTexture0;
+uniform unityShadowCoord4x4 _LightMatrix0;
+uniform sampler2D _LightTextureB0;
+inline fixed UnitySpotCookie(unityShadowCoord4 LightCoord)
+{
+	return tex2D(_LightTexture0, LightCoord.xy / LightCoord.w + 0.5).w;
+}
+inline fixed UnitySpotAttenuate(unityShadowCoord3 LightCoord)
+{
+	return tex2D(_LightTextureB0, dot(LightCoord, LightCoord).xx).UNITY_ATTEN_CHANNEL;
+}
+#define UNITY_LIGHT_ATTENUATION(destName, input, worldPos) \
+	unityShadowCoord4 lightCoord = mul(_LightMatrix0, unityShadowCoord4(worldPos, 1)); \
+	fixed destName = (lightCoord.z > 0) * UnitySpotCookie(lightCoord) * UnitySpotAttenuate(lightCoord.xyz) * SHADOW_ATTENUATION(input);
+#endif
+
+
+#ifdef DIRECTIONAL
+	#define UNITY_LIGHT_ATTENUATION(destName, input, worldPos)	fixed destName = SHADOW_ATTENUATION(input);
+#endif
+
+
+#ifdef POINT_COOKIE
+uniform samplerCUBE _LightTexture0;
+uniform unityShadowCoord4x4 _LightMatrix0;
+uniform sampler2D _LightTextureB0;
+#define UNITY_LIGHT_ATTENUATION(destName, input, worldPos) \
+	unityShadowCoord3 lightCoord = mul(_LightMatrix0, unityShadowCoord4(worldPos, 1)).xyz; \
+	fixed destName = tex2D(_LightTextureB0, dot(lightCoord, lightCoord).rr).UNITY_ATTEN_CHANNEL * texCUBE(_LightTexture0, lightCoord).w * SHADOW_ATTENUATION(input);
+#endif
+
+#ifdef DIRECTIONAL_COOKIE
+uniform sampler2D _LightTexture0;
+uniform unityShadowCoord4x4 _LightMatrix0;
+#define UNITY_LIGHT_ATTENUATION(destName, input, worldPos) \
+	unityShadowCoord2 lightCoord = mul(_LightMatrix0, unityShadowCoord4(worldPos, 1)).xy; \
+	fixed destName = tex2D(_LightTexture0, lightCoord).w * SHADOW_ATTENUATION(input);
+#endif
+
+
+// -----------------------------
+//  Light helpers (4.x version)
+// -----------------------------
+
+// This version computes light coordinates in the vertex shader and passes them to the fragment shader.
+
+#ifdef POINT
+#define LIGHTING_COORDS(idx1,idx2) unityShadowCoord3 _LightCoord : TEXCOORD##idx1; SHADOW_COORDS(idx2)
 #define TRANSFER_VERTEX_TO_FRAGMENT(a) a._LightCoord = mul(_LightMatrix0, mul(_Object2World, v.vertex)).xyz; TRANSFER_SHADOW(a)
 #define LIGHT_ATTENUATION(a)	(tex2D(_LightTexture0, dot(a._LightCoord,a._LightCoord).rr).UNITY_ATTEN_CHANNEL * SHADOW_ATTENUATION(a))
 #endif
 
 #ifdef SPOT
-#define LIGHTING_COORDS(idx1,idx2) float4 _LightCoord : TEXCOORD##idx1; SHADOW_COORDS(idx2)
-uniform sampler2D _LightTexture0;
-uniform float4x4 _LightMatrix0;
-uniform sampler2D _LightTextureB0;
+#define LIGHTING_COORDS(idx1,idx2) unityShadowCoord4 _LightCoord : TEXCOORD##idx1; SHADOW_COORDS(idx2)
 #define TRANSFER_VERTEX_TO_FRAGMENT(a) a._LightCoord = mul(_LightMatrix0, mul(_Object2World, v.vertex)); TRANSFER_SHADOW(a)
-inline fixed UnitySpotCookie(float4 LightCoord)
-{
-	return tex2D(_LightTexture0, LightCoord.xy / LightCoord.w + 0.5).w;
-}
-inline fixed UnitySpotAttenuate(float3 LightCoord)
-{
-	return tex2D(_LightTextureB0, dot(LightCoord, LightCoord).xx).UNITY_ATTEN_CHANNEL;
-}
 #define LIGHT_ATTENUATION(a)	( (a._LightCoord.z > 0) * UnitySpotCookie(a._LightCoord) * UnitySpotAttenuate(a._LightCoord.xyz) * SHADOW_ATTENUATION(a) )
 #endif
-
 
 #ifdef DIRECTIONAL
 	#define LIGHTING_COORDS(idx1,idx2) SHADOW_COORDS(idx1)
@@ -211,20 +184,14 @@ inline fixed UnitySpotAttenuate(float3 LightCoord)
 	#define LIGHT_ATTENUATION(a)	SHADOW_ATTENUATION(a)
 #endif
 
-
 #ifdef POINT_COOKIE
-#define LIGHTING_COORDS(idx1,idx2) float3 _LightCoord : TEXCOORD##idx1; SHADOW_COORDS(idx2)
-uniform samplerCUBE _LightTexture0;
-uniform float4x4 _LightMatrix0;
-uniform sampler2D _LightTextureB0;
+#define LIGHTING_COORDS(idx1,idx2) unityShadowCoord3 _LightCoord : TEXCOORD##idx1; SHADOW_COORDS(idx2)
 #define TRANSFER_VERTEX_TO_FRAGMENT(a) a._LightCoord = mul(_LightMatrix0, mul(_Object2World, v.vertex)).xyz; TRANSFER_SHADOW(a)
 #define LIGHT_ATTENUATION(a)	(tex2D(_LightTextureB0, dot(a._LightCoord,a._LightCoord).rr).UNITY_ATTEN_CHANNEL * texCUBE(_LightTexture0, a._LightCoord).w * SHADOW_ATTENUATION(a))
 #endif
 
 #ifdef DIRECTIONAL_COOKIE
-#define LIGHTING_COORDS(idx1,idx2) float2 _LightCoord : TEXCOORD##idx1; SHADOW_COORDS(idx2)
-uniform sampler2D _LightTexture0;
-uniform float4x4 _LightMatrix0;
+#define LIGHTING_COORDS(idx1,idx2) unityShadowCoord2 _LightCoord : TEXCOORD##idx1; SHADOW_COORDS(idx2)
 #define TRANSFER_VERTEX_TO_FRAGMENT(a) a._LightCoord = mul(_LightMatrix0, mul(_Object2World, v.vertex)).xy; TRANSFER_SHADOW(a)
 #define LIGHT_ATTENUATION(a)	(tex2D(_LightTexture0, a._LightCoord).w * SHADOW_ATTENUATION(a))
 #endif

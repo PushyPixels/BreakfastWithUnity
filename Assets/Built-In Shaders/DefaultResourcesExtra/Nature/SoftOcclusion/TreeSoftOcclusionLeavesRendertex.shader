@@ -9,14 +9,14 @@ Shader "Hidden/Nature/Tree Soft Occlusion Leaves Rendertex" {
 		_Occlusion ("Dir Occlusion", Range(0, 20)) = 7.5
 		
 		// These are here only to provide default values
-		_Scale ("Scale", Vector) = (1,1,1,1)
-		_SquashAmount ("Squash", Float) = 1
+		[HideInInspector] _TreeInstanceColor ("TreeInstanceColor", Vector) = (1,1,1,1)
+		[HideInInspector] _TreeInstanceScale ("TreeInstanceScale", Vector) = (1,1,1,1)
+		[HideInInspector] _SquashAmount ("Squash", Float) = 1
 	}
 	SubShader {
 
 		Tags { "Queue" = "Transparent-99" }
 		Cull Off
-		Fog { Mode Off}
 		
 		Pass {
 			Lighting On
@@ -25,9 +25,8 @@ Shader "Hidden/Nature/Tree Soft Occlusion Leaves Rendertex" {
 			CGPROGRAM
 			#pragma vertex leaves
 			#pragma fragment frag
-			#pragma glsl_no_auto_normalization
 			#define USE_CUSTOM_LIGHT_DIR 1
-			#include "SH_Vertex.cginc"
+			#include "UnityBuiltin2xTreeLibrary.cginc"
 			
 			sampler2D _MainTex;
 			fixed _Cutoff;
@@ -35,7 +34,7 @@ Shader "Hidden/Nature/Tree Soft Occlusion Leaves Rendertex" {
 			fixed4 frag(v2f input) : SV_Target
 			{
 				fixed4 col = tex2D( _MainTex, input.uv.xy);
-				col.rgb *= 2.0f * input.color.rgb;
+				col.rgb *= input.color.rgb;
 				clip(col.a - _Cutoff);
 				col.a = 1;
 				return col;

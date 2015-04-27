@@ -1,11 +1,9 @@
-#warning Upgrade NOTE: unity_Scale shader variable was removed; replaced 'unity_Scale.w' with '1.0'
-
-Shader "Reflective/Bumped Unlit" {
+Shader "Legacy Shaders/Reflective/Bumped Unlit" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_ReflectColor ("Reflection Color", Color) = (1,1,1,0.5)
 	_MainTex ("Base (RGB), RefStrength (A)", 2D) = "white" {}
-	_Cube ("Reflection Cubemap", Cube) = "" { TexGen CubeReflect }
+	_Cube ("Reflection Cubemap", Cube) = "" {}
 	_BumpMap ("Normalmap", 2D) = "bump" {}
 }
 
@@ -13,9 +11,6 @@ Category {
 	Tags { "RenderType"="Opaque" }
 	LOD 250
 	
-	// ------------------------------------------------------------------
-	// Shaders
-
 	SubShader {
 		// Always drawn reflective pass
 		Pass {
@@ -24,6 +19,7 @@ Category {
 CGPROGRAM
 #pragma vertex vert
 #pragma fragment frag
+#pragma multi_compile_fog
 
 #include "UnityCG.cginc"
 
@@ -35,6 +31,7 @@ struct v2f {
 	float3	TtoW0 	: TEXCOORD3;
 	float3	TtoW1	: TEXCOORD4;
 	float3	TtoW2	: TEXCOORD5;
+	UNITY_FOG_COORDS(6)
 };
 
 uniform float4 _MainTex_ST, _BumpMap_ST;
@@ -48,11 +45,14 @@ v2f vert(appdata_tan v)
 	
 	o.I = -WorldSpaceViewDir( v.vertex );
 	
-	TANGENT_SPACE_ROTATION;
-	o.TtoW0 = mul(rotation, _Object2World[0].xyz * 1.0);
-	o.TtoW1 = mul(rotation, _Object2World[1].xyz * 1.0);
-	o.TtoW2 = mul(rotation, _Object2World[2].xyz * 1.0);
+	float3 worldNormal = UnityObjectToWorldNormal(v.normal);
+	float3 worldTangent = UnityObjectToWorldDir(v.tangent.xyz);
+	float3 worldBinormal = cross(worldNormal, worldTangent) * v.tangent.w;
+	o.TtoW0 = float3(worldTangent.x, worldBinormal.x, worldNormal.x);
+	o.TtoW1 = float3(worldTangent.y, worldBinormal.y, worldNormal.y);
+	o.TtoW2 = float3(worldTangent.z, worldBinormal.z, worldNormal.z);
 	
+	UNITY_TRANSFER_FOG(o,o.pos);
 	return o; 
 }
 
@@ -79,33 +79,17 @@ fixed4 frag (v2f i) : SV_Target
 	half3 r = reflect(i.I, wn);
 	
 	fixed4 c = UNITY_LIGHTMODEL_AMBIENT * texcol;
-	c.rgb *= 2;
+
 	fixed4 reflcolor = texCUBE(_Cube, r) * _ReflectColor * texcol.a;
-	return c + reflcolor;
+	c = c + reflcolor;
+	UNITY_APPLY_FOG(i.fogCoord, c);
+	UNITY_OPAQUE_ALPHA(c.a);
+	return c;
 }
 ENDCG  
 		} 
-	}
-	
-	// ------------------------------------------------------------------
-	//  No vertex or fragment programs
-	
-	SubShader {
-		Pass { 
-			Tags {"LightMode" = "Always"}
-			Name "BASE"
-			BindChannels {
-				Bind "Vertex", vertex
-				Bind "Normal", normal
-			}
-			SetTexture [_Cube] {
-				constantColor [_ReflectColor]
-				combine texture * constant
-			}
-		}
-	}
+	}	
 }
 	
-FallBack "VertexLit", 1
-
+FallBack "Legacy Shaders/VertexLit"
 }
