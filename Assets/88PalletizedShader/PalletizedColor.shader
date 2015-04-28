@@ -26,8 +26,6 @@ uniform sampler2D _MainTex;
 uniform float4 _MainTex_ST;
 uniform sampler2D _SecondTex;
 uniform float4 _SecondTex_ST;
-uniform fixed _TextureMix;
-uniform float4x4 _Projector;
 
 
 struct vertexInput
