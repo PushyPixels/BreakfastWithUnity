@@ -238,6 +238,8 @@ MonoBehaviour:
   fireDelay: .100000001
   damage: 1
   buttonName: Fire1
+  maxBulletSpreadAngle: 15
+  timeTillMaxSpreadAngle: 2
   layerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -372,6 +374,8 @@ MonoBehaviour:
   fireDelay: .100000001
   damage: 1
   buttonName: Fire1
+  maxBulletSpreadAngle: 15
+  timeTillMaxSpreadAngle: 1
   layerMask:
     serializedVersion: 2
     m_Bits: 4294967295
