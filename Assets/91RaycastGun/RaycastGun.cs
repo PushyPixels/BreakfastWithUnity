@@ -14,6 +14,7 @@ public class RaycastGun : MonoBehaviour
 	public string buttonName = "Fire1";
 	public float maxBulletSpreadAngle = 15.0f;
 	public float timeTillMaxSpreadAngle = 1.0f;
+	public AnimationCurve bulletSpreadCurve;
 	public LayerMask layerMask = -1;
 
 	private bool readyToFire = true;
@@ -42,7 +43,9 @@ public class RaycastGun : MonoBehaviour
 
 				Quaternion randomRotation = Random.rotation;
 
-				float currentSpread = Mathf.Lerp(0.0f, maxBulletSpreadAngle, fireTime/timeTillMaxSpreadAngle);
+				float currentSpread = bulletSpreadCurve.Evaluate(fireTime/timeTillMaxSpreadAngle)*maxBulletSpreadAngle;
+
+				//float currentSpread = Mathf.Lerp(0.0f, maxBulletSpreadAngle, fireTime/timeTillMaxSpreadAngle);
 
 				fireRotation = Quaternion.RotateTowards(fireRotation,randomRotation,Random.Range(0.0f,currentSpread));
 

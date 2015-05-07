@@ -240,6 +240,31 @@ MonoBehaviour:
   buttonName: Fire1
   maxBulletSpreadAngle: 15
   timeTillMaxSpreadAngle: 2
+  bulletSpreadCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: .233737737
+      value: .121232726
+      inSlope: 1.933761
+      outSlope: 1.933761
+      tangentMode: 0
+    - time: .268657207
+      value: .556212187
+      inSlope: .559615552
+      outSlope: .559615552
+      tangentMode: 0
+    - time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
   layerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -376,6 +401,11 @@ MonoBehaviour:
   buttonName: Fire1
   maxBulletSpreadAngle: 15
   timeTillMaxSpreadAngle: 1
+  bulletSpreadCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
   layerMask:
     serializedVersion: 2
     m_Bits: 4294967295
