@@ -69,7 +69,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6c3a90fdedc334e1984351c0e1ccb146, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -118,6 +118,10 @@ MonoBehaviour:
   spreadAngle: 40
   iterations: 5
   splits: 3
+  windAngle: 10
+  minWindChangeTime: 1
+  maxWindChangeTime: 5
+  root: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -129,6 +133,10 @@ Prefab:
       propertyPath: twigReference
       value: 
       objectReference: {fileID: 11468780}
+    - target: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6c3a90fdedc334e1984351c0e1ccb146, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 194710}
