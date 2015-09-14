@@ -41,24 +41,29 @@ public class CurvedText : Text
 		}
 	}
 		
-	protected override void OnFillVBO(List<UIVertex> vbo)
+	protected override void OnPopulateMesh(Mesh outputMesh)
 	{	
-		base.OnFillVBO(vbo);
-		for (int i = 0; i < vbo.Count; i++)
+		base.OnPopulateMesh(outputMesh);
+
+		Vector3[] verticies = outputMesh.vertices;
+
+		for (int i = 0; i < outputMesh.vertices.Length; i++)
 		{
-			UIVertex v = vbo[i];
+			Debug.Log(outputMesh.vertices[i]);
+			Vector3 v = outputMesh.vertices[i];
 
-			Vector3 p = v.position;
-
-			float percentCircumference = v.position.x/circumference;
+			float percentCircumference = v.x/circumference;
 			Vector3 offset = Quaternion.Euler(0.0f,0.0f,-percentCircumference*360.0f)*Vector3.up;
-			p = offset*radius*scaleFactor + offset*v.position.y;
-			p += Vector3.down*radius*scaleFactor;
+			v = offset*radius*scaleFactor + offset*v.y;
+			v += Vector3.down*radius*scaleFactor;
 
-			v.position = p;
+			verticies[i] = v;
 
-			vbo[i] = v;
+			//outputMesh.vertices[i] = v;
+			//Debug.Log(v);
+			//Debug.Log(outputMesh.vertices[i]);
 		}
+		outputMesh.vertices = verticies;
 	}
 
 	void Update()
