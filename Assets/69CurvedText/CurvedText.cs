@@ -49,7 +49,6 @@ public class CurvedText : Text
 
 		for (int i = 0; i < outputMesh.vertices.Length; i++)
 		{
-			Debug.Log(outputMesh.vertices[i]);
 			Vector3 v = outputMesh.vertices[i];
 
 			float percentCircumference = v.x/circumference;
@@ -58,10 +57,6 @@ public class CurvedText : Text
 			v += Vector3.down*radius*scaleFactor;
 
 			verticies[i] = v;
-
-			//outputMesh.vertices[i] = v;
-			//Debug.Log(v);
-			//Debug.Log(outputMesh.vertices[i]);
 		}
 		outputMesh.vertices = verticies;
 	}
