@@ -41,24 +41,27 @@ public class CurvedText : Text
 		}
 	}
 		
-	protected override void OnPopulateMesh(Mesh outputMesh)
+	protected override void OnPopulateMesh(VertexHelper vh)
 	{	
-		base.OnPopulateMesh(outputMesh);
+		base.OnPopulateMesh(vh);
 
-		Vector3[] verticies = outputMesh.vertices;
+		List<UIVertex> stream = new List<UIVertex>();
 
-		for (int i = 0; i < outputMesh.vertices.Length; i++)
+		vh.GetUIVertexStream(stream);
+
+		for (int i = 0; i < stream.Count; i++)
 		{
-			Vector3 v = outputMesh.vertices[i];
+			UIVertex v = stream[i];
 
-			float percentCircumference = v.x/circumference;
+			float percentCircumference = v.position.x/circumference;
 			Vector3 offset = Quaternion.Euler(0.0f,0.0f,-percentCircumference*360.0f)*Vector3.up;
-			v = offset*radius*scaleFactor + offset*v.y;
-			v += Vector3.down*radius*scaleFactor;
+			v.position = offset*radius*scaleFactor + offset*v.position.y;
+			v.position += Vector3.down*radius*scaleFactor;
 
-			verticies[i] = v;
+			stream[i] = v;
 		}
-		outputMesh.vertices = verticies;
+
+		vh.AddUIVertexTriangleStream(stream);
 	}
 
 	void Update()
